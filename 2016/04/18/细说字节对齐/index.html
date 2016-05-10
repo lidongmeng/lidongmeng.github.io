@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="C," />
 
 
 
@@ -57,16 +57,19 @@
 
 
 
-<meta name="description" content="你若盛开，蝴蝶自来。">
+<meta name="description" content="几个题目sizeof用法1 sizeof是用来计算栈大小，不涉及全局区，故类的静态成员大小sizeof不涉及。2 本题中的虚函数属于同一个类，故只需要一个指针指向虚函数表，所以在64位系统中占用8个字节。就算本题有100个虚函数，那么也只占用8个字节。综上，占用栈空间的成员有：a, p, func1, func2，由于64位对其，故总空间为8+8+8=24字节。
+字节对齐规则柔性数组静态变量虚函数">
 <meta property="og:type" content="article">
 <meta property="og:title" content="细说字节对齐">
 <meta property="og:url" content="http://yoursite.com/2016/04/18/细说字节对齐/index.html">
 <meta property="og:site_name" content="DongMengLi">
-<meta property="og:description" content="你若盛开，蝴蝶自来。">
-<meta property="og:updated_time" content="2016-04-18T07:58:26.230Z">
+<meta property="og:description" content="几个题目sizeof用法1 sizeof是用来计算栈大小，不涉及全局区，故类的静态成员大小sizeof不涉及。2 本题中的虚函数属于同一个类，故只需要一个指针指向虚函数表，所以在64位系统中占用8个字节。就算本题有100个虚函数，那么也只占用8个字节。综上，占用栈空间的成员有：a, p, func1, func2，由于64位对其，故总空间为8+8+8=24字节。
+字节对齐规则柔性数组静态变量虚函数">
+<meta property="og:updated_time" content="2016-05-06T08:01:00.377Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="细说字节对齐">
-<meta name="twitter:description" content="你若盛开，蝴蝶自来。">
+<meta name="twitter:description" content="几个题目sizeof用法1 sizeof是用来计算栈大小，不涉及全局区，故类的静态成员大小sizeof不涉及。2 本题中的虚函数属于同一个类，故只需要一个指针指向虚函数表，所以在64位系统中占用8个字节。就算本题有100个虚函数，那么也只占用8个字节。综上，占用栈空间的成员有：a, p, func1, func2，由于64位对其，故总空间为8+8+8=24字节。
+字节对齐规则柔性数组静态变量虚函数">
 
 
 
@@ -252,6 +255,25 @@
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/C语言基础/" itemprop="url" rel="index">
+                    <span itemprop="name">C语言基础</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -289,7 +311,8 @@
       
 
       
-        
+        <h2 id="几个题目"><a href="#几个题目" class="headerlink" title="几个题目"></a>几个题目</h2><h2 id="sizeof用法"><a href="#sizeof用法" class="headerlink" title="sizeof用法"></a>sizeof用法</h2><p>1 sizeof是用来计算栈大小，不涉及全局区，故类的静态成员大小sizeof不涉及。<br>2 本题中的虚函数属于同一个类，故只需要一个指针指向虚函数表，所以在64位系统中占用8个字节。就算本题有100个虚函数，那么也只占用8个字节。<br>综上，占用栈空间的成员有：a, p, func1, func2，由于64位对其，故总空间为8+8+8=24字节。</p>
+<h2 id="字节对齐规则"><a href="#字节对齐规则" class="headerlink" title="字节对齐规则"></a>字节对齐规则</h2><h2 id="柔性数组"><a href="#柔性数组" class="headerlink" title="柔性数组"></a>柔性数组</h2><h2 id="静态变量"><a href="#静态变量" class="headerlink" title="静态变量"></a>静态变量</h2><h2 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a>虚函数</h2><h2 id="各个内置类型的具体大小"><a href="#各个内置类型的具体大小" class="headerlink" title="各个内置类型的具体大小"></a>各个内置类型的具体大小</h2><h2 id="实习面试中见到的题目"><a href="#实习面试中见到的题目" class="headerlink" title="实习面试中见到的题目"></a>实习面试中见到的题目</h2>
       
     </div>
     
@@ -306,6 +329,12 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag">#C</a>
+          
+        </div>
       
 
       
@@ -413,7 +442,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-count">23</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -421,7 +450,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -430,7 +459,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -494,7 +523,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#几个题目"><span class="nav-number">1.</span> <span class="nav-text">几个题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sizeof用法"><span class="nav-number">2.</span> <span class="nav-text">sizeof用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字节对齐规则"><span class="nav-number">3.</span> <span class="nav-text">字节对齐规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#柔性数组"><span class="nav-number">4.</span> <span class="nav-text">柔性数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态变量"><span class="nav-number">5.</span> <span class="nav-text">静态变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚函数"><span class="nav-number">6.</span> <span class="nav-text">虚函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#各个内置类型的具体大小"><span class="nav-number">7.</span> <span class="nav-text">各个内置类型的具体大小</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实习面试中见到的题目"><span class="nav-number">8.</span> <span class="nav-text">实习面试中见到的题目</span></a></li></ol></div>
             
           </div>
         </section>
