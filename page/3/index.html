@@ -236,6 +236,134 @@
             
               
                 
+                <a class="post-title-link" href="/2016/04/18/细说字节对齐/" itemprop="url">
+                  细说字节对齐
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-18T15:58:26+08:00" content="2016-04-18">
+              2016-04-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/C语言基础/" itemprop="url" rel="index">
+                    <span itemprop="name">C语言基础</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/18/细说字节对齐/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/18/细说字节对齐/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/04/18/细说字节对齐/" class="leancloud_visitors" data-flag-title="细说字节对齐">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="几个题目"><a href="#几个题目" class="headerlink" title="几个题目"></a>几个题目</h2><h2 id="sizeof用法"><a href="#sizeof用法" class="headerlink" title="sizeof用法"></a>sizeof用法</h2><p>1 sizeof是用来计算栈大小，不涉及全局区，故类的静态成员大小sizeof不涉及。<br>2 本题中的虚函数属于同一个类，故只需要一个指针指向虚函数表，所以在64位系统中占用8个字节。就算本题有100个虚函数，那么也只占用8个字节。<br>综上，占用栈空间的成员有：a, p, func1, func2，由于64位对其，故总空间为8+8+8=24字节。</p>
+<h2 id="字节对齐规则"><a href="#字节对齐规则" class="headerlink" title="字节对齐规则"></a>字节对齐规则</h2><h2 id="柔性数组"><a href="#柔性数组" class="headerlink" title="柔性数组"></a>柔性数组</h2><h2 id="静态变量"><a href="#静态变量" class="headerlink" title="静态变量"></a>静态变量</h2><h2 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a>虚函数</h2><h2 id="各个内置类型的具体大小"><a href="#各个内置类型的具体大小" class="headerlink" title="各个内置类型的具体大小"></a>各个内置类型的具体大小</h2><h2 id="实习面试中见到的题目"><a href="#实习面试中见到的题目" class="headerlink" title="实习面试中见到的题目"></a>实习面试中见到的题目</h2>
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/04/17/C-之new/" itemprop="url">
                   C++之new
                 </a>
@@ -925,7 +1053,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-count">26</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -942,7 +1070,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

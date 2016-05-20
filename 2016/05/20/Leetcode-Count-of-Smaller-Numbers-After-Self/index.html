@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="math,algorithm,leetcode," />
+  <meta name="keywords" content="逆序对," />
 
 
 
@@ -57,19 +57,19 @@
 
 
 
-<meta name="description" content="题目描述题目描述很简单，求不大于N的所有数字中的1的个数的和，举个例子：n=13, 返回6.(1, 10, 11, 12, 13，一共有6个1)
-naive解法暴力求解，依次遍历每一个数字，求取它所包含的1的个数，然后求和，时间复杂度O(n*数字的位数)123456789101112131415int numOf1(string s) &amp;#123;    int result = 0;    fo">
+<meta name="description" content="问题描述一个无序数组，查找每个元素后面有几个元素比它小，即统计每一个位置i，使得i小于j但是nums[i] &amp;gt; nums[j]的个数。
+naive 解法O(n2)轻松搞定，遍历每一个数，然后统计后面的数字小于该元素的数字的个数。12345678910vector&amp;lt;int&amp;gt; countSmaller(vector&amp;lt;int&amp;gt;&amp;amp; nums) &amp;#123;    ve">
 <meta property="og:type" content="article">
-<meta property="og:title" content="leetcode--Number of digit 1">
-<meta property="og:url" content="http://yoursite.com/2016/05/10/leetcode-Number-of-digit-1/index.html">
+<meta property="og:title" content="Leetcode--Count of Smaller Numbers After Self">
+<meta property="og:url" content="http://yoursite.com/2016/05/20/Leetcode-Count-of-Smaller-Numbers-After-Self/index.html">
 <meta property="og:site_name" content="DongMengLi">
-<meta property="og:description" content="题目描述题目描述很简单，求不大于N的所有数字中的1的个数的和，举个例子：n=13, 返回6.(1, 10, 11, 12, 13，一共有6个1)
-naive解法暴力求解，依次遍历每一个数字，求取它所包含的1的个数，然后求和，时间复杂度O(n*数字的位数)123456789101112131415int numOf1(string s) &amp;#123;    int result = 0;    fo">
-<meta property="og:updated_time" content="2016-05-10T02:16:18.516Z">
+<meta property="og:description" content="问题描述一个无序数组，查找每个元素后面有几个元素比它小，即统计每一个位置i，使得i小于j但是nums[i] &amp;gt; nums[j]的个数。
+naive 解法O(n2)轻松搞定，遍历每一个数，然后统计后面的数字小于该元素的数字的个数。12345678910vector&amp;lt;int&amp;gt; countSmaller(vector&amp;lt;int&amp;gt;&amp;amp; nums) &amp;#123;    ve">
+<meta property="og:updated_time" content="2016-05-20T07:26:12.707Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="leetcode--Number of digit 1">
-<meta name="twitter:description" content="题目描述题目描述很简单，求不大于N的所有数字中的1的个数的和，举个例子：n=13, 返回6.(1, 10, 11, 12, 13，一共有6个1)
-naive解法暴力求解，依次遍历每一个数字，求取它所包含的1的个数，然后求和，时间复杂度O(n*数字的位数)123456789101112131415int numOf1(string s) &amp;#123;    int result = 0;    fo">
+<meta name="twitter:title" content="Leetcode--Count of Smaller Numbers After Self">
+<meta name="twitter:description" content="问题描述一个无序数组，查找每个元素后面有几个元素比它小，即统计每一个位置i，使得i小于j但是nums[i] &amp;gt; nums[j]的个数。
+naive 解法O(n2)轻松搞定，遍历每一个数，然后统计后面的数字小于该元素的数字的个数。12345678910vector&amp;lt;int&amp;gt; countSmaller(vector&amp;lt;int&amp;gt;&amp;amp; nums) &amp;#123;    ve">
 
 
 
@@ -87,7 +87,7 @@ naive解法暴力求解，依次遍历每一个数字，求取它所包含的1�
   };
 </script>
 
-  <title> leetcode--Number of digit 1 | DongMengLi </title>
+  <title> Leetcode--Count of Smaller Numbers After Self | DongMengLi </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -237,7 +237,7 @@ naive解法暴力求解，依次遍历每一个数字，求取它所包含的1�
             
             
               
-                leetcode--Number of digit 1
+                Leetcode--Count of Smaller Numbers After Self
               
             
           </h1>
@@ -249,8 +249,8 @@ naive解法暴力求解，依次遍历每一个数字，求取它所包含的1�
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-10T09:52:14+08:00" content="2016-05-10">
-              2016-05-10
+            <time itemprop="dateCreated" datetime="2016-05-20T15:02:17+08:00" content="2016-05-20">
+              2016-05-20
             </time>
           </span>
 
@@ -279,8 +279,8 @@ naive解法暴力求解，依次遍历每一个数字，求取它所包含的1�
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/05/10/leetcode-Number-of-digit-1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/10/leetcode-Number-of-digit-1/" itemprop="commentsCount"></span>
+                <a href="/2016/05/20/Leetcode-Count-of-Smaller-Numbers-After-Self/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/20/Leetcode-Count-of-Smaller-Numbers-After-Self/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -290,7 +290,7 @@ naive解法暴力求解，依次遍历每一个数字，求取它所包含的1�
 
           
           
-             <span id="/2016/05/10/leetcode-Number-of-digit-1/" class="leancloud_visitors" data-flag-title="leetcode--Number of digit 1">
+             <span id="/2016/05/20/Leetcode-Count-of-Smaller-Numbers-After-Self/" class="leancloud_visitors" data-flag-title="Leetcode--Count of Smaller Numbers After Self">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -311,17 +311,13 @@ naive解法暴力求解，依次遍历每一个数字，求取它所包含的1�
       
 
       
-        <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>题目描述很简单，求不大于N的所有数字中的1的个数的和，举个例子：<br>n=13, 返回6.(1, 10, 11, 12, 13，一共有6个1)</p>
-<h2 id="naive解法"><a href="#naive解法" class="headerlink" title="naive解法"></a>naive解法</h2><p>暴力求解，依次遍历每一个数字，求取它所包含的1的个数，然后求和，时间复杂度O(n*数字的位数)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">int numOf1(string s) &#123;</span><br><span class="line">    int result = 0;</span><br><span class="line">    for (int i = 0; i &lt; s.size(); ++i) &#123;</span><br><span class="line">        result += (s[i] == &apos;1&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int countDigitOne(int n) &#123;</span><br><span class="line">   int result = 0;</span><br><span class="line">   for (int i = 1; i &lt; n; ++i) &#123;</span><br><span class="line">        result += numOf1(to_string(i));</span><br><span class="line">   &#125;</span><br><span class="line">   return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="一位一位计算"><a href="#一位一位计算" class="headerlink" title="一位一位计算"></a>一位一位计算</h2><p>上述暴力解法是无奈之举，但是我们细心的想一下，实际可以针对数字的每一位计算这一位上面1可以有多少个，而每一位上面数字可以分为三种情况(设a是这一位左边的所有数字，b是这一位右边的数字，m当前位数对应的因子)：   </p>
-<ol>
-<li>等于0，如果这一位等于0，比方说32012这个数字的百位上面为0，求这一位上面的1的个数，实际为：00(1)<00--99>,01(1)<00-99>,…,31(1)<00,99>可以看出来是a*m；  </00,99></00-99></00--99></li>
-<li>等于1，这一位为1，当然覆盖了上述等于0的情况，但是还要加上低位上面的数字，比方说32112这个数字，百位上为1，计算百位上面数字的个数，可以为：00(1)<00-99>,01(1)<00-99>,…,31(1)<00-99>,32(1)<00-12>，在最后的高位为32情况下不是100个1，而是取决于低位上面的数字范围，这里是13个，所以为a*m + (b + 1);  </00-12></00-99></00-99></00-99></li>
-<li>大于等于2时候，假设为32212，则从上面可知：00(1)<00-99>,01<1>(00-99),…,32(1)<00-99>，所以为(a + 1) * m.<br>所以综上面分析可以得到程序：  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">int countDigitOne(int n) &#123;</span><br><span class="line">   int m = 1, r = 1, result = 0;</span><br><span class="line">   while (n &gt; 0) &#123;</span><br><span class="line">        int a = n / 10, b = n % 10;</span><br><span class="line">        if (b &gt;= 2) result += (a + 1) * m;</span><br><span class="line">        else result += a * m + (b == 1) * r;</span><br><span class="line">        r += (n % 10) * m;</span><br><span class="line">        m *= 10;</span><br><span class="line">        n /= 10;</span><br><span class="line">   &#125;</span><br><span class="line">   return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</00-99></1></00-99></li>
-</ol>
-<p>实质上可以不需要这么多判断，因为这一位的区别是0,1,&gt;=2,所以如果当前数字是n,左边数字a=n/10，呢么(n+8)/10就可以替代a和a+1,所以程序变为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">int countDigitOne(int n) &#123;</span><br><span class="line">   int m = 1, r = 1, result = 0;</span><br><span class="line">   while (n &gt; 0) &#123;</span><br><span class="line">        result += (n + 8) / 10 * m + (n % 10 == 1) * r;</span><br><span class="line">        r += (n % 10) * m;</span><br><span class="line">        m *= 10;</span><br><span class="line">        n /= 10;</span><br><span class="line">   &#125;</span><br><span class="line">   return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://leetcode.com/discuss/44281/4-lines-o-log-n-c-java-python" target="_blank" rel="external">https://leetcode.com/discuss/44281/4-lines-o-log-n-c-java-python</a></p>
+        <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>一个无序数组，查找每个元素后面有几个元素比它小，即统计每一个位置i，使得i小于j但是nums[i] &gt; nums[j]的个数。</p>
+<h2 id="naive-解法"><a href="#naive-解法" class="headerlink" title="naive 解法"></a>naive 解法</h2><p>O(n2)轻松搞定，遍历每一个数，然后统计后面的数字小于该元素的数字的个数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;int&gt; countSmaller(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    vector&lt;int&gt; result;</span><br><span class="line">    int n = nums.size();</span><br><span class="line">    for (int i = 0; i &lt; n; ++i) &#123;</span><br><span class="line">        int cnt = 0;</span><br><span class="line">        for (int j = i + 1; j &lt; n; ++j) cnt += (nums[j] &lt; nums[i]) ? 1 : 0;</span><br><span class="line">        result.push_back(cnt);</span><br><span class="line">    &#125;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当然这种方式肯定不是最优解了，肯定会超时的。</p>
+<h2 id="进一步思考"><a href="#进一步思考" class="headerlink" title="进一步思考"></a>进一步思考</h2><p>一般o(n2)的算法优化都会往O(nlogn)方面去想，呢么怎么可能O(nlogn)呢，最外层肯定还需要遍历n次，所以就必须在内层进行优化，可以想象实际是查找当前数字在后面数组中的位置，查找要想是logn复杂度就必须对后面的数组进行排序，呢么我们可以设置一个有序数组，从后向前遍历，每次查找当前元素在有序数组中的位置，可以使用lower_bound返回第一个小于该值的位置，呢么小于该值的个数可以就可以得到，然后将当前元素插入到数组中即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;int&gt; countSmaller(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    vector&lt;int&gt; sortedArray;</span><br><span class="line">    int n = nums.size();</span><br><span class="line">    vector&lt;int&gt; result;</span><br><span class="line">    for (int i = n-1; i &gt;= 0; --i) &#123;</span><br><span class="line">        auto pos = lower_bound(sortedArray.begin(), sortedArray.end(), nums[i]);</span><br><span class="line">        result.insert(result.begin(), pos-sortedArray.begin());</span><br><span class="line">        sortedArray.insert(pos, nums[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>复杂度分析，实际最差复杂度仍然为O(n2);因为每次需要插入，插入必然涉及到移动，是o(n)的最差。</p>
+<h2 id="逆序对相关联想"><a href="#逆序对相关联想" class="headerlink" title="逆序对相关联想"></a>逆序对相关联想</h2><p>从题目看来实际和逆序对比较类似，只不过逆序对要求的是所有元素的逆序对的和，而这个题目要求的是每一个元素的逆序对的个数，所以我们可以想象用分治的方法去做，但是如何保证index的对应关系是一个难点。可以额外开一个数组来保存index，合并的时候不对原数组进行变化，而对这个index数组进行变化。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">void helper(vector&lt;int&gt; &amp; nums, int l, int r, vector&lt;int&gt; &amp; indices, vector&lt;int&gt; &amp; result) &#123;</span><br><span class="line">    if (l &gt;= r) return ;</span><br><span class="line">    int mid = l + (r - l) / 2;</span><br><span class="line">    helper(nums, l, mid, indices, result);</span><br><span class="line">    helper(nums, mid+1, r, indices, result);</span><br><span class="line">    int p = l, q = mid + 1;</span><br><span class="line">    vector&lt;int&gt; temp(r-l+1);</span><br><span class="line">    int index = 0;</span><br><span class="line">    int cnt = 0;</span><br><span class="line">    while (p &lt;= mid || q &lt;= r) &#123;</span><br><span class="line">        if (q &gt; r || ( p &lt;= mid &amp;&amp; nums[indices[p]] &lt;= nums[indices[q]])) &#123;</span><br><span class="line">            temp[index++] = indices[p];</span><br><span class="line">            result[indices[p]] += cnt;</span><br><span class="line">            p++;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            temp[index++] = indices[q++];</span><br><span class="line">            ++cnt; // 累计小于的数目</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    index = 0;</span><br><span class="line">    for (int i = l; i &lt;= r; ++i) &#123;</span><br><span class="line">        indices[i] = temp[index++];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vector&lt;int&gt; countSmaller(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    int n = nums.size();</span><br><span class="line">    vector&lt;int&gt; result(n, 0);</span><br><span class="line">    vector&lt;int&gt; indices(n, 0);</span><br><span class="line">    for (int i = 0; i &lt; n; ++i) indices[i] = i;</span><br><span class="line">    helper(nums, 0, n-1, indices, result);</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://leetcode.com/discuss/73509/nlogn-time-space-mergesort-solution-with-detail-explanation" target="_blank" rel="external">https://leetcode.com/discuss/73509/nlogn-time-space-mergesort-solution-with-detail-explanation</a></p>
 
       
     </div>
@@ -342,11 +338,7 @@ naive解法暴力求解，依次遍历每一个数字，求取它所包含的1�
       
         <div class="post-tags">
           
-            <a href="/tags/math/" rel="tag">#math</a>
-          
-            <a href="/tags/algorithm/" rel="tag">#algorithm</a>
-          
-            <a href="/tags/leetcode/" rel="tag">#leetcode</a>
+            <a href="/tags/逆序对/" rel="tag">#逆序对</a>
           
         </div>
       
@@ -355,17 +347,13 @@ naive解法暴力求解，依次遍历每一个数字，求取它所包含的1�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/05/08/STL源码学习之内存配置/" rel="next" title="STL源码学习之内存配置">
-                <i class="fa fa-chevron-left"></i> STL源码学习之内存配置
+              <a href="/2016/05/17/Maximum-Gap-无序数组的最大间隔/" rel="next" title=" Maximum Gap--无序数组的最大间隔">
+                <i class="fa fa-chevron-left"></i>  Maximum Gap--无序数组的最大间隔
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/05/13/设计模式之简单工厂模式/" rel="prev" title="设计模式之简单工厂模式">
-                设计模式之简单工厂模式 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -380,10 +368,10 @@ naive解法暴力求解，依次遍历每一个数字，求取它所包含的1�
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/05/10/leetcode-Number-of-digit-1/"
-     data-title="leetcode--Number of digit 1"
+        <div class="ds-share flat" data-thread-key="2016/05/20/Leetcode-Count-of-Smaller-Numbers-After-Self/"
+     data-title="Leetcode--Count of Smaller Numbers After Self"
      data-content=""
-     data-url="http://yoursite.com/2016/05/10/leetcode-Number-of-digit-1/">
+     data-url="http://yoursite.com/2016/05/20/Leetcode-Count-of-Smaller-Numbers-After-Self/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -410,8 +398,8 @@ naive解法暴力求解，依次遍历每一个数字，求取它所包含的1�
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/05/10/leetcode-Number-of-digit-1/"
-           data-title="leetcode--Number of digit 1" data-url="http://yoursite.com/2016/05/10/leetcode-Number-of-digit-1/">
+      <div class="ds-thread" data-thread-key="2016/05/20/Leetcode-Count-of-Smaller-Numbers-After-Self/"
+           data-title="Leetcode--Count of Smaller Numbers After Self" data-url="http://yoursite.com/2016/05/20/Leetcode-Count-of-Smaller-Numbers-After-Self/">
       </div>
     
   </div>
@@ -537,7 +525,7 @@ naive解法暴力求解，依次遍历每一个数字，求取它所包含的1�
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目描述"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#naive解法"><span class="nav-number">2.</span> <span class="nav-text">naive解法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一位一位计算"><span class="nav-number">3.</span> <span class="nav-text">一位一位计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题描述"><span class="nav-number">1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#naive-解法"><span class="nav-number">2.</span> <span class="nav-text">naive 解法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进一步思考"><span class="nav-number">3.</span> <span class="nav-text">进一步思考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#逆序对相关联想"><span class="nav-number">4.</span> <span class="nav-text">逆序对相关联想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
           </div>
         </section>
