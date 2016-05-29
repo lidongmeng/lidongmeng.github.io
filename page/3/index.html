@@ -236,6 +236,329 @@
             
               
                 
+                <a class="post-title-link" href="/2016/04/24/最长等差子数列长度/" itemprop="url">
+                  最长等差子序列长度
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-24T11:56:43+08:00" content="2016-04-24">
+              2016-04-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/24/最长等差子数列长度/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/24/最长等差子数列长度/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>一个无序数组，求它的最长的等差子序列的长度。</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>首先题目并没有说得到的等差子序列要和原数组中的位置是否一致，所以要分两种情况来进行分析。</p>
+<h3 id="等差子序列要和原数组元素位置一致"><a href="#等差子序列要和原数组元素位置一致" class="headerlink" title="等差子序列要和原数组元素位置一致"></a>等差子序列要和原数组元素位置一致</h3><p>我们可以构造一个map，key是等差数列的d,而value是两个index，开始位置i和结束位置j，并且保证i小于j，然后对这个map进行扫描，对每一个d，先对后面的数组按照开始位置i进行排序，然后顺序查找，下一个的j等于上一个的i表示能够连接起来，</p>
+<h3 id="等差子序列不一定和原数组元素位置一致"><a href="#等差子序列不一定和原数组元素位置一致" class="headerlink" title="等差子序列不一定和原数组元素位置一致"></a>等差子序列不一定和原数组元素位置一致</h3><h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><p>leetcode有一道题目求最长连续子序列的长度。(1，2，3叫做连续，1，2，4不叫连续)<br>首先，你当然可以先排序，然后去遍历，但是时间复杂度O(nlgn);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">int longestConsecutive(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    sort(nums.begin(), nums.end());</span><br><span class="line">    nums.erase(unique(nums.begin(), nums.end()), nums.end());</span><br><span class="line">    int start = 0, index = 0;</span><br><span class="line">    int n = nums.size(), result = INT_MIN;</span><br><span class="line">    while (index &lt; n) &#123;</span><br><span class="line">        start = index;</span><br><span class="line">        while (index+1 &lt; n &amp;&amp; nums[index+1] == nums[index] + 1) ++index;</span><br><span class="line">        result = max(result, index-start+1);</span><br><span class="line">        ++index;</span><br><span class="line">    &#125;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>是否可以用O(n)的时间复杂度来做？这时候就要用额外的空间来存储当前数字能够到达的边界位置。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://codercareer.blogspot.com/2014/03/no-53-longest-arithmetic-sequence.html" target="_blank" rel="external">http://codercareer.blogspot.com/2014/03/no-53-longest-arithmetic-sequence.html</a><br><a href="https://leetcode.com/problems/longest-consecutive-sequence/" target="_blank" rel="external">https://leetcode.com/problems/longest-consecutive-sequence/</a></p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/04/21/fork的一道面试题目解析/" itemprop="url">
+                  fork的一道面试题目解析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-21T09:16:35+08:00" content="2016-04-21">
+              2016-04-21
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/21/fork的一道面试题目解析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/21/fork的一道面试题目解析/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="http://coolshell.cn/articles/7965.html" target="_blank" rel="external">http://coolshell.cn/articles/7965.html</a><br><a href="http://www.nowcoder.com/questionTerminal/d1e33e8d9ed74d7b8cf778896e73f1d7?toCommentId=26017" target="_blank" rel="external">http://www.nowcoder.com/questionTerminal/d1e33e8d9ed74d7b8cf778896e73f1d7?toCommentId=26017</a><br><a href="http://www.nowcoder.com/questionTerminal/1f6cc9c0ef354f86b1727c6c030a1a19" target="_blank" rel="external">http://www.nowcoder.com/questionTerminal/1f6cc9c0ef354f86b1727c6c030a1a19</a></p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/04/21/谈一谈快速排序/" itemprop="url">
+                  谈一谈快速排序
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-21T08:55:17+08:00" content="2016-04-21">
+              2016-04-21
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/21/谈一谈快速排序/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/21/谈一谈快速排序/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/04/20/二叉树遍历之后序遍历/" itemprop="url">
                   二叉树遍历之后序遍历
                 </a>
@@ -932,369 +1255,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/18/细说字节对齐/" itemprop="url">
-                  细说字节对齐
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-18T15:58:26+08:00" content="2016-04-18">
-              2016-04-18
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/C语言基础/" itemprop="url" rel="index">
-                    <span itemprop="name">C语言基础</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/18/细说字节对齐/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/18/细说字节对齐/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="几个题目"><a href="#几个题目" class="headerlink" title="几个题目"></a>几个题目</h2><h2 id="sizeof用法"><a href="#sizeof用法" class="headerlink" title="sizeof用法"></a>sizeof用法</h2><p>1 sizeof是用来计算栈大小，不涉及全局区，故类的静态成员大小sizeof不涉及。<br>2 本题中的虚函数属于同一个类，故只需要一个指针指向虚函数表，所以在64位系统中占用8个字节。就算本题有100个虚函数，那么也只占用8个字节。<br>综上，占用栈空间的成员有：a, p, func1, func2，由于64位对其，故总空间为8+8+8=24字节。</p>
-<h2 id="字节对齐规则"><a href="#字节对齐规则" class="headerlink" title="字节对齐规则"></a>字节对齐规则</h2><h2 id="柔性数组"><a href="#柔性数组" class="headerlink" title="柔性数组"></a>柔性数组</h2><h2 id="静态变量"><a href="#静态变量" class="headerlink" title="静态变量"></a>静态变量</h2><h2 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a>虚函数</h2><h2 id="各个内置类型的具体大小"><a href="#各个内置类型的具体大小" class="headerlink" title="各个内置类型的具体大小"></a>各个内置类型的具体大小</h2><h2 id="实习面试中见到的题目"><a href="#实习面试中见到的题目" class="headerlink" title="实习面试中见到的题目"></a>实习面试中见到的题目</h2>
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/17/C-之new/" itemprop="url">
-                  C++之new
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-17T21:48:38+08:00" content="2016-04-17">
-              2016-04-17
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/17/C-之new/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/17/C-之new/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>C++中提到new，一般会想到的是为对象分配内存，但是实际上它有三种含义：new operator, operator new, placement new,本文尝试着简单总结。</p>
-<h2 id="new-operator"><a href="#new-operator" class="headerlink" title="new operator"></a>new operator</h2><p>new operator也可以叫做“new expression”,是用来在堆上动态创建一个对象，它实际做了三件事情：获得一块内存空间，调用构造函数，返回正确的指针，当然如果是基本的类型，则不会调用构造函数。<br>new operator使用方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Test * p = new Test(3); // 正常使用方法</span><br></pre></td></tr></table></figure></p>
-<p>实际可以拆分为三个步骤：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Test * p = (Test*)malloc(sizeof(Test));</span><br><span class="line">p-&gt;Test::Test(3);</span><br><span class="line">return p;</span><br></pre></td></tr></table></figure></p>
-<p>但是和这三个步骤的区别在于，如果malloc失败的处理，默认的new当malloc失败时候会抛出异常，调用new_handler，这个new_handler函数可以通过std::set_new_handler(void*)函数来改变。</p>
-<h2 id="operator-new"><a href="#operator-new" class="headerlink" title="operator new"></a>operator new</h2><p>new operator的第一步的分配内存操作实际是通过operator new来实现的，operator new默认首先调用分配内存的代码，尝试获得堆上空间，如果返回null就调用new_handler处理，然后继续循环操作这个过程，如果我们想要改变这个行为就可以重载operator new。<br>下面例子实现了调用new分配内存时候打印一句话：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">class Test &#123;</span><br><span class="line">public:</span><br><span class="line">    Test(int v) &#123;value = v;&#125;</span><br><span class="line">    void * operator new(size_t size) &#123;</span><br><span class="line">        cout &lt;&lt; &quot;operator new&quot; &lt;&lt; endl;</span><br><span class="line">        return ::operator new(size); // 通过::operator new调用了原有的全局的new，实现了在分配内存之前输出一句话</span><br><span class="line">    &#125;</span><br><span class="line">private:</span><br><span class="line">    int value;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    Test * p = new Test(2);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>输出截图：<br><img src="/images/06/01.png" alt="&quot;重载new&quot;"><br>当重载了new时候同时也要重载delete.</p>
-<h2 id="placement-new"><a href="#placement-new" class="headerlink" title="placement new"></a>placement new</h2><p>placement new是用来实现定位构造，在分配好的内存上面构造对象，这个内存可以在堆上，也可以在栈上：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">char t[sizeof(Test)];</span><br><span class="line">Test * p = (Test*)t;</span><br><span class="line">new(p)Test(3);</span><br></pre></td></tr></table></figure></p>
-<p>在使用时候要加上<new.h>头文件，new(p)Test(3)这种方法就是placement new，实现了在指定内存上用指定类型的构造函数构造一个对象的功能，并且如果使用了placement new必须手工去调用析构函数，显示调用析构函数！！<code>p-&gt;~Test()</code><br>什么时候需要使用placement new？当默认的new operator的对内存管理不能满足我们需要时候，我们可以利用placement new来进行自己的内存管理策略，STL的allocator就是这样做的，日后研究下。</new.h></p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/15/C-内存布局/" itemprop="url">
-                  C++内存布局
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-15T23:21:34+08:00" content="2016-04-15">
-              2016-04-15
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/15/C-内存布局/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/15/C-内存布局/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1340,7 +1300,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">33</span>
+              <span class="site-state-item-count">36</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1348,7 +1308,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

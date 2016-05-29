@@ -1,0 +1,680 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Linux," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="ftp服务器的大概框架搭建完毕后，就要进行各种ftp命令的解析与应答了，首先要解析的是USER和PASS命令，用登陆者传输用户名和密码，服务器要进行验证，这个如何做呢，用户名和密码分别存在系统的哪里呢，密码肯定是密文存在，又是如何加密的，本文对linux下的用户名和密码文件详细解析并进行编程实战。
+口令文件口令文件格式口令文件是/etc/passwd,而且是一个ASCII文件，它的每一行包含多个字">
+<meta property="og:type" content="article">
+<meta property="og:title" content="miniftp项目实战之用户登录验证">
+<meta property="og:url" content="http://yoursite.com/2016/05/29/miniftp项目实战之用户登录验证/index.html">
+<meta property="og:site_name" content="DongMengLi">
+<meta property="og:description" content="ftp服务器的大概框架搭建完毕后，就要进行各种ftp命令的解析与应答了，首先要解析的是USER和PASS命令，用登陆者传输用户名和密码，服务器要进行验证，这个如何做呢，用户名和密码分别存在系统的哪里呢，密码肯定是密文存在，又是如何加密的，本文对linux下的用户名和密码文件详细解析并进行编程实战。
+口令文件口令文件格式口令文件是/etc/passwd,而且是一个ASCII文件，它的每一行包含多个字">
+<meta property="og:image" content="http://yoursite.com/images/miniftp/passwd.png">
+<meta property="og:image" content="http://yoursite.com/images/miniftp/passwd_1.png">
+<meta property="og:image" content="http://yoursite.com/images/miniftp/passwd_2.png">
+<meta property="og:image" content="http://yoursite.com/images/miniftp/shadow.png">
+<meta property="og:image" content="http://yoursite.com/images/miniftp/passwd_3.png">
+<meta property="og:image" content="http://yoursite.com/images/miniftp/passwd_4.png">
+<meta property="og:updated_time" content="2016-05-29T04:42:02.847Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="miniftp项目实战之用户登录验证">
+<meta name="twitter:description" content="ftp服务器的大概框架搭建完毕后，就要进行各种ftp命令的解析与应答了，首先要解析的是USER和PASS命令，用登陆者传输用户名和密码，服务器要进行验证，这个如何做呢，用户名和密码分别存在系统的哪里呢，密码肯定是密文存在，又是如何加密的，本文对linux下的用户名和密码文件详细解析并进行编程实战。
+口令文件口令文件格式口令文件是/etc/passwd,而且是一个ASCII文件，它的每一行包含多个字">
+<meta name="twitter:image" content="http://yoursite.com/images/miniftp/passwd.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> miniftp项目实战之用户登录验证 | DongMengLi </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6f009f48d4db1f62d52bf98f41c107d4";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">DongMengLi</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                miniftp项目实战之用户登录验证
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-29T11:35:43+08:00" content="2016-05-29">
+              2016-05-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/miniftp项目实战/" itemprop="url" rel="index">
+                    <span itemprop="name">miniftp项目实战</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/29/miniftp项目实战之用户登录验证/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/29/miniftp项目实战之用户登录验证/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>ftp服务器的大概框架搭建完毕后，就要进行各种ftp命令的解析与应答了，首先要解析的是USER和PASS命令，用登陆者传输用户名和密码，服务器要进行验证，这个如何做呢，用户名和密码分别存在系统的哪里呢，密码肯定是密文存在，又是如何加密的，本文对linux下的用户名和密码文件详细解析并进行编程实战。</p>
+<h2 id="口令文件"><a href="#口令文件" class="headerlink" title="口令文件"></a>口令文件</h2><h3 id="口令文件格式"><a href="#口令文件格式" class="headerlink" title="口令文件格式"></a>口令文件格式</h3><p>口令文件是/etc/passwd,而且是一个ASCII文件，它的每一行包含多个字段，各个字段之间用:隔开，如下图所示：<br><img src="/images/miniftp/passwd.png" alt="&quot;口令文件内容&quot;"><br>相应的字段含义如下：<br>用户名: 密码 : uid  : gid :用户描述：家目录：登陆shell<br>其中密码都加了密，并存放在/etc/shadow文件中了。  </p>
+<h3 id="系统函数"><a href="#系统函数" class="headerlink" title="系统函数"></a>系统函数</h3><a id="more"></a>
+<p>Linux用结构体struct passwd来表示上述各字段：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;pwd.h&gt;</span><br><span class="line">struct passwd  </span><br><span class="line">&#123;  </span><br><span class="line">    char * pw_name; /* Username, POSIX.1 */  </span><br><span class="line">    char * pw_passwd; /* Password */  </span><br><span class="line">    uid_t pw_uid; /* User ID, POSIX.1 */  </span><br><span class="line">    gid_t pw_gid; /* Group ID, POSIX.1 */  </span><br><span class="line">    char * pw_gecos; /* Real Name or Comment field */  </span><br><span class="line">    char * pw_dir; /* Home directory, POSIX.1 */  </span><br><span class="line">    char * pw_shell; /* Shell Program, POSIX.1 */  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>获取口令文件函数，分别是根据用户ID和用户名：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">struct passwd *getpwuid(uid_t uid);   //根据用户ID  </span><br><span class="line">struct passwd *getpwnam(const char *name);  //根据用户名</span><br></pre></td></tr></table></figure></p>
+<p>查看整个口令文件，需要对口令文件进行遍历：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">struct passwd *getpwent(void); // 返回口令文件中的下一个记录项  </span><br><span class="line">void setpwent(void); // 将读取资料流重设到起点 </span><br><span class="line">void endpwent(void); // 关闭password档案资料流</span><br></pre></td></tr></table></figure></p>
+<h3 id="打印所有-etc-passwd里面信息的程序实现"><a href="#打印所有-etc-passwd里面信息的程序实现" class="headerlink" title="打印所有/etc/passwd里面信息的程序实现"></a>打印所有/etc/passwd里面信息的程序实现</h3><p>实现一个打印用户名:密码:uid:gid:dir:shell的程序，如下图所示(<a href="https://github.com/lidongmeng/APUE/blob/master/Chapter6/printAllUserInfor.cpp)：" target="_blank" rel="external">https://github.com/lidongmeng/APUE/blob/master/Chapter6/printAllUserInfor.cpp)：</a><br><img src="/images/miniftp/passwd_1.png" alt="&quot;打印/etc/passwd&quot;"><br>编译运行程序，如下图所示：<br><img src="/images/miniftp/passwd_2.png" alt="&quot;打印/etc/passwd&quot;"></p>
+<h2 id="阴影文件"><a href="#阴影文件" class="headerlink" title="阴影文件"></a>阴影文件</h2><h3 id="阴影文件格式"><a href="#阴影文件格式" class="headerlink" title="阴影文件格式"></a>阴影文件格式</h3><p>阴影文件是/etc/shadow，它的打开需要有root权限，各字段也是用:隔开，如下图所示：<br><img src="/images/miniftp/shadow.png" alt="&quot;阴影文件内容&quot;"><br>各字段的含义如下：<br>登录名：加密口令：最后一次修改时间：密码保留最短时间：密码过期的时间：密码过期前警告的天数：过期后的宽限天数：帐号失效时间：保留字段  </p>
+<h3 id="系统函数-1"><a href="#系统函数-1" class="headerlink" title="系统函数"></a>系统函数</h3><p>Linux用结构体spwd来表示上述各字段：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;shadow.h&gt;</span><br><span class="line">struct spwd &#123;  </span><br><span class="line">    char *sp_namp;  </span><br><span class="line">    char *sp_pwdp;  </span><br><span class="line">    long  sp_lstchg;  </span><br><span class="line">    long  sp_min;  </span><br><span class="line">    long  sp_max;  </span><br><span class="line">    long  sp_warn;  </span><br><span class="line">    long  sp_inact;  </span><br><span class="line">    long  sp_expire;  </span><br><span class="line">    unsigned long sp_flag;  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>同样类似访问口令文件的一组函数类似，系统提供以下函数来访问阴影口令文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">struct spwd *getspnam(const char *name);  </span><br><span class="line">struct spwd *getspent(void);  </span><br><span class="line">void setspent(void);  </span><br><span class="line">void endspent(void);</span><br></pre></td></tr></table></figure></p>
+<h3 id="加密的实现"><a href="#加密的实现" class="headerlink" title="加密的实现"></a>加密的实现</h3><p>shadow里面的密码是加了密的，这个是怎么实现的，在Linux下面使用crypt函数来对密码进行加密的，具体函数原型如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">char * crypt(const char * key, const char * salt);</span><br></pre></td></tr></table></figure></p>
+<p>函数功能及其返回值在man手册里面讲的很清晰，具体的是crypt()将参数key所指的字符串加以加密，key字符串长度仅取前8个字符，超过此长度的字符没有意义。参数salt为两个字符组成的字符串，由a-z、A-Z、0-9，“.”和“/”所组成，用来决定使用4096（a-z、A-Z、0-9，“.”和“/”共64个字符，64的平方为4096）种不同内建表格的哪一个。函数执行成功后会返回指向编码过的字符串指针，参数key所指的字符串不会有所更动。编码过的字符串长度为13 个字符，前两个字符为参数salt代表的字符串。返回值返回一个指向以NULL结尾的密码字符串。<br>另外注意点，在使用该函数时候还要加上-lcrypt选项！！！</p>
+<h2 id="实现miniftp的用户登录验证模块"><a href="#实现miniftp的用户登录验证模块" class="headerlink" title="实现miniftp的用户登录验证模块"></a>实现miniftp的用户登录验证模块</h2><p>用户发送过来用户名和密码，收到用户名字，利用上面的getpwnam来得到相应的passwd结构体，然后来到密码时候，先对密码进行加密然后对比shadow文件中的密码项目，如果相同则表示成功，否则失败。具体程序见下图(<a href="https://github.com/lidongmeng/APUE/blob/master/Chapter6/verifyNamePwd.cpp)：" target="_blank" rel="external">https://github.com/lidongmeng/APUE/blob/master/Chapter6/verifyNamePwd.cpp)：</a><br><img src="/images/miniftp/passwd_3.png" alt="&quot;用户验证&quot;"><br>我的用户名密码都是ldm，下面编译运行程序，看运行效果：<br><img src="/images/miniftp/passwd_4.png" alt="&quot;用户验证演示&quot;"><br>要注意运行需要有root权限才行！！</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<li>Unix环境高级编程</li>
+<li><a href="http://blog.csdn.net/acceptedxukai/article/details/8709894" target="_blank" rel="external">http://blog.csdn.net/acceptedxukai/article/details/8709894</a>  </li>
+<li><a href="http://www.360doc.com/content/13/0321/16/10384031_273031689.shtml" target="_blank" rel="external">http://www.360doc.com/content/13/0321/16/10384031_273031689.shtml</a></li>
+</ol>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag">#Linux</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/28/miniftp项目实战之ftp基本知识与应答类型/" rel="next" title="miniftp项目实战之ftp基本知识与应答类型">
+                <i class="fa fa-chevron-left"></i> miniftp项目实战之ftp基本知识与应答类型
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/05/29/miniftp项目实战之用户登录验证/"
+     data-title="miniftp项目实战之用户登录验证"
+     data-content=""
+     data-url="http://yoursite.com/2016/05/29/miniftp项目实战之用户登录验证/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/29/miniftp项目实战之用户登录验证/"
+           data-title="miniftp项目实战之用户登录验证" data-url="http://yoursite.com/2016/05/29/miniftp项目实战之用户登录验证/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.png"
+               alt="Dongmeng Li" />
+          <p class="site-author-name" itemprop="name">Dongmeng Li</p>
+          <p class="site-description motion-element" itemprop="description">你若盛开，蝴蝶自来。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">36</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lidongmeng" target="_blank">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+            <div class="links-of-blogroll-title">Links</div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://macshuo.com/" target="_blank">MacTalk</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://example.com/" target="_blank">Title</a>
+                </li>
+              
+            </ul>
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#口令文件"><span class="nav-number">1.</span> <span class="nav-text">口令文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#口令文件格式"><span class="nav-number">1.1.</span> <span class="nav-text">口令文件格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统函数"><span class="nav-number">1.2.</span> <span class="nav-text">系统函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#打印所有-etc-passwd里面信息的程序实现"><span class="nav-number">1.3.</span> <span class="nav-text">打印所有/etc/passwd里面信息的程序实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#阴影文件"><span class="nav-number">2.</span> <span class="nav-text">阴影文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#阴影文件格式"><span class="nav-number">2.1.</span> <span class="nav-text">阴影文件格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统函数-1"><span class="nav-number">2.2.</span> <span class="nav-text">系统函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加密的实现"><span class="nav-number">2.3.</span> <span class="nav-text">加密的实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现miniftp的用户登录验证模块"><span class="nav-number">3.</span> <span class="nav-text">实现miniftp的用户登录验证模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">3.1.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dongmeng Li</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lidongmeng0213"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
