@@ -1,0 +1,673 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="g++," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="从编辑器写完程序到生成可执行文件都发生了些什么，我们经常使用IDE，会帮助我们自动构建生成，虽然省了很多麻烦，但是也使我们失去了深入了解编译过程的相关知识，所以本文详细的描述了编译的各个部分，以求深入的理解。
+源程序首先来编写一个简单的源程序：![“程序”][“/images/complier/program.png”]
+预处理预处理阶段是根据源文件中的预处理指令修改源文件的内容，预编译程序所完成">
+<meta property="og:type" content="article">
+<meta property="og:title" content="程序编译的各个过程详解--使用g++">
+<meta property="og:url" content="http://yoursite.com/2016/05/30/程序编译的各个过程详解-使用g/index.html">
+<meta property="og:site_name" content="DongMengLi">
+<meta property="og:description" content="从编辑器写完程序到生成可执行文件都发生了些什么，我们经常使用IDE，会帮助我们自动构建生成，虽然省了很多麻烦，但是也使我们失去了深入了解编译过程的相关知识，所以本文详细的描述了编译的各个部分，以求深入的理解。
+源程序首先来编写一个简单的源程序：![“程序”][“/images/complier/program.png”]
+预处理预处理阶段是根据源文件中的预处理指令修改源文件的内容，预编译程序所完成">
+<meta property="og:updated_time" content="2016-05-30T11:16:10.310Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="程序编译的各个过程详解--使用g++">
+<meta name="twitter:description" content="从编辑器写完程序到生成可执行文件都发生了些什么，我们经常使用IDE，会帮助我们自动构建生成，虽然省了很多麻烦，但是也使我们失去了深入了解编译过程的相关知识，所以本文详细的描述了编译的各个部分，以求深入的理解。
+源程序首先来编写一个简单的源程序：![“程序”][“/images/complier/program.png”]
+预处理预处理阶段是根据源文件中的预处理指令修改源文件的内容，预编译程序所完成">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 程序编译的各个过程详解--使用g++ | DongMengLi </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6f009f48d4db1f62d52bf98f41c107d4";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">DongMengLi</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                程序编译的各个过程详解--使用g++
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-30T12:54:52+08:00" content="2016-05-30">
+              2016-05-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/30/程序编译的各个过程详解-使用g/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/30/程序编译的各个过程详解-使用g/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>从编辑器写完程序到生成可执行文件都发生了些什么，我们经常使用IDE，会帮助我们自动构建生成，虽然省了很多麻烦，但是也使我们失去了深入了解编译过程的相关知识，所以本文详细的描述了编译的各个部分，以求深入的理解。</p>
+<h3 id="源程序"><a href="#源程序" class="headerlink" title="源程序"></a>源程序</h3><p>首先来编写一个简单的源程序：<br>![“程序”][“/images/complier/program.png”]</p>
+<h3 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h3><p>预处理阶段是根据源文件中的预处理指令修改源文件的内容，预编译程序所完成的基本上是对源程序的”替换”工作。经过此替换后，生成一个没有宏定义、没有条件编译指令、没有特殊符号的输出文件。这个文件的含义同没有经过预处理的源文件是相同的，但内容有所不同。预处理阶段主要有以下四方面的处理：</p>
+<ol>
+<li>宏定义指令(#define M a),对于宏定义，预处理会将程序中出现M的地方全部用a来替换，而#undef则是取消对某个宏的定义，以后出现的就不再替换了；</li>
+<li>条件编译指令(#ifndef #ifdef #else #elif #endif)，在预处理时，按照不同的条件去编译程序的不同部分，从而得到不同的目标代码。使用条件编译，可方便地处理程序的调试版本和正式版本，也可使用条件编译使程序的移植更方便。<a id="more"></a></li>
+<li>头文件包含指令(#include)，预处理阶段将头文件中的定义全部加入到它所产生的输出文件中，供编译程序使用，用&lt;&gt;表示的头文件在/user/include/目录下，””在本目录下查找；</li>
+<li>特殊符号，预编译程序可以识别一些特殊的符号(LINE、FILE).<br>使用g++时候，-E选项只激活预处理,这个不生成文件,你需要把它重定向到一个输出文件里面。使用命令g++ -E hello.cpp -o hello.i生成到hello.i文件中，查看文件竟然有1000来行，因为它吧头文件cstdio都加到了这个文件中了，然后再看宏MAXNUM，在最后的地方可以看到被直接替换了:<br>![“预处理”][“/images/complier/predeal.png”]<h3 id="编译优化"><a href="#编译优化" class="headerlink" title="编译优化"></a>编译优化</h3>编译程序所要做的工作就是通过词法分析和语法分析，在确认所有指令都是符合语法规则之后，将其翻译成等价的中间代码表示或汇编代码。然后对中间代码进行优化。<br>使用g++，我们可以利用-S选项将上一步编译得到的.i文件编译成.s文件，经过编译可以看到程序变为汇编了。<br>![“编译优化”][“/images/complier/comply.png”]<h3 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h3>汇编实际上指把汇编语言代码翻译成目标机器指令的过程。目标文件由段组成。通常一个目标文件中至少有两个段：代码段和数据段；代码段：该段中所包含的主要是程序的指令。该段一般是可读和可执行的，但一般却不可写。数据段：主要存放程序中要用到的各种全局变量或静态的数据。一般数据段都是可读，可写，可执行的。<br>使用g++，我们可以通过-c选项将上一步的.s文件变为.o文件,这时候用vim查看就是乱码了，因为是二进制文件。  </li>
+</ol>
+<p>另外UNIX环境下主要有三种类型的目标文件：</p>
+<ol>
+<li>可重定位文件：其中包含有适合于其它目标文件链接来创建一个可执行的或者共享的目标文件的代码和数据。</li>
+<li>共享的目标文件：这种文件存放了适合于在两种上下文里链接的代码和数据。第一种是链接程序可把它与其它可重定位文件及共享的目标文件一起处理来创建另一个目标文件；第二种是动态链接程序将它与另一个可执行文件及其它的共享目标文件结合到一起，创建一个进程映象。</li>
+<li>可执行文件：它包含了一个可以被操作系统创建一个进程来执行的文件。汇编程序生成的实际上是第一种类型的目标文件。<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3>链接程序的主要工作就是将有关的目标文件彼此相连接，也即将在一个文件中引用的符号同该符号在另外一个文件中的定义连接起来，使得所有的这些目标文件成为一个能够按操作系统装入执行的统一整体。<br>链接分为静态链接和动态链接，具体的对链接的分析，看这里。<br>完成了链接就会产生可执行文件：g++ hello.o - o hello<br>所以从上面可以看到编译过程分为四个阶段：预处理，编译，汇编，链接，如下图所示，是不是看完有了一个新的认识啊，嘎嘎嘎~<br>![“编译过程”][“/images/complier/complyProcess.png”]<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><a href="http://blog.csdn.net/elfprincexu/article/details/45043971" target="_blank" rel="external">http://blog.csdn.net/elfprincexu/article/details/45043971</a><br><a href="http://7905648.blog.51cto.com/7895648/1297255" target="_blank" rel="external">http://7905648.blog.51cto.com/7895648/1297255</a></li>
+</ol>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/g/" rel="tag">#g++</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/30/你真的了解sizeof吗/" rel="next" title="你真的了解sizeof吗">
+                <i class="fa fa-chevron-left"></i> 你真的了解sizeof吗
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/05/30/程序编译的各个过程详解-使用g/"
+     data-title="程序编译的各个过程详解--使用g++"
+     data-content=""
+     data-url="http://yoursite.com/2016/05/30/程序编译的各个过程详解-使用g/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/30/程序编译的各个过程详解-使用g/"
+           data-title="程序编译的各个过程详解--使用g++" data-url="http://yoursite.com/2016/05/30/程序编译的各个过程详解-使用g/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.png"
+               alt="Dongmeng Li" />
+          <p class="site-author-name" itemprop="name">Dongmeng Li</p>
+          <p class="site-description motion-element" itemprop="description">你若盛开，蝴蝶自来。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">38</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lidongmeng" target="_blank">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+            <div class="links-of-blogroll-title">Links</div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://macshuo.com/" target="_blank">MacTalk</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://example.com/" target="_blank">Title</a>
+                </li>
+              
+            </ul>
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#源程序"><span class="nav-number">1.</span> <span class="nav-text">源程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#预处理"><span class="nav-number">2.</span> <span class="nav-text">预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译优化"><span class="nav-number">3.</span> <span class="nav-text">编译优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#汇编"><span class="nav-number">4.</span> <span class="nav-text">汇编</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链接"><span class="nav-number">5.</span> <span class="nav-text">链接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">6.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dongmeng Li</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lidongmeng0213"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
