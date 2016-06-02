@@ -236,6 +236,488 @@
             
               
                 
+                <a class="post-title-link" href="/2016/05/25/二分搜索总结/" itemprop="url">
+                  二分搜索总结
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-25T11:55:41+08:00" content="2016-05-25">
+              2016-05-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/25/二分搜索总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/25/二分搜索总结/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="二分搜索"><a href="#二分搜索" class="headerlink" title="二分搜索"></a>二分搜索</h2><h2 id="循环不变量"><a href="#循环不变量" class="headerlink" title="循环不变量"></a>循环不变量</h2><p>什么是循环不变量，即在循环中保持不变的量，二分搜索中，这个量是由上下界和目标值构成的不等式。循环不变量的意义在于，只要你维护这个循环不变量，那么最终循环结束，这个量还是成立的。<br>下面利用二分搜索查找数组中是否有target来阐述循环不变量，有三个过程：</p>
+<ol>
+<li>初始化，循环初次执行时候不变式为真；</li>
+<li>保持。如果某次迭代开始时候以及循环体执行时候，不变式为真，呢么循环体结束时候也为真；</li>
+<li>终止，循环能够终止，并且可以得到期望结果。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">1. &#123;mustbe(0, n-1)&#125;</span><br><span class="line">2. l = 0; u = n-1;</span><br><span class="line">3. &#123;mustbe(0, n-1)&#125;</span><br><span class="line">4. loop</span><br><span class="line">5.      &#123;mustbe(0, n-1)&#125;</span><br><span class="line">6.      if l &gt; u</span><br><span class="line">7.          &#123;l &gt; u &amp;&amp; mustbe(l, u)&#125;</span><br><span class="line">8.          &#123;t is not in the array&#125;</span><br><span class="line">9.          p = -1; break;</span><br><span class="line">10.     &#123;mustbe(l, u) &amp;&amp; l &lt;= u&#125;</span><br><span class="line">11.     m = l + (u - l) / 2;</span><br><span class="line">12.     &#123;mustbe(l, u) &amp;&amp; l &lt;= m &lt;= u&#125;</span><br><span class="line">13.     case</span><br><span class="line">14.         x[m] &lt; t:</span><br><span class="line">15.                 &#123;mustbe(l, u) &amp;&amp; cantbe(0, m)&#125;</span><br><span class="line">16.                 &#123;mustbe(m+1, u)&#125;</span><br><span class="line">17.                 l = m+1</span><br><span class="line">18.                 &#123;mustbe(l, u)&#125;</span><br><span class="line">19.         x[m] == t:</span><br><span class="line">20.                 &#123;x[m] == t&#125;</span><br><span class="line">21.                 p = m; break;</span><br><span class="line">22.         x[m] &gt; t:</span><br><span class="line">23.                 &#123;mustbe(l, u) &amp;&amp; cantbe(m, u)&#125;</span><br><span class="line">24.                 &#123;mustbe(l, m-1)&#125;</span><br><span class="line">25.                 u = m-1</span><br><span class="line">26.                 &#123;mustbe(l, u)&#125;</span><br><span class="line">27.     &#123;mustbe(l, u)&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>每执行一个操作可以看出循环不变量都为真，所以一次迭代结束后，循环不变量仍旧为真，呢么就看循环是否会结束，可以看出，每一轮迭代m总是在l,u之间，但是通过case的两个不等条件都删除了一个值，所以范围内数字每次迭代至少减少1，所以最后肯定区间交集问为空l&gt;u会终止运行。</p>
+<h2 id="leetcode上面二分题目"><a href="#leetcode上面二分题目" class="headerlink" title="leetcode上面二分题目"></a>leetcode上面二分题目</h2><h3 id="普通的二分搜索"><a href="#普通的二分搜索" class="headerlink" title="普通的二分搜索"></a>普通的二分搜索</h3><h5 id="Search-for-a-Range"><a href="#Search-for-a-Range" class="headerlink" title="Search for a Range"></a>Search for a Range</h5><p>题目：找到数组中等于target的起始位置，没有包含则返回[-1,-1]。<br>题目分析：分别找到第一个位置和最后一个位置.<br>找第一个位置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 循环不变量为 nums[l] &lt; target &lt;= nums[r]</span><br><span class="line">int findFirstPosition(vector&lt;int&gt; &amp; nums, int l, int r, int target) &#123;</span><br><span class="line">    while (l &lt;= r) &#123;</span><br><span class="line">        int mid = l + (r - l) / 2;</span><br><span class="line">        if (nums[mid] &gt;= target) &#123;</span><br><span class="line">            r = mid - 1;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            l = mid + 1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    if (l &gt;= nums.size() || nums[l] != target) l = -1; // judge是否存在</span><br><span class="line">    return l;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>找最后一个位置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 循环不变量  nums[l] &lt;= target &lt; nums[r]</span><br><span class="line">int findLastPosition(vector&lt;int&gt; &amp; nums, int l, int r, int target) &#123;</span><br><span class="line">    while (l &lt;= r) &#123;</span><br><span class="line">        int mid = l + (r - l) / 2;</span><br><span class="line">        if (nums[mid] &lt;= target) &#123;</span><br><span class="line">            l = mid + 1;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            r = mid - 1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    if (r &gt;= nums.size() || nums[r] != target) r = -1;</span><br><span class="line">    return r;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>所以最后可以将两个值加入vector即可。</p>
+<h4 id="Search-Insert-Position"><a href="#Search-Insert-Position" class="headerlink" title="Search Insert Position"></a>Search Insert Position</h4><p>找到应该插入的位置，如果数组中有这个数字，插入到第一次出现的该数字的位置上。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 循环不变量target &lt;= nums[l] &lt;= nums[r]</span><br><span class="line">int searchInsert(vector&lt;int&gt;&amp; nums, int target) &#123;</span><br><span class="line">    int l = 0, r = nums.size() - 1;</span><br><span class="line">    while (l &lt;= r) &#123;</span><br><span class="line">        int mid = l + (r - l) / 2;</span><br><span class="line">        if (nums[mid] &gt;= target) &#123;</span><br><span class="line">            r = mid - 1;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            l = mid + 1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return l;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="翻转的二分搜索"><a href="#翻转的二分搜索" class="headerlink" title="翻转的二分搜索"></a>翻转的二分搜索</h3><p>翻转二分是对一个数组在某一个位置截断，比方0,1,2,3,4,5,6改变为4,5,6,0,1,2,3，这样就变成了两段有序的数组，所以每次判断的时候就要判断mid的值在哪一段，确定了这一段后，再用普通的二分来分析。</p>
+<h4 id="Find-Minimum-in-Rotated-Sorted-Array"><a href="#Find-Minimum-in-Rotated-Sorted-Array" class="headerlink" title="Find Minimum in Rotated Sorted Array"></a>Find Minimum in Rotated Sorted Array</h4><p>找到最小值，数组中没有重复元素。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">int findMin(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    int l = 0, r = nums.size() - 1;</span><br><span class="line">    while (l &lt;= r &amp;&amp; nums[l] &gt; nums[r]) &#123;</span><br><span class="line">        int mid = l + (r - l) / 2;</span><br><span class="line">        if (nums[mid] &gt;= nums[l]) &#123;</span><br><span class="line">            l = mid + 1;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            r = mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return nums[l];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="Find-Minimum-in-Rotated-Sorted-Array-II"><a href="#Find-Minimum-in-Rotated-Sorted-Array-II" class="headerlink" title="Find Minimum in Rotated Sorted Array II"></a>Find Minimum in Rotated Sorted Array II</h4><p>找到最小值，数组中有重复元素。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">int findMin(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    int l = 0, r = nums.size() - 1;</span><br><span class="line">    while (l &lt;= r) &#123;</span><br><span class="line">        while (l &lt;= r &amp;&amp; nums[l] == nums[r]) --r; // 删除两头相等的</span><br><span class="line">        if (l &gt; r || (l &lt; r &amp;&amp; nums[l] &lt; nums[r])) break; // 如果递增的或者区间已经不存在了就终止</span><br><span class="line">        int mid = l + (r - l) / 2;</span><br><span class="line">        if (nums[mid] &gt;= nums[l]) &#123; // 大的呢一段</span><br><span class="line">            l = mid + 1;</span><br><span class="line">        &#125; else &#123; // 小的呢一段，不能为mid-1因为有可能mid就是最小值</span><br><span class="line">            r = mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return nums[l];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="Search-in-Rotated-Sorted-Array"><a href="#Search-in-Rotated-Sorted-Array" class="headerlink" title="Search in Rotated Sorted Array"></a>Search in Rotated Sorted Array</h4><p>找到target，数组中没有重复元素。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">int search(vector&lt;int&gt;&amp; nums, int target) &#123;</span><br><span class="line">    int l = 0, r = nums.size() - 1;</span><br><span class="line">    // 两段</span><br><span class="line">    while (l &lt;= r) &#123;</span><br><span class="line">        int mid = l + (r - l) / 2;</span><br><span class="line">        if (nums[mid] == target) return mid;</span><br><span class="line">        if (nums[mid] &gt;= nums[l]) &#123; // 第一段</span><br><span class="line">            if (target &gt;= nums[l] &amp;&amp; target &lt; nums[mid]) &#123;</span><br><span class="line">                r = mid - 1;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                l = mid + 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123; // 第二段</span><br><span class="line">            if (target &gt; nums[mid] &amp;&amp; target &lt;= nums[r]) &#123;</span><br><span class="line">                l = mid + 1;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                r = mid - 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="Search-in-Rotated-Sorted-Array-II"><a href="#Search-in-Rotated-Sorted-Array-II" class="headerlink" title="Search in Rotated Sorted Array II"></a>Search in Rotated Sorted Array II</h4><p>找到target，数组中有重复元素。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">bool search(vector&lt;int&gt;&amp; nums, int target) &#123;</span><br><span class="line">    int l = 0, r = nums.size() - 1;</span><br><span class="line">    while (l &lt;= r) &#123;</span><br><span class="line">        int mid = l + (r - l) / 2;</span><br><span class="line">        if (nums[mid] == target) return true;</span><br><span class="line">        if (nums[l] == nums[r]) &#123;</span><br><span class="line">                ++l;</span><br><span class="line">        &#125; else if (nums[l] &lt;= nums[mid]) &#123;</span><br><span class="line">            if (target &gt;= nums[l] &amp;&amp; target &lt; nums[mid]) &#123;</span><br><span class="line">                r = mid - 1;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                l = mid + 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            if (target &gt; nums[mid] &amp;&amp; target &lt;= nums[r]) &#123;</span><br><span class="line">                l = mid + 1;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                r = mid - 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="Find-Peak-Element"><a href="#Find-Peak-Element" class="headerlink" title="Find Peak Element"></a>Find Peak Element</h4><p>因为-1和n位置都是很小的数字，而且相邻数字不相等，所以肯定存在一个极大值。要注意首尾情况。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">int findPeakElement(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    int n = nums.size();</span><br><span class="line">    if (n == 1) return 0;</span><br><span class="line">    int l = 0, r = n - 1;</span><br><span class="line">    while (l &lt;= r) &#123;</span><br><span class="line">        int mid = l + (r - l) / 2;</span><br><span class="line">        if (mid == 0) &#123;</span><br><span class="line">            if (nums[mid] &gt; nums[mid+1]) return mid;</span><br><span class="line">            else l = mid + 1;</span><br><span class="line">        &#125; else if (mid == n - 1) &#123;</span><br><span class="line">            if (nums[mid] &gt; nums[mid-1]) return mid;</span><br><span class="line">            else r = mid - 1;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            if (nums[mid] &gt; nums[mid-1] &amp;&amp; nums[mid] &gt; nums[mid+1]) &#123;</span><br><span class="line">                return mid;</span><br><span class="line">            &#125; else if (nums[mid] &gt; nums[mid-1]) &#123;</span><br><span class="line">                l = mid + 1;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                r = mid - 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>实际可以将头尾与中间的合并下，简写合并下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">int findPeakElement(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    int n = nums.size();</span><br><span class="line">    if (n == 1) return 0;</span><br><span class="line">    int l = 0, r = n - 1;</span><br><span class="line">    while (l &lt;= r) &#123;</span><br><span class="line">        int mid = l + (r - l) / 2;</span><br><span class="line">        if ((mid == 0 &amp;&amp; nums[mid] &gt; nums[mid+1]) ||</span><br><span class="line">            (mid == n - 1 &amp;&amp; nums[mid] &gt; nums[mid-1]) ||</span><br><span class="line">            (nums[mid] &gt; nums[mid-1] &amp;&amp; nums[mid] &gt; nums[mid+1])) &#123;</span><br><span class="line">                return mid;</span><br><span class="line">        &#125; else if (mid == 0 || nums[mid] &lt; nums[mid+1]) &#123;</span><br><span class="line">            l = mid + 1;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            r = mid - 1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="二维二分搜索"><a href="#二维二分搜索" class="headerlink" title="二维二分搜索"></a>二维二分搜索</h3><h4 id="Search-a-2D-Matrix"><a href="#Search-a-2D-Matrix" class="headerlink" title="Search a 2D Matrix"></a>Search a 2D Matrix</h4><h4 id="Search-a-2D-Matrix-II"><a href="#Search-a-2D-Matrix-II" class="headerlink" title="Search a 2D Matrix II"></a>Search a 2D Matrix II</h4><h3 id="数学方面的二分搜索"><a href="#数学方面的二分搜索" class="headerlink" title="数学方面的二分搜索"></a>数学方面的二分搜索</h3><h4 id="pow-x-n"><a href="#pow-x-n" class="headerlink" title="pow(x, n)"></a>pow(x, n)</h4><h4 id="sqrt-x"><a href="#sqrt-x" class="headerlink" title="sqrt(x)"></a>sqrt(x)</h4><h4 id="Divide-Two-Integers"><a href="#Divide-Two-Integers" class="headerlink" title="Divide Two Integers"></a>Divide Two Integers</h4><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h4 id="First-Bad-Version"><a href="#First-Bad-Version" class="headerlink" title="First Bad Version"></a>First Bad Version</h4><h4 id="Find-the-Duplicate-Number"><a href="#Find-the-Duplicate-Number" class="headerlink" title="Find the Duplicate Number"></a>Find the Duplicate Number</h4><p>数组中有1到n的数字组成，但是有n+1个数字，根据鸽巢原理肯定有一个是重复的，当然可以利用额外空间hash_table，一遍扫描即可，但是如果不让用额外空间，可以用双层循环，时间复杂度O(n2)，可以用二分搜索来进行优化到O(nlgn),因为数字范围为1–n所以设置上下限分别为1和n，然后二分找到中点，统计这个大于等于这个数字的</p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/24/一日一命令之Linux命令kill/" itemprop="url">
+                  一日一命令之Linux命令kill
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-24T13:46:38+08:00" content="2016-05-24">
+              2016-05-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux基础/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux基础</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/24/一日一命令之Linux命令kill/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/24/一日一命令之Linux命令kill/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="基本命令介绍"><a href="#基本命令介绍" class="headerlink" title="基本命令介绍"></a>基本命令介绍</h2><p>今天学习kill命令，Linux下kill命令是向某个特定进程或者进程组发送指定信号从而结束改进程或者进程组，可以通过man kill查看，如下：<br><img src="/images/LinuxCommand/kill-1.png" alt="&quot;kill&quot;"><br>有两个选项-s是指定要发送的具体信号，比方说kill -7 pid，是向pid进程发送7(BUS)信号，如果没有指定，则默认发送的是SIGTERM信号给给定的进程或者进程组，如果进程没有设置捕捉该信号的逻辑，则终止进程；另外一个选项是-l是列出对应数字的信号名称，比方说kill -l 7列出的是BUS，当然这个可以通过man 7 signal查看。<br><img src="/images/LinuxCommand/kill-2.png" alt="&quot;singal&quot;">   </p>
+<h2 id="程序举例"><a href="#程序举例" class="headerlink" title="程序举例"></a>程序举例</h2><p>下面实现一个处理了SIGTERM的程序，然后运行，在终端输入kill pid，然后观察输出，在终端输入kill -9 pid再查看输出。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/05/24/一日一命令之Linux命令kill/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/24/析构函数竟然可以为纯虚函数！爆炸！！/" itemprop="url">
+                  析构函数竟然可以为纯虚函数！爆炸！！
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-24T08:53:58+08:00" content="2016-05-24">
+              2016-05-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/24/析构函数竟然可以为纯虚函数！爆炸！！/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/24/析构函数竟然可以为纯虚函数！爆炸！！/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>析构函数可以为纯虚函数吗？</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>应该是可以的，但是析构函数如果为纯虚函数，你就一定要去实现，因为它的子类的析构顺序是先析构父类再析构自身，如果父类没有实现析构函数，那么它的子类没有办法完成析构。<br>一般来说，纯虚函数都是只声明一个函数而不去实现，留给子类去实现，但是析构函数不一样，因为它和子类的析构息息相关。<br>父类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class HomeElectricDevice</span><br><span class="line">&#123;</span><br><span class="line">    public:</span><br><span class="line">        virtual ~HomeElectricDevice() = 0;</span><br><span class="line">    private:</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>子类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class ElectricFan : public HomeElectricDevice</span><br><span class="line">&#123;</span><br><span class="line">    public:</span><br><span class="line">        ElectricFan() &#123;&#125;</span><br><span class="line">        virtual ~ElectricFan() &#123;&#125;</span><br><span class="line">    private:</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/05/24/析构函数竟然可以为纯虚函数！爆炸！！/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/22/线程池的设计与应用/" itemprop="url">
+                  线程池的设计与应用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-22T17:20:59+08:00" content="2016-05-22">
+              2016-05-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/22/线程池的设计与应用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/22/线程池的设计与应用/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/05/22/有限自动机解析Http请求/" itemprop="url">
                   有限自动机解析Http请求
                 </a>
@@ -888,499 +1370,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/08/STL源码学习之内存配置/" itemprop="url">
-                  STL源码学习之内存配置
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-08T15:25:31+08:00" content="2016-05-08">
-              2016-05-08
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/STL源码学习/" itemprop="url" rel="index">
-                    <span itemprop="name">STL源码学习</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/08/STL源码学习之内存配置/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/08/STL源码学习之内存配置/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="STL源码结构概述"><a href="#STL源码结构概述" class="headerlink" title="STL源码结构概述"></a>STL源码结构概述</h2><h2 id="一级内存配置"><a href="#一级内存配置" class="headerlink" title="一级内存配置"></a>一级内存配置</h2><h2 id="次级内存配置"><a href="#次级内存配置" class="headerlink" title="次级内存配置"></a>次级内存配置</h2><h3 id="内存池"><a href="#内存池" class="headerlink" title="内存池"></a>内存池</h3><h2 id="内存处理工具"><a href="#内存处理工具" class="headerlink" title="内存处理工具"></a>内存处理工具</h2><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>STL源码解析  </p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/28/声明定义初始化与赋值，你真的搞懂了吗？/" itemprop="url">
-                  声明定义初始化与赋值，你真的搞懂了吗？
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-28T14:21:33+08:00" content="2016-04-28">
-              2016-04-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/28/声明定义初始化与赋值，你真的搞懂了吗？/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/28/声明定义初始化与赋值，你真的搞懂了吗？/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="声明与定义的比较"><a href="#声明与定义的比较" class="headerlink" title="声明与定义的比较"></a>声明与定义的比较</h2><p>定义就是（编译器）创建一个对象，为这个对象分配一块内存，并给它取上一个名字，这个名字就是就是我们经常所说的变量名或对象名。<br>声明有2重含义:<br>(1) 告诉编译器，这个名字已经匹配到一块内存上，下面的代码用到变量或者对象是在别的地方定义的。声明可以出现多次。<br>(2)告诉编译器，这个名字已经被预定了，别的地方再也不能用它来作为变量名或对象名。定义和声明的最重要区别就是：定义创建对象并为这个对象分配了内存，声明没有分配内存。</p>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>从上面比较可以看出声明与定义最主要区别是是否分配内存！！！<br>呢么int a;是声明还是定义呢？当然是定义，为什么呢，如果int a；在函数外部，属于全局变量，会在静态区为它分配内存并赋值初值为0,；如果在函数内部，属于局部变量，会在栈区域为它开辟空间，初值倒不会给你赋予，所以里面值可能是任意的int值。<br>呢么究竟什么样的才算是不分配内存是声明呢？有两种情况:<br>(1) extern int a; extern告诉编译器：变量在其他文件中定义了，此处只是引用。如果声明包含初始化表达式，就被当作定义，即使前面加了extern。只有当extern声明位于函数外部时，才可以被初始化.<br>(2) typedef char * string;<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/04/28/声明定义初始化与赋值，你真的搞懂了吗？/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/28/segment-fault的产生与调试/" itemprop="url">
-                  segment fault的产生与调试
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-28T09:29:28+08:00" content="2016-04-28">
-              2016-04-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/28/segment-fault的产生与调试/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/28/segment-fault的产生与调试/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="Segment-Fault是什么"><a href="#Segment-Fault是什么" class="headerlink" title="Segment Fault是什么"></a>Segment Fault是什么</h2><p>段错误是指访问的内存超出了系统给这个程序所设定的内存空间，例如访问了不存在的内存地址、访问了系统保护的内存地址、访问了只读的内存地址等等情况。会接受到SIGSEGV信号。</p>
-<h2 id="段错误产生的原因"><a href="#段错误产生的原因" class="headerlink" title="段错误产生的原因"></a>段错误产生的原因</h2><h3 id="访问不存在的内存地址"><a href="#访问不存在的内存地址" class="headerlink" title="访问不存在的内存地址"></a>访问不存在的内存地址</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">void main()</span><br><span class="line">&#123;</span><br><span class="line">        int *ptr = NULL;</span><br><span class="line">        *ptr = 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="访问系统保护的内存地址"><a href="#访问系统保护的内存地址" class="headerlink" title="访问系统保护的内存地址"></a>访问系统保护的内存地址</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">void main()</span><br><span class="line">&#123;</span><br><span class="line">        int *ptr = (int *)0;</span><br><span class="line">        *ptr = 100;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/04/28/segment-fault的产生与调试/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/27/智能指针的简单实现/" itemprop="url">
-                  智能指针的简单实现
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-27T16:35:12+08:00" content="2016-04-27">
-              2016-04-27
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/27/智能指针的简单实现/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/27/智能指针的简单实现/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h2><p>c++的内存管理是让很多人头疼的事，当我们写一个new语句时，一般就会立即把delete语句直接也写了，但是我们不能避免程序还未执行到delete时就跳转了或者在函数中没有执行到最后的delete语句就返回了，如果我们不在每一个可能跳转或者返回的语句前释放资源，就会造成内存泄露。使用智能指针可以很大程度上的避免这个问题，因为智能指针就是一个类，当超出了类的作用域是，类会自动调用析构函数，析构函数会自动释放资源。</p>
-<h2 id="C-智能指针"><a href="#C-智能指针" class="headerlink" title="C++智能指针"></a>C++智能指针</h2><p>c++里面的四个智能指针: auto_ptr, shared_ptr, weak_ptr, unique_ptr 其中后三个是c++11支持，并且第一个已经被c++11弃用。</p>
-<h3 id="shared-ptr"><a href="#shared-ptr" class="headerlink" title="shared_ptr"></a>shared_ptr</h3><p>资源可以被多个指针共享，它使用计数机制来表明资源被几个指针共享。可以通过成员函数use_count()来查看资源的所有者个数。出了可以通过new来构造，还可以通过传入auto_ptr, unique_ptr,weak_ptr来构造。当我们调用release()时，当前指针会释放资源所有权，计数减一。当计数等于0时，资源会被释放。</p>
-<h3 id="unique-ptr"><a href="#unique-ptr" class="headerlink" title="unique_ptr"></a>unique_ptr</h3><p>unique_ptr,是用于取代c++98的auto_ptr的产物,在c++98的时候还没有移动语义(move semantics)的支持,因此对于auto_ptr的控制权转移的实现没有核心元素的支持,但是还是实现了auto_ptr的移动语义,这样带来的一些问题是拷贝构造函数和复制操作重载函数不够完美,具体体现就是把auto_ptr作为函数参数,传进去的时候控制权转移,转移到函数参数,当函数返回的时候并没有一个控制权移交的过程,所以过了函数调用则原先的auto_ptr已经失效了.在c++11当中有了移动语义,使用move()把unique_ptr传入函数,这样你就知道原先的unique_ptr已经失效了.移动语义本身就说明了这样的问题,比较坑爹的是标准描述是说对于move之后使用原来的内容是未定义行为,并非抛出异常,所以还是要靠人肉遵守游戏规则.再一个,auto_ptr不支持传入deleter,所以只能支持单对象(delete object),而unique_ptr对数组类型有偏特化重载,并且还做了相应的优化,比如用[]访问相应元素等.<br>unique_ptr 是一个独享所有权的智能指针，它提供了严格意义上的所有权，包括：1、拥有它指向的对象2、无法进行复制构造，无法进行复制赋值操作。即无法使两个unique_ptr指向同一个对象。但是可以进行移动构造和移动赋值操作3、保存指向某个对象的指针，当它本身被删除释放的时候，会使用给定的删除器释放它指向的对象<br>unique_ptr 可以实现如下功能：1、为动态申请的内存提供异常安全2、讲动态申请的内存所有权传递给某函数3、从某个函数返回动态申请内存的所有权4、在容器中保存指针<br>5、auto_ptr 应该具有的功能</p>
-<h3 id="weak-ptr"><a href="#weak-ptr" class="headerlink" title="weak_ptr"></a>weak_ptr</h3><p>weak_ptr是用来解决shared_ptr相互引用时的死锁问题,如果说两个shared_ptr相互引用,那么这两个指针的引用计数永远不可能下降为0,资源永远不会释放。它是对对象的一种弱引用，不会增加对象的引用计数，和shared_ptr之间可以相互转化，shared_ptr可以直接赋值给它，它可以通过调用lock函数来获得shared_ptr。</p>
-<h2 id="简单实现shared-ptr"><a href="#简单实现shared-ptr" class="headerlink" title="简单实现shared_ptr"></a>简单实现shared_ptr</h2><h2 id="简单实现unique-ptr"><a href="#简单实现unique-ptr" class="headerlink" title="简单实现unique_ptr"></a>简单实现unique_ptr</h2><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://www.cnblogs.com/TenosDoIt/p/3456704.html" target="_blank" rel="external">http://www.cnblogs.com/TenosDoIt/p/3456704.html</a><br><a href="http://blog.csdn.net/hackbuteer1/article/details/7561235" target="_blank" rel="external">http://blog.csdn.net/hackbuteer1/article/details/7561235</a><br><a href="http://www.cnblogs.com/QG-whz/p/4777312.html" target="_blank" rel="external">http://www.cnblogs.com/QG-whz/p/4777312.html</a><br><a href="http://my.oschina.net/costaxu/blog/103119?fromerr=wvWl7sD9" target="_blank" rel="external">http://my.oschina.net/costaxu/blog/103119?fromerr=wvWl7sD9</a><br>深入理解C++11<br><a href="http://www.cnblogs.com/hujian/archive/2012/12/10/2810754.html" target="_blank" rel="external">http://www.cnblogs.com/hujian/archive/2012/12/10/2810754.html</a></p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1421,7 +1415,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">38</span>
+              <span class="site-state-item-count">42</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1429,7 +1423,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1438,7 +1432,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-count">29</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

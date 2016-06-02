@@ -236,6 +236,450 @@
             
               
                 
+                <a class="post-title-link" href="/2016/06/02/网络编程中的读写函数/" itemprop="url">
+                  网络编程中的读写函数
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-02T10:55:12+08:00" content="2016-06-02">
+              2016-06-02
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">网络编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/02/网络编程中的读写函数/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/02/网络编程中的读写函数/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>网络编程中当连接建立好之后就是数据的传输了，系统提供了很多种读写的方式，本文对这些函数做一个大概的总结。</p>
+<h2 id="普通读写的流程"><a href="#普通读写的流程" class="headerlink" title="普通读写的流程"></a>普通读写的流程</h2><p>网络应用发送数据到对端接受到数据一般会经历下面的步骤：</p>
+<ol>
+<li>系统调用read()函数产生一个上下文切换，从user mode切换到kernel mode，然后DMA执行拷培，把文件从硬盘拷培到kernel buffer里面；</li>
+<li>数据从kernel buffer拷培到user buffer，然后系统调用read()返回，这时产生从kernal mode到user mode的切换；</li>
+<li>然后要发送数据了，通过调用write系统调用，从user mode切换到kernel mode，然后把步骤2中user mode的数据读到kernel buffer中，这个kernel buffer是和socket相关联的；</li>
+<li>系统调用write返回，产生一个切换，从kernel mode切换到user mode，然后DMA从kernel buffer拷培数据到协议栈。<br>所以从上面可以看到，从硬盘读取数据到最终发送到网络上面总共需要四次上下文切换，然后有4次拷培操作。
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/06/02/网络编程中的读写函数/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/01/TCP带外数据/" itemprop="url">
+                  TCP带外数据
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-01T13:30:52+08:00" content="2016-06-01">
+              2016-06-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">网络编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/01/TCP带外数据/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/01/TCP带外数据/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>TCP首部有两个字段来发出从一端到另一端的紧急数据，URG比特位设置为1，另外16bit的紧急指针置为一个正的偏移量，偏移量加上TCP首部的序列号得到的便是紧急数据的最后一个字节的序号。</p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/31/miniftp项目实战之父子进程通信-Unix域套接字/" itemprop="url">
+                  miniftp项目实战之父子进程通信-Unix域套接字
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-31T14:59:16+08:00" content="2016-05-31">
+              2016-05-31
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/31/miniftp项目实战之父子进程通信-Unix域套接字/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/31/miniftp项目实战之父子进程通信-Unix域套接字/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/31/miniftp项目实战之文件目录操作命令实现/" itemprop="url">
+                  miniftp项目实战之文件目录操作命令实现
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-31T14:58:53+08:00" content="2016-05-31">
+              2016-05-31
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/31/miniftp项目实战之文件目录操作命令实现/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/31/miniftp项目实战之文件目录操作命令实现/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/05/30/程序编译的各个过程详解-使用g/" itemprop="url">
                   程序编译的各个过程详解--使用g++
                 </a>
@@ -922,493 +1366,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/25/二分搜索总结/" itemprop="url">
-                  二分搜索总结
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-25T11:55:41+08:00" content="2016-05-25">
-              2016-05-25
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/25/二分搜索总结/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/25/二分搜索总结/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="二分搜索"><a href="#二分搜索" class="headerlink" title="二分搜索"></a>二分搜索</h2><h2 id="循环不变量"><a href="#循环不变量" class="headerlink" title="循环不变量"></a>循环不变量</h2><p>什么是循环不变量，即在循环中保持不变的量，二分搜索中，这个量是由上下界和目标值构成的不等式。循环不变量的意义在于，只要你维护这个循环不变量，那么最终循环结束，这个量还是成立的。<br>下面利用二分搜索查找数组中是否有target来阐述循环不变量，有三个过程：</p>
-<ol>
-<li>初始化，循环初次执行时候不变式为真；</li>
-<li>保持。如果某次迭代开始时候以及循环体执行时候，不变式为真，呢么循环体结束时候也为真；</li>
-<li>终止，循环能够终止，并且可以得到期望结果。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">1. &#123;mustbe(0, n-1)&#125;</span><br><span class="line">2. l = 0; u = n-1;</span><br><span class="line">3. &#123;mustbe(0, n-1)&#125;</span><br><span class="line">4. loop</span><br><span class="line">5.      &#123;mustbe(0, n-1)&#125;</span><br><span class="line">6.      if l &gt; u</span><br><span class="line">7.          &#123;l &gt; u &amp;&amp; mustbe(l, u)&#125;</span><br><span class="line">8.          &#123;t is not in the array&#125;</span><br><span class="line">9.          p = -1; break;</span><br><span class="line">10.     &#123;mustbe(l, u) &amp;&amp; l &lt;= u&#125;</span><br><span class="line">11.     m = l + (u - l) / 2;</span><br><span class="line">12.     &#123;mustbe(l, u) &amp;&amp; l &lt;= m &lt;= u&#125;</span><br><span class="line">13.     case</span><br><span class="line">14.         x[m] &lt; t:</span><br><span class="line">15.                 &#123;mustbe(l, u) &amp;&amp; cantbe(0, m)&#125;</span><br><span class="line">16.                 &#123;mustbe(m+1, u)&#125;</span><br><span class="line">17.                 l = m+1</span><br><span class="line">18.                 &#123;mustbe(l, u)&#125;</span><br><span class="line">19.         x[m] == t:</span><br><span class="line">20.                 &#123;x[m] == t&#125;</span><br><span class="line">21.                 p = m; break;</span><br><span class="line">22.         x[m] &gt; t:</span><br><span class="line">23.                 &#123;mustbe(l, u) &amp;&amp; cantbe(m, u)&#125;</span><br><span class="line">24.                 &#123;mustbe(l, m-1)&#125;</span><br><span class="line">25.                 u = m-1</span><br><span class="line">26.                 &#123;mustbe(l, u)&#125;</span><br><span class="line">27.     &#123;mustbe(l, u)&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>每执行一个操作可以看出循环不变量都为真，所以一次迭代结束后，循环不变量仍旧为真，呢么就看循环是否会结束，可以看出，每一轮迭代m总是在l,u之间，但是通过case的两个不等条件都删除了一个值，所以范围内数字每次迭代至少减少1，所以最后肯定区间交集问为空l&gt;u会终止运行。</p>
-<h2 id="leetcode上面二分题目"><a href="#leetcode上面二分题目" class="headerlink" title="leetcode上面二分题目"></a>leetcode上面二分题目</h2><h3 id="普通的二分搜索"><a href="#普通的二分搜索" class="headerlink" title="普通的二分搜索"></a>普通的二分搜索</h3><h5 id="Search-for-a-Range"><a href="#Search-for-a-Range" class="headerlink" title="Search for a Range"></a>Search for a Range</h5><p>题目：找到数组中等于target的起始位置，没有包含则返回[-1,-1]。<br>题目分析：分别找到第一个位置和最后一个位置.<br>找第一个位置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 循环不变量为 nums[l] &lt; target &lt;= nums[r]</span><br><span class="line">int findFirstPosition(vector&lt;int&gt; &amp; nums, int l, int r, int target) &#123;</span><br><span class="line">    while (l &lt;= r) &#123;</span><br><span class="line">        int mid = l + (r - l) / 2;</span><br><span class="line">        if (nums[mid] &gt;= target) &#123;</span><br><span class="line">            r = mid - 1;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            l = mid + 1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    if (l &gt;= nums.size() || nums[l] != target) l = -1; // judge是否存在</span><br><span class="line">    return l;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>找最后一个位置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 循环不变量  nums[l] &lt;= target &lt; nums[r]</span><br><span class="line">int findLastPosition(vector&lt;int&gt; &amp; nums, int l, int r, int target) &#123;</span><br><span class="line">    while (l &lt;= r) &#123;</span><br><span class="line">        int mid = l + (r - l) / 2;</span><br><span class="line">        if (nums[mid] &lt;= target) &#123;</span><br><span class="line">            l = mid + 1;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            r = mid - 1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    if (r &gt;= nums.size() || nums[r] != target) r = -1;</span><br><span class="line">    return r;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>所以最后可以将两个值加入vector即可。</p>
-<h4 id="Search-Insert-Position"><a href="#Search-Insert-Position" class="headerlink" title="Search Insert Position"></a>Search Insert Position</h4><p>找到应该插入的位置，如果数组中有这个数字，插入到第一次出现的该数字的位置上。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 循环不变量target &lt;= nums[l] &lt;= nums[r]</span><br><span class="line">int searchInsert(vector&lt;int&gt;&amp; nums, int target) &#123;</span><br><span class="line">    int l = 0, r = nums.size() - 1;</span><br><span class="line">    while (l &lt;= r) &#123;</span><br><span class="line">        int mid = l + (r - l) / 2;</span><br><span class="line">        if (nums[mid] &gt;= target) &#123;</span><br><span class="line">            r = mid - 1;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            l = mid + 1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return l;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="翻转的二分搜索"><a href="#翻转的二分搜索" class="headerlink" title="翻转的二分搜索"></a>翻转的二分搜索</h3><p>翻转二分是对一个数组在某一个位置截断，比方0,1,2,3,4,5,6改变为4,5,6,0,1,2,3，这样就变成了两段有序的数组，所以每次判断的时候就要判断mid的值在哪一段，确定了这一段后，再用普通的二分来分析。</p>
-<h4 id="Find-Minimum-in-Rotated-Sorted-Array"><a href="#Find-Minimum-in-Rotated-Sorted-Array" class="headerlink" title="Find Minimum in Rotated Sorted Array"></a>Find Minimum in Rotated Sorted Array</h4><p>找到最小值，数组中没有重复元素。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">int findMin(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    int l = 0, r = nums.size() - 1;</span><br><span class="line">    while (l &lt;= r &amp;&amp; nums[l] &gt; nums[r]) &#123;</span><br><span class="line">        int mid = l + (r - l) / 2;</span><br><span class="line">        if (nums[mid] &gt;= nums[l]) &#123;</span><br><span class="line">            l = mid + 1;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            r = mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return nums[l];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="Find-Minimum-in-Rotated-Sorted-Array-II"><a href="#Find-Minimum-in-Rotated-Sorted-Array-II" class="headerlink" title="Find Minimum in Rotated Sorted Array II"></a>Find Minimum in Rotated Sorted Array II</h4><p>找到最小值，数组中有重复元素。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">int findMin(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    int l = 0, r = nums.size() - 1;</span><br><span class="line">    while (l &lt;= r) &#123;</span><br><span class="line">        while (l &lt;= r &amp;&amp; nums[l] == nums[r]) --r; // 删除两头相等的</span><br><span class="line">        if (l &gt; r || (l &lt; r &amp;&amp; nums[l] &lt; nums[r])) break; // 如果递增的或者区间已经不存在了就终止</span><br><span class="line">        int mid = l + (r - l) / 2;</span><br><span class="line">        if (nums[mid] &gt;= nums[l]) &#123; // 大的呢一段</span><br><span class="line">            l = mid + 1;</span><br><span class="line">        &#125; else &#123; // 小的呢一段，不能为mid-1因为有可能mid就是最小值</span><br><span class="line">            r = mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return nums[l];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="Search-in-Rotated-Sorted-Array"><a href="#Search-in-Rotated-Sorted-Array" class="headerlink" title="Search in Rotated Sorted Array"></a>Search in Rotated Sorted Array</h4><p>找到target，数组中没有重复元素。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">int search(vector&lt;int&gt;&amp; nums, int target) &#123;</span><br><span class="line">    int l = 0, r = nums.size() - 1;</span><br><span class="line">    // 两段</span><br><span class="line">    while (l &lt;= r) &#123;</span><br><span class="line">        int mid = l + (r - l) / 2;</span><br><span class="line">        if (nums[mid] == target) return mid;</span><br><span class="line">        if (nums[mid] &gt;= nums[l]) &#123; // 第一段</span><br><span class="line">            if (target &gt;= nums[l] &amp;&amp; target &lt; nums[mid]) &#123;</span><br><span class="line">                r = mid - 1;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                l = mid + 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123; // 第二段</span><br><span class="line">            if (target &gt; nums[mid] &amp;&amp; target &lt;= nums[r]) &#123;</span><br><span class="line">                l = mid + 1;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                r = mid - 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="Search-in-Rotated-Sorted-Array-II"><a href="#Search-in-Rotated-Sorted-Array-II" class="headerlink" title="Search in Rotated Sorted Array II"></a>Search in Rotated Sorted Array II</h4><p>找到target，数组中有重复元素。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">bool search(vector&lt;int&gt;&amp; nums, int target) &#123;</span><br><span class="line">    int l = 0, r = nums.size() - 1;</span><br><span class="line">    while (l &lt;= r) &#123;</span><br><span class="line">        int mid = l + (r - l) / 2;</span><br><span class="line">        if (nums[mid] == target) return true;</span><br><span class="line">        if (nums[l] == nums[r]) &#123;</span><br><span class="line">                ++l;</span><br><span class="line">        &#125; else if (nums[l] &lt;= nums[mid]) &#123;</span><br><span class="line">            if (target &gt;= nums[l] &amp;&amp; target &lt; nums[mid]) &#123;</span><br><span class="line">                r = mid - 1;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                l = mid + 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            if (target &gt; nums[mid] &amp;&amp; target &lt;= nums[r]) &#123;</span><br><span class="line">                l = mid + 1;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                r = mid - 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="Find-Peak-Element"><a href="#Find-Peak-Element" class="headerlink" title="Find Peak Element"></a>Find Peak Element</h4><p>因为-1和n位置都是很小的数字，而且相邻数字不相等，所以肯定存在一个极大值。要注意首尾情况。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">int findPeakElement(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    int n = nums.size();</span><br><span class="line">    if (n == 1) return 0;</span><br><span class="line">    int l = 0, r = n - 1;</span><br><span class="line">    while (l &lt;= r) &#123;</span><br><span class="line">        int mid = l + (r - l) / 2;</span><br><span class="line">        if (mid == 0) &#123;</span><br><span class="line">            if (nums[mid] &gt; nums[mid+1]) return mid;</span><br><span class="line">            else l = mid + 1;</span><br><span class="line">        &#125; else if (mid == n - 1) &#123;</span><br><span class="line">            if (nums[mid] &gt; nums[mid-1]) return mid;</span><br><span class="line">            else r = mid - 1;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            if (nums[mid] &gt; nums[mid-1] &amp;&amp; nums[mid] &gt; nums[mid+1]) &#123;</span><br><span class="line">                return mid;</span><br><span class="line">            &#125; else if (nums[mid] &gt; nums[mid-1]) &#123;</span><br><span class="line">                l = mid + 1;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                r = mid - 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>实际可以将头尾与中间的合并下，简写合并下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">int findPeakElement(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    int n = nums.size();</span><br><span class="line">    if (n == 1) return 0;</span><br><span class="line">    int l = 0, r = n - 1;</span><br><span class="line">    while (l &lt;= r) &#123;</span><br><span class="line">        int mid = l + (r - l) / 2;</span><br><span class="line">        if ((mid == 0 &amp;&amp; nums[mid] &gt; nums[mid+1]) ||</span><br><span class="line">            (mid == n - 1 &amp;&amp; nums[mid] &gt; nums[mid-1]) ||</span><br><span class="line">            (nums[mid] &gt; nums[mid-1] &amp;&amp; nums[mid] &gt; nums[mid+1])) &#123;</span><br><span class="line">                return mid;</span><br><span class="line">        &#125; else if (mid == 0 || nums[mid] &lt; nums[mid+1]) &#123;</span><br><span class="line">            l = mid + 1;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            r = mid - 1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="二维二分搜索"><a href="#二维二分搜索" class="headerlink" title="二维二分搜索"></a>二维二分搜索</h3><h4 id="Search-a-2D-Matrix"><a href="#Search-a-2D-Matrix" class="headerlink" title="Search a 2D Matrix"></a>Search a 2D Matrix</h4><h4 id="Search-a-2D-Matrix-II"><a href="#Search-a-2D-Matrix-II" class="headerlink" title="Search a 2D Matrix II"></a>Search a 2D Matrix II</h4><h3 id="数学方面的二分搜索"><a href="#数学方面的二分搜索" class="headerlink" title="数学方面的二分搜索"></a>数学方面的二分搜索</h3><h4 id="pow-x-n"><a href="#pow-x-n" class="headerlink" title="pow(x, n)"></a>pow(x, n)</h4><h4 id="sqrt-x"><a href="#sqrt-x" class="headerlink" title="sqrt(x)"></a>sqrt(x)</h4><h4 id="Divide-Two-Integers"><a href="#Divide-Two-Integers" class="headerlink" title="Divide Two Integers"></a>Divide Two Integers</h4><h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h4 id="First-Bad-Version"><a href="#First-Bad-Version" class="headerlink" title="First Bad Version"></a>First Bad Version</h4><h4 id="Find-the-Duplicate-Number"><a href="#Find-the-Duplicate-Number" class="headerlink" title="Find the Duplicate Number"></a>Find the Duplicate Number</h4><p>数组中有1到n的数字组成，但是有n+1个数字，根据鸽巢原理肯定有一个是重复的，当然可以利用额外空间hash_table，一遍扫描即可，但是如果不让用额外空间，可以用双层循环，时间复杂度O(n2)，可以用二分搜索来进行优化到O(nlgn),因为数字范围为1–n所以设置上下限分别为1和n，然后二分找到中点，统计这个大于等于这个数字的</p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/24/一日一命令之Linux命令kill/" itemprop="url">
-                  一日一命令之Linux命令kill
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-24T13:46:38+08:00" content="2016-05-24">
-              2016-05-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux基础/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux基础</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/24/一日一命令之Linux命令kill/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/24/一日一命令之Linux命令kill/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="基本命令介绍"><a href="#基本命令介绍" class="headerlink" title="基本命令介绍"></a>基本命令介绍</h2><p>今天学习kill命令，Linux下kill命令是向某个特定进程或者进程组发送指定信号从而结束改进程或者进程组，可以通过man kill查看，如下：<br><img src="/images/LinuxCommand/kill-1.png" alt="&quot;kill&quot;"><br>有两个选项-s是指定要发送的具体信号，比方说kill -7 pid，是向pid进程发送7(BUS)信号，如果没有指定，则默认发送的是SIGTERM信号给给定的进程或者进程组，如果进程没有设置捕捉该信号的逻辑，则终止进程；另外一个选项是-l是列出对应数字的信号名称，比方说kill -l 7列出的是BUS，当然这个可以通过man 7 signal查看。<br><img src="/images/LinuxCommand/kill-2.png" alt="&quot;singal&quot;">   </p>
-<h2 id="程序举例"><a href="#程序举例" class="headerlink" title="程序举例"></a>程序举例</h2><p>下面实现一个处理了SIGTERM的程序，然后运行，在终端输入kill pid，然后观察输出，在终端输入kill -9 pid再查看输出。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/05/24/一日一命令之Linux命令kill/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/24/析构函数竟然可以为纯虚函数！爆炸！！/" itemprop="url">
-                  析构函数竟然可以为纯虚函数！爆炸！！
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-24T08:53:58+08:00" content="2016-05-24">
-              2016-05-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/24/析构函数竟然可以为纯虚函数！爆炸！！/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/24/析构函数竟然可以为纯虚函数！爆炸！！/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>析构函数可以为纯虚函数吗？</p>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>应该是可以的，但是析构函数如果为纯虚函数，你就一定要去实现，因为它的子类的析构顺序是先析构父类再析构自身，如果父类没有实现析构函数，那么它的子类没有办法完成析构。<br>一般来说，纯虚函数都是只声明一个函数而不去实现，留给子类去实现，但是析构函数不一样，因为它和子类的析构息息相关。<br>父类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class HomeElectricDevice</span><br><span class="line">&#123;</span><br><span class="line">    public:</span><br><span class="line">        virtual ~HomeElectricDevice() = 0;</span><br><span class="line">    private:</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>子类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class ElectricFan : public HomeElectricDevice</span><br><span class="line">&#123;</span><br><span class="line">    public:</span><br><span class="line">        ElectricFan() &#123;&#125;</span><br><span class="line">        virtual ~ElectricFan() &#123;&#125;</span><br><span class="line">    private:</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/05/24/析构函数竟然可以为纯虚函数！爆炸！！/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/22/线程池的设计与应用/" itemprop="url">
-                  线程池的设计与应用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-22T17:20:59+08:00" content="2016-05-22">
-              2016-05-22
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/22/线程池的设计与应用/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/22/线程池的设计与应用/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1449,7 +1411,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">38</span>
+              <span class="site-state-item-count">42</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1457,7 +1419,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1466,7 +1428,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-count">29</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
