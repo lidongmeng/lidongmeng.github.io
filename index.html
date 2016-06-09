@@ -1157,6 +1157,25 @@
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/miniftp实战/" itemprop="url" rel="index">
+                    <span itemprop="name">miniftp实战</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -1186,10 +1205,12 @@
 
       
         
-          
-            <p><a href="http://blog.chinaunix.net/uid-8698570-id-1763151.html" target="_blank" rel="external">http://blog.chinaunix.net/uid-8698570-id-1763151.html</a></p>
-
-          
+          <h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2><p>文件的信息最终保存在磁盘上面，而一个磁盘分为一个或者多个分区，每个分区包含一个文件系统，如下图所示：<br><img src="/images/APUE/c4-1.png" alt="&quot;c41&quot;"><br>分区的第一个部分是启动区（自举块），为开机所用，然后是超级区，它存储文件系统相关信息，包括文件系统类型，inode的数目，数据块的数目，对于每一个柱面组：<br><img src="/images/APUE/c4-2.png" alt="&quot;c42&quot;"><br>每个i-节点就是一个对应一个文件/目录的结构，这个结构它包含了一个文件的长度、创建及修改时间、权限、所属关系、磁盘中的位置等信息。可以看到每个i节点包含多个指针，指向属于该文件的各个数据块，当操作系统读取文件时候，需要收集这些指针指向的数据块，然后就可以得到文件。还能看到有两个目录块指向同一个i节点，因为每个i节点有一个连接计数（硬链接），只有当链接计数为0时候才可以删除（unlink不是delete原因）。
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/05/31/miniftp项目实战之文件目录操作命令实现/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1395,7 +1416,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1404,7 +1425,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-count">33</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

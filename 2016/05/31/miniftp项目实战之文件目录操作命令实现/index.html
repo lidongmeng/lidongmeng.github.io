@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="文件系统," />
 
 
 
@@ -57,16 +57,27 @@
 
 
 
-<meta name="description" content="http://blog.chinaunix.net/uid-8698570-id-1763151.html">
+<meta name="description" content="文件系统文件的信息最终保存在磁盘上面，而一个磁盘分为一个或者多个分区，每个分区包含一个文件系统，如下图所示：分区的第一个部分是启动区（自举块），为开机所用，然后是超级区，它存储文件系统相关信息，包括文件系统类型，inode的数目，数据块的数目，对于每一个柱面组：每个i-节点就是一个对应一个文件/目录的结构，这个结构它包含了一个文件的长度、创建及修改时间、权限、所属关系、磁盘中的位置等信息。可以看到">
 <meta property="og:type" content="article">
 <meta property="og:title" content="miniftp项目实战之文件目录操作命令实现">
 <meta property="og:url" content="http://yoursite.com/2016/05/31/miniftp项目实战之文件目录操作命令实现/index.html">
 <meta property="og:site_name" content="DongMengLi">
-<meta property="og:description" content="http://blog.chinaunix.net/uid-8698570-id-1763151.html">
-<meta property="og:updated_time" content="2016-06-02T09:23:08.625Z">
+<meta property="og:description" content="文件系统文件的信息最终保存在磁盘上面，而一个磁盘分为一个或者多个分区，每个分区包含一个文件系统，如下图所示：分区的第一个部分是启动区（自举块），为开机所用，然后是超级区，它存储文件系统相关信息，包括文件系统类型，inode的数目，数据块的数目，对于每一个柱面组：每个i-节点就是一个对应一个文件/目录的结构，这个结构它包含了一个文件的长度、创建及修改时间、权限、所属关系、磁盘中的位置等信息。可以看到">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c4-1.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c4-2.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c4-3.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c4-8.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c4-9.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c4-10.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c4-4.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c4-5.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c4-6.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c4-7.png">
+<meta property="og:updated_time" content="2016-06-09T23:30:44.466Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="miniftp项目实战之文件目录操作命令实现">
-<meta name="twitter:description" content="http://blog.chinaunix.net/uid-8698570-id-1763151.html">
+<meta name="twitter:description" content="文件系统文件的信息最终保存在磁盘上面，而一个磁盘分为一个或者多个分区，每个分区包含一个文件系统，如下图所示：分区的第一个部分是启动区（自举块），为开机所用，然后是超级区，它存储文件系统相关信息，包括文件系统类型，inode的数目，数据块的数目，对于每一个柱面组：每个i-节点就是一个对应一个文件/目录的结构，这个结构它包含了一个文件的长度、创建及修改时间、权限、所属关系、磁盘中的位置等信息。可以看到">
+<meta name="twitter:image" content="http://yoursite.com/images/APUE/c4-1.png">
 
 
 
@@ -252,6 +263,25 @@
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/miniftp实战/" itemprop="url" rel="index">
+                    <span itemprop="name">miniftp实战</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -280,7 +310,40 @@
       
 
       
-        <p><a href="http://blog.chinaunix.net/uid-8698570-id-1763151.html" target="_blank" rel="external">http://blog.chinaunix.net/uid-8698570-id-1763151.html</a></p>
+        <h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2><p>文件的信息最终保存在磁盘上面，而一个磁盘分为一个或者多个分区，每个分区包含一个文件系统，如下图所示：<br><img src="/images/APUE/c4-1.png" alt="&quot;c41&quot;"><br>分区的第一个部分是启动区（自举块），为开机所用，然后是超级区，它存储文件系统相关信息，包括文件系统类型，inode的数目，数据块的数目，对于每一个柱面组：<br><img src="/images/APUE/c4-2.png" alt="&quot;c42&quot;"><br>每个i-节点就是一个对应一个文件/目录的结构，这个结构它包含了一个文件的长度、创建及修改时间、权限、所属关系、磁盘中的位置等信息。可以看到每个i节点包含多个指针，指向属于该文件的各个数据块，当操作系统读取文件时候，需要收集这些指针指向的数据块，然后就可以得到文件。还能看到有两个目录块指向同一个i节点，因为每个i节点有一个连接计数（硬链接），只有当链接计数为0时候才可以删除（unlink不是delete原因）。 <a id="more"></a><br>再看一下目录项，如下图所示：<br><img src="/images/APUE/c4-3.png" alt="&quot;c43&quot;"><br>一个目录的链接计数至少为2，是..（命名该目录的目录项）和该目录中的.<br>所以可以才想到，系统创建一个文件时候需要作如下操作：<br>1、内核首先找到一个空的i节点，然后把文件的信息记录其中；<br>2、存储文件信息，看文件需要几个数据块，内核从自由数据块中找到相应数目的数据块，然后将相应数据写入到数据块中；<br>3、 建立i节点和数据块的对应关系，将i节点的指针指向数据块；<br>4、 添加文件名到目录，即在目录项中添加一个记录。<br>而创建一个目录只有第二步不太一样，目录创建时候找到数据块后，存储目录内容，目录内容比较特殊，是文件名字列表，包含i节点号和文件名，系统就是通过这个列表找到文件的，新建的目录至少包含..指向父目录和.指向当前目录两个项目。<br>所以总体来说，目录包含的是文件的引用，每个引用被称为链接。文件的内容存储在数据块。文件的属性被记录在一个被称为i-节点的结构中。I-节点的编号和文件名关联起来存在目录中。</p>
+<h2 id="i节点"><a href="#i节点" class="headerlink" title="i节点"></a>i节点</h2><p>储存文件的元信息，比如文件的创建者、文件的创建日期、文件的大小等等。这种储存文件元信息的区域就叫做inode，可以通过stat命令查看inode。</p>
+<h3 id="stat系列函数"><a href="#stat系列函数" class="headerlink" title="stat系列函数"></a>stat系列函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int stat(const char *restrict path, struct stat *restrict buf);</span><br><span class="line">int fstat(int fildes, struct stat *buf);</span><br><span class="line">int lstat(const char *restrict path, struct stat *restrict buf);</span><br><span class="line">int fstatat(int fd, const char *path, struct stat *buf, int flag);</span><br></pre></td></tr></table></figure>
+<p>1、stat函数获得路径指向的文件的信息，存储到buf里面，而lstat和它区别在于如果是链接文件，返回链接本身信息，而stat是链接指向的文件信息。<br>2、 fstat获取已经打开的文件描述符的信息，fstatat是相对于当前目录的路径名返回文件信息。<br>struct stat结构体是一个inode的详细信息的存储地方：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/stat.h&gt;</span><br><span class="line">struct stat &#123;</span><br><span class="line">    mode_t st_mode; // 文件类型和权限</span><br><span class="line">    ino_t st_ino; // inode number</span><br><span class="line">    dev_t st_dev; // 设备名称</span><br><span class="line">    nlink_t st_nlink; // 硬链接数目</span><br><span class="line">    uid_t st_uid; // 所属用户id</span><br><span class="line">    gid_t st_gid; // 所属用户组id</span><br><span class="line">    off_t st_size; // 文件大小</span><br><span class="line">    struct timespec st_atime; // access时间最后一次访问时间</span><br><span class="line">    struct timespec st_mtime; // 最后一次更改时间</span><br><span class="line">    struct timespec st_ctime; // 最后一次文件状态改变时间</span><br><span class="line">    blksize_t st_blksize; </span><br><span class="line">    blkcnt_t st_blocks;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="st-mode"><a href="#st-mode" class="headerlink" title="st_mode"></a>st_mode</h3><p>st_mode是一个mode_t(32bit)的类型，前16位作为扩展用，接下来是文件类型，最后的9个位置是文件权限。</p>
+<h4 id="文件类型"><a href="#文件类型" class="headerlink" title="文件类型"></a>文件类型</h4><p>文件类型有普通文件，目录文件，块特殊文件，字符特殊文件，FIFO，套接字，符号链接等其中类型，可以用宏进行判定：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#define S_ISBLK(m)      (((m) &amp; S_IFMT) == S_IFBLK)    /* block special */</span><br><span class="line">#define S_ISCHR(m)      (((m) &amp; S_IFMT) == S_IFCHR)    /* char special */</span><br><span class="line">#define S_ISDIR(m)      (((m) &amp; S_IFMT) == S_IFDIR)    /* directory */</span><br><span class="line">#define S_ISFIFO(m)     (((m) &amp; S_IFMT) == S_IFIFO)    /* fifo or socket */</span><br><span class="line">#define S_ISREG(m)      (((m) &amp; S_IFMT) == S_IFREG)    /* regular file */</span><br><span class="line">#define S_ISLNK(m)      (((m) &amp; S_IFMT) == S_IFLNK)    /* symbolic link */</span><br><span class="line">#define S_ISSOCK(m)     (((m) &amp; S_IFMT) == S_IFSOCK)   /* socket */</span><br></pre></td></tr></table></figure></p>
+<h4 id="文件权限"><a href="#文件权限" class="headerlink" title="文件权限"></a>文件权限</h4><p>每个文件有九个权限位：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">S_IRUSR 用户读   S_IWUSR 用户写   S_IXUSR 用户执行</span><br><span class="line">S_IRGRP 组读     S_IWGRP 组写     S_IXGRP 组执行</span><br><span class="line">S_IROTH 其他读   S_IWOTH 其他写   S_IXOTH 其他执行</span><br></pre></td></tr></table></figure></p>
+<p>打开一个文件时候，要对改名字包含的每一层目录都必须有执行权限，所以目录的执行权限位也叫搜索位，是进入该目录打开目录中文件的一个前提，目录的读权限允许我们读取目录下的文件列表，执行权限使我们找到目录下一个特定的文件名字。<br>打开，创建删除文件时候都要进行权限位的测试：如果是root用户，则允许访问；如果进程有效用户ID和文件所有者ID一样，则按照相应权限来测试；如果进程的有效组ID和文件组ID一样，按照组的相应权限来测试；最后看其他的权限。</p>
+<h5 id="文件权限相关的函数"><a href="#文件权限相关的函数" class="headerlink" title="文件权限相关的函数"></a>文件权限相关的函数</h5><h6 id="访问权限测试函数族"><a href="#访问权限测试函数族" class="headerlink" title="访问权限测试函数族"></a>访问权限测试函数族</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int access(const char *path, int amode);</span><br><span class="line">int faccessat(int fd, const char *path, int mode, int flag);</span><br></pre></td></tr></table></figure>
+<p>这两个函数测试的是实际用户ID和实际组ID，faccessat函数更加强大，既可以测试实际用户ID，也可以测试有效用户ID，除非是少数情况，大部分都是使用faccessat函数.</p>
+<h6 id="掩码函数umask"><a href="#掩码函数umask" class="headerlink" title="掩码函数umask"></a>掩码函数umask</h6><p><code>mode_t umask(mode_t cmask);</code><br>umask函数设置系统的屏蔽字，然后返回之前的屏蔽字。</p>
+<h6 id="文件权限修改函数族"><a href="#文件权限修改函数族" class="headerlink" title="文件权限修改函数族"></a>文件权限修改函数族</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int chmod(const char *path, mode_t mode);</span><br><span class="line">int fchmod(int fildes, mode_t mode);</span><br><span class="line">int chmodat(int fd, const char *path, mode_t mode, int flag);</span><br></pre></td></tr></table></figure>
+<p>第三个chmodat函数多了一个flag参数以外，其余和chmod函数都是一样的。正如前面的一些函数，flag参数只有一个参数可用AT_SYMLINK_NOFOLLOW，用于确认是否跟随链接。当flag为0的时候，和其他两个函数等价.为改变权限位，必须进程的有效用户ID必须等于文件所有者ID.  </p>
+<h3 id="用户ID和组ID"><a href="#用户ID和组ID" class="headerlink" title="用户ID和组ID"></a>用户ID和组ID</h3><p>st_uid和st_gid分别是文件的所有者id和组所有者ID.</p>
+<h4 id="更改组id和用户id"><a href="#更改组id和用户id" class="headerlink" title="更改组id和用户id"></a>更改组id和用户id</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int chown(const char *path, uid_t owner, gid_t group);</span><br><span class="line">int fchown(int fildes, uid_t owner, gid_t group);</span><br><span class="line">int lchown(const char *path, uid_t owner, gid_t group);</span><br><span class="line">int fchownat(int fd, const char *path, uid_t owner, gid_t group, int flag);</span><br></pre></td></tr></table></figure>
+<h3 id="文件长度"><a href="#文件长度" class="headerlink" title="文件长度"></a>文件长度</h3><p>st_size是以字节为单位的文件长度，只有普通文件，目录文件和符号链接才有意义。<br>文件空洞是所设置的偏移量超过了文件尾端，并写入某些数据后生成了空洞，</p>
+<h3 id="文件截断"><a href="#文件截断" class="headerlink" title="文件截断"></a>文件截断</h3><p>在很多时候，开发者需要将文件截断一部分用于缩短文件。一个很典型的案例就是将文件截断为0，也就是使用O_TRUNC参数打开文件，但是系统也提供了两个函数用于文件的截断。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int truncate(const char *path, off_t length);</span><br><span class="line">int ftruncate(int fildes, off_t length);</span><br></pre></td></tr></table></figure></p>
+<p>这两个函数可以将文件截断也可以扩展，如果length大于文件长度，那么就会扩展当前的文件，并且扩展的空间将以文件空洞的形式存在。而且注意，这两个函数不会修改当前文件的偏移量，如果不注意这一点，很有可能造成偏移量超出了新的文件长度，从而形成空洞。</p>
+<h3 id="文件时间"><a href="#文件时间" class="headerlink" title="文件时间"></a>文件时间</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">st_atime    文件的最后访问时间   read    -u</span><br><span class="line">st_mtime    文件的最后修改时间   write   默认</span><br><span class="line">st_ctime    inode块状态的最后更改时间 chmod、chown -c</span><br></pre></td></tr></table></figure>
+<h2 id="硬链接和符号链接"><a href="#硬链接和符号链接" class="headerlink" title="硬链接和符号链接"></a>硬链接和符号链接</h2><p>硬链接是指向同一个i节点，符号链接是单独占用一个i节点然后该i节点指向相应的实际的i节点。如下图所示：<br><img src="/images/APUE/c4-8.png" alt="&quot;c48&quot;"></p>
+<h3 id="硬链接"><a href="#硬链接" class="headerlink" title="硬链接"></a>硬链接</h3><p>可以使用ln命令或者link函数创建一个硬链接：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">int link( const char *path1, const char *path2 );</span><br></pre></td></tr></table></figure></p>
+<p>硬链接本身就是一个目录项，（比如文件名+索引节点号）,硬链接只是建立一个目录项（包括inode号和文件名），这个目录项的inode号和被链接文件的inode号相同，并不重新分配inode。如下图所示：<br><img src="/images/APUE/c4-9.png" alt="&quot;c49&quot;"></p>
+<h3 id="软链接"><a href="#软链接" class="headerlink" title="软链接"></a>软链接</h3><p>可以使用ln -s选项或者symlink来创建符号链接：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">int symlink ( const char *path1, const char *path2);</span><br></pre></td></tr></table></figure></p>
+<p>符号链接是一个包含了另一个文件或目录名字的文件。引用符号链接的名字会使操作系统去定位对应于那个链接的索引节点，知道最终遇到一个硬间接和一个真正的文件为止。如果过了一段时间，系统没有找到文件，则放弃并返回ELOOP错误。<br>符号链接，将建立一个文件，所以要占用一个inode节点，在这个inode节点中，存放了指向被链接文件的路径字符串,如下图所示：<br><img src="/images/APUE/c4-10.png" alt="&quot;c410&quot;"></p>
+<h2 id="目录相关函数"><a href="#目录相关函数" class="headerlink" title="目录相关函数"></a>目录相关函数</h2><h3 id="创建和删除目录"><a href="#创建和删除目录" class="headerlink" title="创建和删除目录"></a>创建和删除目录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int mkdir(const char *path, mode_t mode);</span><br><span class="line">int mkdirat(int fd, const char *path, mode_t mode);</span><br><span class="line">int rmdir(const char *path);</span><br></pre></td></tr></table></figure>
+<p>创建目录时候要设置执行权限，不然无法搜索到相应的目录下的文件。删除目录时候，如果链接计数为0并且没有别的进程打开该目录，则返回前删除最后一个链接以及.和..项。</p>
+<h3 id="读目录"><a href="#读目录" class="headerlink" title="读目录"></a>读目录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">DIR *opendir(const char *filename);</span><br><span class="line">DIR *fdopendir(int fd);</span><br><span class="line"></span><br><span class="line">struct dirent *readdir(DIR *dirp);</span><br><span class="line">long telldir(DIR *dirp);</span><br><span class="line">void seekdir(DIR *dirp, long loc);</span><br><span class="line">void rewinddir(DIR *dirp);</span><br><span class="line">int closedir(DIR *dirp);</span><br></pre></td></tr></table></figure>
+<p>opendir根据路径名字返回DIR结构，然后readdir函数返回下一个目录项的指针，直到最终到底部返回null。telldir是查询偏移量，seekdir是设置偏移量,rewinddir是将偏移量放到最开始，closedir就是关闭目录。另外struct dirent的结构包含相应的文件名字。</p>
+<h3 id="改变当前工作目录"><a href="#改变当前工作目录" class="headerlink" title="改变当前工作目录"></a>改变当前工作目录</h3><p>工作目录是进程的一个属性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int chdir(const char *path);</span><br><span class="line">int fchdir(int fildes);</span><br><span class="line">char *getcwd(char *buf, size_t size);</span><br><span class="line">char *getwd(char *buf);</span><br></pre></td></tr></table></figure></p>
+<p>前两个用新的文件路径来指示当前工作目录，后两个获得当前工作目录，并且buf的长度必须足够容纳文件名字长度加上1.</p>
+<h2 id="shell命令中关于文件目录指令"><a href="#shell命令中关于文件目录指令" class="headerlink" title="shell命令中关于文件目录指令"></a>shell命令中关于文件目录指令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">basename：从文件名中去掉路径和扩展名</span><br><span class="line">cd：切换当前工作目录到指定目录</span><br><span class="line">chgrp：改变文件所属组</span><br><span class="line">chmod：改变文件的权限</span><br><span class="line">chown：改变文件的所有者和组</span><br><span class="line">cp：复制文件或目录</span><br><span class="line">dd：复制文件并转换文件内容</span><br><span class="line">file：确定文件类型</span><br><span class="line">find：在指定目录下查找文件并执行指定的操作</span><br><span class="line">ln：创建文件链接</span><br><span class="line">locate/slocate：快速定位文件的路径</span><br><span class="line">ls/dir/vdir：显示目录内容</span><br><span class="line">mkdir：创建目录</span><br><span class="line">mv：移动或重命名文件</span><br><span class="line">pwd：显示当前工作目录</span><br><span class="line">rename：重命名文件</span><br><span class="line">rm：删除文件或目录</span><br><span class="line">rmdir：删除空目录</span><br><span class="line">touch：修改文件的时间属性</span><br><span class="line">updatedb：创建或更新slocate数据库</span><br><span class="line">whereis：显示指令程序、源代码和man手册页</span><br><span class="line">which：显示指令的绝对路径</span><br></pre></td></tr></table></figure>
+<h2 id="ftp服务器实现方面关于目录操作的命令"><a href="#ftp服务器实现方面关于目录操作的命令" class="headerlink" title="ftp服务器实现方面关于目录操作的命令"></a>ftp服务器实现方面关于目录操作的命令</h2><p>CWD/XCWD改变工作目录(cd)；CDUP/XCUP回到上一层目录(cd ..)<br>LIST(ls -l)；NLIST(ls)<br>PWD/XPWD获得当前目录pwd；MKD/XMKD新建文件夹mkdir；RMD/XRMD删除文件夹rm<br>DELE删除文件rm；RNTR-RNTO重命名文件；SITE CHMOD(UMASK)改变文件权限chmod mode name；SIZE获得文件大小</p>
+<h2 id="ls命令的实现"><a href="#ls命令的实现" class="headerlink" title="ls命令的实现"></a>ls命令的实现</h2><p>由于ftp中LIST命令和NLIST命令要返回当前目录下的文件信息，相当于ls (-al)命令实现，所以，这里实现一个ls命令，大概步骤是：首先打开当前目录，查看当前目录是文件还是目录，是文件利用stat函数获取相应的文件名字，用户id，文件大小，权限位等信息，然后输出；如果是目录，则利用readdir一个一个遍历目录下的所有文件，然后利用stat函数获取每一个的信息输出，具体程序如下：<br>读目录：<br><img src="/images/APUE/c4-4.png" alt="&quot;c44&quot;"><br>列出一个文件的所有信息：<br><img src="/images/APUE/c4-5.png" alt="&quot;c45&quot;"><br><img src="/images/APUE/c4-6.png" alt="&quot;c46&quot;"><br>运行结果：<br><img src="/images/APUE/c4-7.png" alt="&quot;c47&quot;"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://blog.chinaunix.net/uid-8698570-id-1763151.html" target="_blank" rel="external">http://blog.chinaunix.net/uid-8698570-id-1763151.html</a><br>APUE第四章<br><a href="http://www.ibm.com/developerworks/cn/linux/l-cn-hardandsymb-links/" target="_blank" rel="external">http://www.ibm.com/developerworks/cn/linux/l-cn-hardandsymb-links/</a><br><a href="http://www.cnblogs.com/justinzhang/archive/2011/07/18/2109671.html" target="_blank" rel="external">http://www.cnblogs.com/justinzhang/archive/2011/07/18/2109671.html</a></p>
 
       
     </div>
@@ -298,6 +361,12 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/文件系统/" rel="tag">#文件系统</a>
+          
+        </div>
       
 
       
@@ -413,7 +482,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -422,7 +491,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-count">33</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -486,7 +555,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件系统"><span class="nav-number">1.</span> <span class="nav-text">文件系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#i节点"><span class="nav-number">2.</span> <span class="nav-text">i节点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#stat系列函数"><span class="nav-number">2.1.</span> <span class="nav-text">stat系列函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#st-mode"><span class="nav-number">2.2.</span> <span class="nav-text">st_mode</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#文件类型"><span class="nav-number">2.2.1.</span> <span class="nav-text">文件类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文件权限"><span class="nav-number">2.2.2.</span> <span class="nav-text">文件权限</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#文件权限相关的函数"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">文件权限相关的函数</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#访问权限测试函数族"><span class="nav-number">2.2.2.1.1.</span> <span class="nav-text">访问权限测试函数族</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#掩码函数umask"><span class="nav-number">2.2.2.1.2.</span> <span class="nav-text">掩码函数umask</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#文件权限修改函数族"><span class="nav-number">2.2.2.1.3.</span> <span class="nav-text">文件权限修改函数族</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户ID和组ID"><span class="nav-number">2.3.</span> <span class="nav-text">用户ID和组ID</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#更改组id和用户id"><span class="nav-number">2.3.1.</span> <span class="nav-text">更改组id和用户id</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件长度"><span class="nav-number">2.4.</span> <span class="nav-text">文件长度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件截断"><span class="nav-number">2.5.</span> <span class="nav-text">文件截断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件时间"><span class="nav-number">2.6.</span> <span class="nav-text">文件时间</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬链接和符号链接"><span class="nav-number">3.</span> <span class="nav-text">硬链接和符号链接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#硬链接"><span class="nav-number">3.1.</span> <span class="nav-text">硬链接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软链接"><span class="nav-number">3.2.</span> <span class="nav-text">软链接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目录相关函数"><span class="nav-number">4.</span> <span class="nav-text">目录相关函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建和删除目录"><span class="nav-number">4.1.</span> <span class="nav-text">创建和删除目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读目录"><span class="nav-number">4.2.</span> <span class="nav-text">读目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#改变当前工作目录"><span class="nav-number">4.3.</span> <span class="nav-text">改变当前工作目录</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shell命令中关于文件目录指令"><span class="nav-number">5.</span> <span class="nav-text">shell命令中关于文件目录指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ftp服务器实现方面关于目录操作的命令"><span class="nav-number">6.</span> <span class="nav-text">ftp服务器实现方面关于目录操作的命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ls命令的实现"><span class="nav-number">7.</span> <span class="nav-text">ls命令的实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">8.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
           </div>
         </section>
