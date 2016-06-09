@@ -236,6 +236,580 @@
             
               
                 
+                <a class="post-title-link" href="/2016/05/20/C-11中的智能指针/" itemprop="url">
+                  C++11中的智能指针
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-20T16:45:54+08:00" content="2016-05-20">
+              2016-05-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/20/C-11中的智能指针/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/20/C-11中的智能指针/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/20/Leetcode-Count-of-Smaller-Numbers-After-Self/" itemprop="url">
+                  Leetcode--Count of Smaller Numbers After Self
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-20T15:02:17+08:00" content="2016-05-20">
+              2016-05-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/20/Leetcode-Count-of-Smaller-Numbers-After-Self/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/20/Leetcode-Count-of-Smaller-Numbers-After-Self/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>一个无序数组，查找每个元素后面有几个元素比它小，即统计每一个位置i，使得i小于j但是nums[i] &gt; nums[j]的个数。</p>
+<h2 id="naive-解法"><a href="#naive-解法" class="headerlink" title="naive 解法"></a>naive 解法</h2><p>O(n2)轻松搞定，遍历每一个数，然后统计后面的数字小于该元素的数字的个数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;int&gt; countSmaller(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    vector&lt;int&gt; result;</span><br><span class="line">    int n = nums.size();</span><br><span class="line">    for (int i = 0; i &lt; n; ++i) &#123;</span><br><span class="line">        int cnt = 0;</span><br><span class="line">        for (int j = i + 1; j &lt; n; ++j) cnt += (nums[j] &lt; nums[i]) ? 1 : 0;</span><br><span class="line">        result.push_back(cnt);</span><br><span class="line">    &#125;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当然这种方式肯定不是最优解了，肯定会超时的。</p>
+<h2 id="进一步思考"><a href="#进一步思考" class="headerlink" title="进一步思考"></a>进一步思考</h2>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/05/20/Leetcode-Count-of-Smaller-Numbers-After-Self/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/17/Maximum-Gap-无序数组的最大间隔/" itemprop="url">
+                   Maximum Gap--无序数组的最大间隔
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-17T17:02:41+08:00" content="2016-05-17">
+              2016-05-17
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/17/Maximum-Gap-无序数组的最大间隔/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/17/Maximum-Gap-无序数组的最大间隔/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>一个无序数组，求它的有序模式下的相邻数字之间的最大差。</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>首先看到题目，第一想法肯定好简单，排个序，然后相邻相减即可，当然这样的复杂度是排序的复杂度o(nlogn)，但是题目中要求使用线性复杂度。呢么就只能在排序的基础上面进行优化，而线性时间的排序只有三种计数排序(count sort)，基数排序(radix sort)以及桶排序(bucket sort),计数排序这里显然不太合适，本文讲述基数排序和桶排序两种做法。</p>
+<h2 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h2><p>桶排序是说将数字分到n个不同的桶中，然后对每个桶进行排序，具体见专门讲桶排序的呢篇文章吧.<br>这里由于要求得是最大间隔，所以我们可以将桶的个数分为n-1个，每个桶里面存放[min+(k-1)*gap, min+k*gap)区间的数，最小的数和最大的数都不放到桶里，这样就有n-2个数字放到n-1个桶里，每个桶里面的数字的最大间隔不大于gap，由于只有n-2个数字，所以得到的桶肯定有一个是空的，呢么最大间隔产生肯定在不同桶之间，可以不断扫描求得即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">int maximumGap(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    int n = nums.size();</span><br><span class="line">    if (n &lt; 2) return 0;</span><br><span class="line">    int maxNum = INT_MIN, minNum = INT_MAX;</span><br><span class="line">    for (int i = 0; i &lt; n; ++i) &#123;</span><br><span class="line">        maxNum = max(nums[i], maxNum);</span><br><span class="line">        minNum = min(nums[i], minNum);</span><br><span class="line">    &#125;</span><br><span class="line">    int gap = ceil((maxNum - minNum)*1.0 / (n - 1)); </span><br><span class="line">    vector&lt;int&gt; maxVec(n-1, INT_MIN);</span><br><span class="line">    vector&lt;int&gt; minVec(n-1, INT_MAX);</span><br><span class="line">    for (int i = 0; i &lt; n; ++i) &#123;</span><br><span class="line">        if (nums[i] == minNum || nums[i] == maxNum) &#123;</span><br><span class="line">            continue;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            int index = (nums[i] - minNum) / gap;</span><br><span class="line">            maxVec[index] = max(maxVec[index], nums[i]);</span><br><span class="line">            minVec[index] = min(minVec[index], nums[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    int prev = minNum;</span><br><span class="line">    int maxGap = 0;</span><br><span class="line">    for (int i = 0; i &lt; n-1; ++i) &#123;</span><br><span class="line">        if (minVec[i] == INT_MAX ) continue;</span><br><span class="line">        maxGap = max(maxGap, minVec[i] - prev);</span><br><span class="line">        prev = maxVec[i];</span><br><span class="line">    &#125;</span><br><span class="line">    maxGap = max(maxGap, maxNum-prev);</span><br><span class="line">    return maxGap;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h2><p>基数排序有两种，一种是LSB，一种是MSB。先进行排序，排序后扫描一遍即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">void radixSort(vector&lt;int&gt;&amp; X, int exp, int base)&#123;</span><br><span class="line">    int len = X.size();</span><br><span class="line">    int start = INT_MAX, end = INT_MIN;</span><br><span class="line">    for (int i = 0; i &lt; len; i++)&#123;</span><br><span class="line">        start = min(start, (X[i] / exp)%base);</span><br><span class="line">        end = max(end, (X[i] / exp) % base);</span><br><span class="line">    &#125;</span><br><span class="line">    int range = end - start + 1;</span><br><span class="line">    vector&lt;int&gt; count(range, 0);</span><br><span class="line">    vector&lt;int&gt; result(len, 0);</span><br><span class="line">    for (int i = 0; i &lt; len; i++)&#123;</span><br><span class="line">        count[(X[i] / exp) % base -start]++;</span><br><span class="line">    &#125;</span><br><span class="line">    for (int i = 1; i &lt; range; i++)&#123;</span><br><span class="line">        count[i] = count[i - 1] + count[i];</span><br><span class="line">    &#125;</span><br><span class="line">    //back-ward traverse is stable sorting</span><br><span class="line">    for (int i = len - 1; i &gt;= 0; i--)&#123;</span><br><span class="line">        //as we know that the count array recorded element should &apos;-1&apos; to get the index</span><br><span class="line">        result[count[(X[i] / exp) % base -start] - 1] = X[i];</span><br><span class="line">        count[(X[i] / exp) % base - start]--;</span><br><span class="line">    &#125;</span><br><span class="line">    for (int i = 0; i &lt; len; i++)&#123;</span><br><span class="line">        X[i] = result[i];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://leetcode.com/discuss/18499/bucket-sort-java-solution-with-explanation-o-time-and-space" target="_blank" rel="external">https://leetcode.com/discuss/18499/bucket-sort-java-solution-with-explanation-o-time-and-space</a></p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/13/设计模式之简单工厂模式/" itemprop="url">
+                  设计模式之简单工厂模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-13T09:46:51+08:00" content="2016-05-13">
+              2016-05-13
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/13/设计模式之简单工厂模式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/13/设计模式之简单工厂模式/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/10/leetcode-Number-of-digit-1/" itemprop="url">
+                  leetcode--Number of digit 1
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-10T09:52:14+08:00" content="2016-05-10">
+              2016-05-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/10/leetcode-Number-of-digit-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/10/leetcode-Number-of-digit-1/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>题目描述很简单，求不大于N的所有数字中的1的个数的和，举个例子：<br>n=13, 返回6.(1, 10, 11, 12, 13，一共有6个1)</p>
+<h2 id="naive解法"><a href="#naive解法" class="headerlink" title="naive解法"></a>naive解法</h2><p>暴力求解，依次遍历每一个数字，求取它所包含的1的个数，然后求和，时间复杂度O(n*数字的位数)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">int numOf1(string s) &#123;</span><br><span class="line">    int result = 0;</span><br><span class="line">    for (int i = 0; i &lt; s.size(); ++i) &#123;</span><br><span class="line">        result += (s[i] == &apos;1&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int countDigitOne(int n) &#123;</span><br><span class="line">   int result = 0;</span><br><span class="line">   for (int i = 1; i &lt; n; ++i) &#123;</span><br><span class="line">        result += numOf1(to_string(i));</span><br><span class="line">   &#125;</span><br><span class="line">   return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="一位一位计算"><a href="#一位一位计算" class="headerlink" title="一位一位计算"></a>一位一位计算</h2><p>上述暴力解法是无奈之举，但是我们细心的想一下，实际可以针对数字的每一位计算这一位上面1可以有多少个，而每一位上面数字可以分为三种情况(设a是这一位左边的所有数字，b是这一位右边的数字，m当前位数对应的因子)：   </p>
+<ol>
+<li>等于0，如果这一位等于0，比方说32012这个数字的百位上面为0，求这一位上面的1的个数，实际为：00(1)<00--99>,01(1)<00-99>,…,31(1)<00,99>可以看出来是a*m；  </00,99></00-99></00--99></li>
+<li>等于1，这一位为1，当然覆盖了上述等于0的情况，但是还要加上低位上面的数字，比方说32112这个数字，百位上为1，计算百位上面数字的个数，可以为：00(1)<00-99>,01(1)<00-99>,…,31(1)<00-99>,32(1)<00-12>，在最后的高位为32情况下不是100个1，而是取决于低位上面的数字范围，这里是13个，所以为a*m + (b + 1);  </00-12></00-99></00-99></00-99></li>
+<li>大于等于2时候，假设为32212，则从上面可知：00(1)<00-99>,01<1>(00-99),…,32(1)<00-99>，所以为(a + 1) * m.<br>所以综上面分析可以得到程序：  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">int countDigitOne(int n) &#123;</span><br><span class="line">   int m = 1, r = 1, result = 0;</span><br><span class="line">   while (n &gt; 0) &#123;</span><br><span class="line">        int a = n / 10, b = n % 10;</span><br><span class="line">        if (b &gt;= 2) result += (a + 1) * m;</span><br><span class="line">        else result += a * m + (b == 1) * r;</span><br><span class="line">        r += (n % 10) * m;</span><br><span class="line">        m *= 10;</span><br><span class="line">        n /= 10;</span><br><span class="line">   &#125;</span><br><span class="line">   return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</00-99></1></00-99></li>
+</ol>
+<p>实质上可以不需要这么多判断，因为这一位的区别是0,1,&gt;=2,所以如果当前数字是n,左边数字a=n/10，呢么(n+8)/10就可以替代a和a+1,所以程序变为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">int countDigitOne(int n) &#123;</span><br><span class="line">   int m = 1, r = 1, result = 0;</span><br><span class="line">   while (n &gt; 0) &#123;</span><br><span class="line">        result += (n + 8) / 10 * m + (n % 10 == 1) * r;</span><br><span class="line">        r += (n % 10) * m;</span><br><span class="line">        m *= 10;</span><br><span class="line">        n /= 10;</span><br><span class="line">   &#125;</span><br><span class="line">   return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://leetcode.com/discuss/44281/4-lines-o-log-n-c-java-python" target="_blank" rel="external">https://leetcode.com/discuss/44281/4-lines-o-log-n-c-java-python</a></p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/05/08/STL源码学习之内存配置/" itemprop="url">
                   STL源码学习之内存配置
                 </a>
@@ -821,551 +1395,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/25/链表是否存在环问题/" itemprop="url">
-                  链表是否存在环问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-25T21:59:29+08:00" content="2016-04-25">
-              2016-04-25
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/25/链表是否存在环问题/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/25/链表是否存在环问题/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="判断链表是否有环及其证明"><a href="#判断链表是否有环及其证明" class="headerlink" title="判断链表是否有环及其证明"></a>判断链表是否有环及其证明</h2><p>利用快慢指针，快指针每次走两步，慢指针每次走一步，如果相遇则有环。  </p>
-<h3 id="算法证明"><a href="#算法证明" class="headerlink" title="算法证明"></a>算法证明</h3><p>如下图：<br><img src="/images/14/01.png" alt="&quot;有环链表&quot;"><br>从开始节点到环的开始节点之间的距离是m，设环的长度是n，当慢指针走到环的开始位置时候，快指针这时候走到环中m%n的位置，假设他们能够相遇，并且假设是在慢指针进入环t步之后相遇的，呢么此时:<br>慢指针的位置：m + t%n<br>快指针的位置：m + (m + 2*t)%n<br>相遇表明m + t%n = m + (m + 2*t)%n，所以可以得到(m+t)%n = 0;<br>由于m是正整数，n也是正整数，而且是固定的，所以肯定存在一个t使得上式成立并且：t = n*p - m(p是走过的圈数).</p>
-<h3 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">bool hasCycle(ListNode *head) &#123;</span><br><span class="line">    if (!head || !head-&gt;next) return false; </span><br><span class="line">    ListNode * fast = head;</span><br><span class="line">    ListNode * slow = head;</span><br><span class="line">    while (fast-&gt;next &amp;&amp; fast-&gt;next-&gt;next) &#123;</span><br><span class="line">        fast = fast-&gt;next-&gt;next;</span><br><span class="line">        slow = slow-&gt;next;</span><br><span class="line">        if (fast == slow) return true;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/04/25/链表是否存在环问题/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/24/最长等差子数列长度/" itemprop="url">
-                  最长等差子序列长度
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-24T11:56:43+08:00" content="2016-04-24">
-              2016-04-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/24/最长等差子数列长度/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/24/最长等差子数列长度/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>一个无序数组，求它的最长的等差子序列的长度。</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>首先题目并没有说得到的等差子序列要和原数组中的位置是否一致，所以要分两种情况来进行分析。</p>
-<h3 id="等差子序列要和原数组元素位置一致"><a href="#等差子序列要和原数组元素位置一致" class="headerlink" title="等差子序列要和原数组元素位置一致"></a>等差子序列要和原数组元素位置一致</h3><p>我们可以构造一个map，key是等差数列的d,而value是两个index，开始位置i和结束位置j，并且保证i小于j，然后对这个map进行扫描，对每一个d，先对后面的数组按照开始位置i进行排序，然后顺序查找，下一个的j等于上一个的i表示能够连接起来，</p>
-<h3 id="等差子序列不一定和原数组元素位置一致"><a href="#等差子序列不一定和原数组元素位置一致" class="headerlink" title="等差子序列不一定和原数组元素位置一致"></a>等差子序列不一定和原数组元素位置一致</h3><h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><p>leetcode有一道题目求最长连续子序列的长度。(1，2，3叫做连续，1，2，4不叫连续)<br>首先，你当然可以先排序，然后去遍历，但是时间复杂度O(nlgn);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">int longestConsecutive(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    sort(nums.begin(), nums.end());</span><br><span class="line">    nums.erase(unique(nums.begin(), nums.end()), nums.end());</span><br><span class="line">    int start = 0, index = 0;</span><br><span class="line">    int n = nums.size(), result = INT_MIN;</span><br><span class="line">    while (index &lt; n) &#123;</span><br><span class="line">        start = index;</span><br><span class="line">        while (index+1 &lt; n &amp;&amp; nums[index+1] == nums[index] + 1) ++index;</span><br><span class="line">        result = max(result, index-start+1);</span><br><span class="line">        ++index;</span><br><span class="line">    &#125;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>是否可以用O(n)的时间复杂度来做？这时候就要用额外的空间来存储当前数字能够到达的边界位置。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://codercareer.blogspot.com/2014/03/no-53-longest-arithmetic-sequence.html" target="_blank" rel="external">http://codercareer.blogspot.com/2014/03/no-53-longest-arithmetic-sequence.html</a><br><a href="https://leetcode.com/problems/longest-consecutive-sequence/" target="_blank" rel="external">https://leetcode.com/problems/longest-consecutive-sequence/</a></p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/21/fork的一道面试题目解析/" itemprop="url">
-                  fork的一道面试题目解析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-21T09:16:35+08:00" content="2016-04-21">
-              2016-04-21
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/21/fork的一道面试题目解析/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/21/fork的一道面试题目解析/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="http://coolshell.cn/articles/7965.html" target="_blank" rel="external">http://coolshell.cn/articles/7965.html</a><br><a href="http://www.nowcoder.com/questionTerminal/d1e33e8d9ed74d7b8cf778896e73f1d7?toCommentId=26017" target="_blank" rel="external">http://www.nowcoder.com/questionTerminal/d1e33e8d9ed74d7b8cf778896e73f1d7?toCommentId=26017</a><br><a href="http://www.nowcoder.com/questionTerminal/1f6cc9c0ef354f86b1727c6c030a1a19" target="_blank" rel="external">http://www.nowcoder.com/questionTerminal/1f6cc9c0ef354f86b1727c6c030a1a19</a></p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/21/谈一谈快速排序/" itemprop="url">
-                  谈一谈快速排序
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-21T08:55:17+08:00" content="2016-04-21">
-              2016-04-21
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/21/谈一谈快速排序/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/21/谈一谈快速排序/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/20/二叉树遍历之后序遍历/" itemprop="url">
-                  二叉树遍历之后序遍历
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-20T16:39:50+08:00" content="2016-04-20">
-              2016-04-20
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/20/二叉树遍历之后序遍历/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/20/二叉树遍历之后序遍历/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1411,7 +1440,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-count">47</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1419,7 +1448,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1428,7 +1457,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-count">32</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
