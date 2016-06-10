@@ -1,0 +1,692 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="io," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="Linux中有两种类型的IO，一种是ANSIC提供的高级IO,叫做带缓冲的IO，另外一种是低级IO，系统调用的IO，不带缓冲，带不带缓冲取决于调用一次是否是内核的一个系统调用。
+文件描述符对应Linux内核来说，每一个打开的文件通过文件描述符引用，读写文件都通过该文件描述符进行操作，系统默认的3个文件0,1,2分别代表标准输入，标准输出以及标准错误。一个进程能打开的最多描述符个数是1024个(ul">
+<meta property="og:type" content="article">
+<meta property="og:title" content="APUE之文件与IO编程">
+<meta property="og:url" content="http://yoursite.com/2016/06/10/APUE之文件与IO编程/index.html">
+<meta property="og:site_name" content="DongMengLi">
+<meta property="og:description" content="Linux中有两种类型的IO，一种是ANSIC提供的高级IO,叫做带缓冲的IO，另外一种是低级IO，系统调用的IO，不带缓冲，带不带缓冲取决于调用一次是否是内核的一个系统调用。
+文件描述符对应Linux内核来说，每一个打开的文件通过文件描述符引用，读写文件都通过该文件描述符进行操作，系统默认的3个文件0,1,2分别代表标准输入，标准输出以及标准错误。一个进程能打开的最多描述符个数是1024个(ul">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c3.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c3-2.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c3-1.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c3-3.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c3-4.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c3-5.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c3-6.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c3-7.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c3-8.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c3-9.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c3-10.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c3-12.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c3-11.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c3-13.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c3-14.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/c3-15.png">
+<meta property="og:updated_time" content="2016-06-10T16:47:13.077Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="APUE之文件与IO编程">
+<meta name="twitter:description" content="Linux中有两种类型的IO，一种是ANSIC提供的高级IO,叫做带缓冲的IO，另外一种是低级IO，系统调用的IO，不带缓冲，带不带缓冲取决于调用一次是否是内核的一个系统调用。
+文件描述符对应Linux内核来说，每一个打开的文件通过文件描述符引用，读写文件都通过该文件描述符进行操作，系统默认的3个文件0,1,2分别代表标准输入，标准输出以及标准错误。一个进程能打开的最多描述符个数是1024个(ul">
+<meta name="twitter:image" content="http://yoursite.com/images/APUE/c3.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> APUE之文件与IO编程 | DongMengLi </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6f009f48d4db1f62d52bf98f41c107d4";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">DongMengLi</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                APUE之文件与IO编程
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-10T22:59:43+08:00" content="2016-06-10">
+              2016-06-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/APUE/" itemprop="url" rel="index">
+                    <span itemprop="name">APUE</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/10/APUE之文件与IO编程/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/10/APUE之文件与IO编程/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Linux中有两种类型的IO，一种是ANSIC提供的高级IO,叫做带缓冲的IO，另外一种是低级IO，系统调用的IO，不带缓冲，带不带缓冲取决于调用一次是否是内核的一个系统调用。</p>
+<h2 id="文件描述符"><a href="#文件描述符" class="headerlink" title="文件描述符"></a>文件描述符</h2><p>对应Linux内核来说，每一个打开的文件通过文件描述符引用，读写文件都通过该文件描述符进行操作，系统默认的3个文件0,1,2分别代表标准输入，标准输出以及标准错误。一个进程能打开的最多描述符个数是1024个(ulimit -a/-n)，一个系统打开的最多文件数目查看(cat /proc/sys/fs/file-max)，如下图所示：<br><img src="/images/APUE/c3.png" alt="&quot;c3&quot;"></p>
+<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><p>Linux中编程中的错误会记录在errno中，可以通过错误处理函数perror或者strerror来将错误打印出来，供分析，下面程序演示了两个函数的使用:<br><img src="/images/APUE/c3-2.png" alt="&quot;c3&quot;"><br>编译运行得到如下截图，第二个参数表明使用哪个函数，1表示使用perror，2表示使用strerror：<br><img src="/images/APUE/c3-1.png" alt="&quot;c3&quot;"><br>可以看出，perror的消息是固定的，而strerror可以很灵活。</p>
+<h2 id="低级IO函数"><a href="#低级IO函数" class="headerlink" title="低级IO函数"></a>低级IO函数</h2><h3 id="open"><a href="#open" class="headerlink" title="open"></a>open</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/stat.h&gt;</span><br><span class="line">#include &lt;fcntl.h&gt;</span><br><span class="line">int open(const char *path, int oflag, ...);</span><br><span class="line">int openat(int fd, const char *path, int oflag, ...);</span><br><span class="line">// 返回的一定是最小的未用的描述符数值</span><br></pre></td></tr></table></figure>
+<p>第二个函数可以以相对路径名字打开文件，第一个是绝对路径。第二个参数表示是打开模式，可以是以下的组合（不存在时候要使用O_CREAT):<br><img src="/images/APUE/c3-3.png" alt="&quot;c3&quot;"><br>第三个参数是可选的，是规定文件的权限，这个权限要与系统的umask进行&amp;操作。</p>
+<h3 id="create"><a href="#create" class="headerlink" title="create"></a>create</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int creat(const char *path, mode_t mode);</span><br></pre></td></tr></table></figure>
+<p>和open一样，一般使用open来代替。</p>
+<h3 id="close"><a href="#close" class="headerlink" title="close"></a>close</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int close(int fildes);</span><br></pre></td></tr></table></figure>
+<p>关闭打开的文件描述符，错误返回-1.</p>
+<h3 id="read"><a href="#read" class="headerlink" title="read"></a>read</h3><p>当打开文件时候使用O_RDONLY或者O_RDWR标志打开时候就可以从文件中读取字节。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssize_t read(int fildes, void *buf, size_t nbyte);</span><br></pre></td></tr></table></figure></p>
+<p>读文件时候返回值如果是0表示读取到文件结尾，读取到-1表示出错，否则返回的表示已经读取的字节数。</p>
+<h3 id="write"><a href="#write" class="headerlink" title="write"></a>write</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssize_t write(int fildes, const void *buf, size_t nbyte);</span><br></pre></td></tr></table></figure>
+<p>write返回值大于0并不一定已经将缓冲区数据写入到磁盘中，仅仅表示数据缓冲区中数据复制到了内核缓冲区，并未同步到磁盘上面，如果想立即同步使用fsync函数来进行同步，或者在open时候指定oflag异或O_SYNC选项即可。<br>下面使用一个实例来演示上述低级IO的使用，实现功能是复制test.txt文件内容到testcp.txt中：<br><img src="/images/APUE/c3-4.png" alt="&quot;c3&quot;"><br>编译运行得到如下截图：<br><img src="/images/APUE/c3-5.png" alt="&quot;c3&quot;"></p>
+<h3 id="lseek随机读写"><a href="#lseek随机读写" class="headerlink" title="lseek随机读写"></a>lseek随机读写</h3><p>每一个打开的文件都有一个与其相关联的当前文件偏移量，表示从文件开始处计算的字节数目，并且读写都是从该偏移量开始，读写时候会更新偏移量的值，打开时候如果没有O_APPEND选项，则默认为0.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">off_t lseek(int fd, off_t offset, int whence); //成功返回偏移量值</span><br></pre></td></tr></table></figure></p>
+<p>1、 whence参数只有三种值,是SEEK_SET(离开头处offset)、SEEK_CUR(距离当前偏移位置offset)、SEEK_END(距离结尾处offset);<br>2、 offset一般为正数，但是也有可能是负数，可以大于文件长度，如果大于文件长度，下一次写时候，中间部分会形成空洞，一般自动置为0，空洞部分不分配磁盘空间，下面通过一个例子验证这个观点：<br><img src="/images/APUE/c3-6.png" alt="&quot;c3&quot;"><br>编译运行得到如下截图：<br><img src="/images/APUE/c3-7.png" alt="&quot;c3&quot;"><br><img src="/images/APUE/c3-8.png" alt="&quot;c3&quot;"><br>利用od命令查看文件实际内容，发现中间的都为0。但是如果查看他们的占用的磁盘块会发现没有空洞的占的磁盘块多。<br><img src="/images/APUE/c3-9.png" alt="&quot;c3&quot;"></p>
+<h3 id="文件共享"><a href="#文件共享" class="headerlink" title="文件共享"></a>文件共享</h3><p>一个进程打开的两个文件，在内核中的数据结构如下图：<br><img src="/images/APUE/c3-10.png" alt="&quot;c3&quot;"><br>进程启动时候会自动打开三个描述符0,1,2，所以打开两个文件描述符分别为3,4。<br>每当打开一个文件时候，内核会分配一个文件表文件表才指向系统中inode，每个文件表中信息包括偏移量，引用数目(描述一个文件被多少个文件描述符指向了,只有引用数目减少到0时候才删除)，文件状态标志(读，写，追加，同步非阻塞等方式打开)，v节点指针(指向真正的inode,可以用stat函数获得详细信息).<br>一个进程可以两次打开同一个文件，会有两个文件表，但是都指向同一个inode，并且这两个文件表是独立的，偏移量独立存在，如下的实例可以验证：<br><img src="/images/APUE/c3-12.png" alt="&quot;c3&quot;"><br><img src="/images/APUE/c3-11.png" alt="&quot;c3&quot;"><br>可以看出来有各自的偏移量，独立存在。但是你写入数据再重新读取时候就会增加信息，因为它们最终指向的是同一个inode，是同一个文件。</p>
+<h3 id="复制文件描述符"><a href="#复制文件描述符" class="headerlink" title="复制文件描述符"></a>复制文件描述符</h3><h4 id="使用dup"><a href="#使用dup" class="headerlink" title="使用dup"></a>使用dup</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int dup(int fildes);</span><br><span class="line">int dup2(int fildes, int fildes2);</span><br><span class="line">// dup执行后将会返回最小的可返回的文件描述符，dup2则是自定义文件描述符值</span><br></pre></td></tr></table></figure>
+<p>复制文件描述符，可以执行dup命令，注意，这时它会从0开始找出有空闲的文件描述符，如图，0、1、2是已经默认被系统给占用了，这时，执行dup之后，就会找到空闲的fd 4文件描述符，将它也指向同一个文件表，如图：<br><img src="/images/APUE/c3-13.png" alt="&quot;c3&quot;"><br>shell管道的重定向命令就是利用dup来实现的，下面重定向标准输出到文件中，先关闭1然后dup操作或者直接dup2(fd, 1)：<br><img src="/images/APUE/c3-14.png" alt="&quot;c3&quot;"><br><img src="/images/APUE/c3-15.png" alt="&quot;c3&quot;"></p>
+<h4 id="使用fcntl"><a href="#使用fcntl" class="headerlink" title="使用fcntl"></a>使用fcntl</h4><p>可以设置fcntl第二个参数为F_DUPFD来复制文件描述符，第三项可以指定从哪一个文件描述符开始往下搜寻。而dup只能从第0个开始搜寻。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://segmentfault.com/a/1190000004392560" target="_blank" rel="external">https://segmentfault.com/a/1190000004392560</a><br><a href="http://www.cnblogs.com/webor2006/p/3498443.html" target="_blank" rel="external">http://www.cnblogs.com/webor2006/p/3498443.html</a></p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/io/" rel="tag">#io</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/10/高质量程序设计指南读书笔记1/" rel="next" title="高质量程序设计指南读书笔记1">
+                <i class="fa fa-chevron-left"></i> 高质量程序设计指南读书笔记1
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/06/10/APUE之文件与IO编程/"
+     data-title="APUE之文件与IO编程"
+     data-content=""
+     data-url="http://yoursite.com/2016/06/10/APUE之文件与IO编程/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/06/10/APUE之文件与IO编程/"
+           data-title="APUE之文件与IO编程" data-url="http://yoursite.com/2016/06/10/APUE之文件与IO编程/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.png"
+               alt="Dongmeng Li" />
+          <p class="site-author-name" itemprop="name">Dongmeng Li</p>
+          <p class="site-description motion-element" itemprop="description">你若盛开，蝴蝶自来。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">49</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lidongmeng" target="_blank">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+            <div class="links-of-blogroll-title">Links</div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://macshuo.com/" target="_blank">MacTalk</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://example.com/" target="_blank">Title</a>
+                </li>
+              
+            </ul>
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件描述符"><span class="nav-number">1.</span> <span class="nav-text">文件描述符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#错误处理"><span class="nav-number">2.</span> <span class="nav-text">错误处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#低级IO函数"><span class="nav-number">3.</span> <span class="nav-text">低级IO函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#open"><span class="nav-number">3.1.</span> <span class="nav-text">open</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#create"><span class="nav-number">3.2.</span> <span class="nav-text">create</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#close"><span class="nav-number">3.3.</span> <span class="nav-text">close</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#read"><span class="nav-number">3.4.</span> <span class="nav-text">read</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#write"><span class="nav-number">3.5.</span> <span class="nav-text">write</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lseek随机读写"><span class="nav-number">3.6.</span> <span class="nav-text">lseek随机读写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件共享"><span class="nav-number">3.7.</span> <span class="nav-text">文件共享</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复制文件描述符"><span class="nav-number">3.8.</span> <span class="nav-text">复制文件描述符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用dup"><span class="nav-number">3.8.1.</span> <span class="nav-text">使用dup</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用fcntl"><span class="nav-number">3.8.2.</span> <span class="nav-text">使用fcntl</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dongmeng Li</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lidongmeng0213"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

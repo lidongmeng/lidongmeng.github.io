@@ -1,0 +1,669 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="朋友给推荐了这本高质量程序设计指南，在看完基本的C++书籍，再看这本书，有一种醍醐灌顶的感觉，所以做笔记来记录下！
+Chapter8 高级数据类型C++对C的结构体、联合、枚举等做了改造和增强。
+struct与classC++中的struct与class除了默认的成员访问权限不同(struct默认为public,class默认为private)之外，别的没有任何区别，struct中可以声明成员函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高质量程序设计指南读书笔记1">
+<meta property="og:url" content="http://yoursite.com/2016/06/10/高质量程序设计指南读书笔记1/index.html">
+<meta property="og:site_name" content="DongMengLi">
+<meta property="og:description" content="朋友给推荐了这本高质量程序设计指南，在看完基本的C++书籍，再看这本书，有一种醍醐灌顶的感觉，所以做笔记来记录下！
+Chapter8 高级数据类型C++对C的结构体、联合、枚举等做了改造和增强。
+struct与classC++中的struct与class除了默认的成员访问权限不同(struct默认为public,class默认为private)之外，别的没有任何区别，struct中可以声明成员函数">
+<meta property="og:image" content="http://yoursite.com/images/highCplus/structTest.png">
+<meta property="og:image" content="http://yoursite.com/images/highCplus/structTestResult.png">
+<meta property="og:image" content="http://yoursite.com/images/highCplus/bytepadding-1.png">
+<meta property="og:image" content="http://yoursite.com/images/highCplus/bytepadding-2.png">
+<meta property="og:updated_time" content="2016-06-10T14:47:52.121Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="高质量程序设计指南读书笔记1">
+<meta name="twitter:description" content="朋友给推荐了这本高质量程序设计指南，在看完基本的C++书籍，再看这本书，有一种醍醐灌顶的感觉，所以做笔记来记录下！
+Chapter8 高级数据类型C++对C的结构体、联合、枚举等做了改造和增强。
+struct与classC++中的struct与class除了默认的成员访问权限不同(struct默认为public,class默认为private)之外，别的没有任何区别，struct中可以声明成员函数">
+<meta name="twitter:image" content="http://yoursite.com/images/highCplus/structTest.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 高质量程序设计指南读书笔记1 | DongMengLi </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6f009f48d4db1f62d52bf98f41c107d4";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">DongMengLi</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                高质量程序设计指南读书笔记1
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-10T21:43:40+08:00" content="2016-06-10">
+              2016-06-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/高质量程序设计指南/" itemprop="url" rel="index">
+                    <span itemprop="name">高质量程序设计指南</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/10/高质量程序设计指南读书笔记1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/10/高质量程序设计指南读书笔记1/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>朋友给推荐了这本高质量程序设计指南，在看完基本的C++书籍，再看这本书，有一种醍醐灌顶的感觉，所以做笔记来记录下！</p>
+<h2 id="Chapter8-高级数据类型"><a href="#Chapter8-高级数据类型" class="headerlink" title="Chapter8 高级数据类型"></a>Chapter8 高级数据类型</h2><p>C++对C的结构体、联合、枚举等做了改造和增强。</p>
+<h3 id="struct与class"><a href="#struct与class" class="headerlink" title="struct与class"></a>struct与class</h3><p>C++中的struct与class除了默认的成员访问权限不同(struct默认为public,class默认为private)之外，别的没有任何区别，struct中可以声明成员函数，可以有构造函数，析构函数，虚函数等等。不过使用过程中最好还是用struct定义简单的类型，class定义有具体行为的ADT。<b>以前知道struct可以有class的一切行为但是没有尝试过，所以编程序试一把</b><br><img src="/images/highCplus/structTest.png" alt="&quot;struct vs class&quot;"><br>编译运行结果如下：<br><img src="/images/highCplus/structTestResult.png" alt="&quot;struct vs class&quot;"></p>
+<h4 id="POD类型"><a href="#POD类型" class="headerlink" title="POD类型"></a>POD类型</h4><p>C风格的struct叫做POD(Plain Old Data)对象，仅仅包含数据成员(基本类型，任何类型的指针或者引用)，任何POD对象的初始化都可以使用memset()函数，初始化<code>memset(&amp;s, 0, sizeof(Test))</code>,定义时候也可以直接指定初值，<code>`Test t = {0};</code>第一个成员初始化为0，其余的自动初始化为0.<br>另外赋值与相等语义如果默认的无法保证正确，需要自定义重载函数。</p>
+<h4 id="位域"><a href="#位域" class="headerlink" title="位域"></a>位域</h4><p>可以使用位域来设计struct从而减少存储空间,但是位域使得程序运行速度下降，因为无法直接寻址到单个字节中的某些位，必须通过额外代码。C语言中位域必须是int,unsigned int等类型，C++中还可以为char,long等类型，但是<b>不允许使用指针类型或者浮点类型为位域的成员类型，因为它们可能导致无效的值。</b></p>
+<h4 id="字节对齐"><a href="#字节对齐" class="headerlink" title="字节对齐"></a>字节对齐</h4><p>可以使用offsetof宏来查看每个变量的偏移量，使用方法是：<br><code>offsetof(struct T, a)</code>，查看结构体T中a成员的偏移量，不能使用取地址符号操作成员变量，因为会忽略隐含成员，下面程序演示了这一操作：<br><img src="/images/highCplus/bytepadding-1.png" alt="&quot;bytepadding&quot;"><br>编译运行结果如下：<br><img src="/images/highCplus/bytepadding-2.png" alt="&quot;bytepadding&quot;"><br>可以看到利用offsetof可以得到正确的偏移量，但是使用取地址符号得到的都是1，应该是编译器做的处理。<br><b>从字节对齐可以学到，在设计类或者struct的时候，成员变量的成员的声明顺序要从大到小，因为对象头部不可能填充字节如果从小到大就会在中间填充空洞，而从大到小声明则只会在末尾处填充。</b></p>
+<h3 id="Union"><a href="#Union" class="headerlink" title="Union"></a>Union</h3><p>联合提供了一种使不同类型数据成员之间共享存储空间的方法，同时可以实现不同类型数据成员之间的自动类型转换，但是同一时间只能存储一个成员的值，占用的内存大小取决于字节数最多的那个变量。C++中的Union还可以定义成员的访问说明符，定义成员函数，甚至析构和构造函数，但是不能包含虚拟成员函数和静态数据成员，不能作为基类。  </p>
+<h3 id="Enum"><a href="#Enum" class="headerlink" title="Enum"></a>Enum</h3><p>枚举类型允许我们定义特定用途的一组符号常量，它表明这种类型的变量可以取值的范围，如果不指定初始值，则第一个为0，后面依次递增1，如果指定了某一个，则它后面的依次在此基础上加1，它占用的字节数一般与int相同，但是不同编译器可能不一样，可以是short,byte等。</p>
+<h2 id="Chapter9-预编译"><a href="#Chapter9-预编译" class="headerlink" title="Chapter9 预编译"></a>Chapter9 预编译</h2>
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/07/STL之map按照key以及value排序/" rel="next" title="STL之map按照key以及value排序">
+                <i class="fa fa-chevron-left"></i> STL之map按照key以及value排序
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/06/10/APUE之文件与IO编程/" rel="prev" title="APUE之文件与IO编程">
+                APUE之文件与IO编程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/06/10/高质量程序设计指南读书笔记1/"
+     data-title="高质量程序设计指南读书笔记1"
+     data-content=""
+     data-url="http://yoursite.com/2016/06/10/高质量程序设计指南读书笔记1/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/06/10/高质量程序设计指南读书笔记1/"
+           data-title="高质量程序设计指南读书笔记1" data-url="http://yoursite.com/2016/06/10/高质量程序设计指南读书笔记1/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.png"
+               alt="Dongmeng Li" />
+          <p class="site-author-name" itemprop="name">Dongmeng Li</p>
+          <p class="site-description motion-element" itemprop="description">你若盛开，蝴蝶自来。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">49</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lidongmeng" target="_blank">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+            <div class="links-of-blogroll-title">Links</div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://macshuo.com/" target="_blank">MacTalk</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://example.com/" target="_blank">Title</a>
+                </li>
+              
+            </ul>
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter8-高级数据类型"><span class="nav-number">1.</span> <span class="nav-text">Chapter8 高级数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#struct与class"><span class="nav-number">1.1.</span> <span class="nav-text">struct与class</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#POD类型"><span class="nav-number">1.1.1.</span> <span class="nav-text">POD类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#位域"><span class="nav-number">1.1.2.</span> <span class="nav-text">位域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字节对齐"><span class="nav-number">1.1.3.</span> <span class="nav-text">字节对齐</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Union"><span class="nav-number">1.2.</span> <span class="nav-text">Union</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Enum"><span class="nav-number">1.3.</span> <span class="nav-text">Enum</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter9-预编译"><span class="nav-number">2.</span> <span class="nav-text">Chapter9 预编译</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dongmeng Li</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lidongmeng0213"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
