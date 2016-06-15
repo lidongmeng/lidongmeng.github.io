@@ -1,0 +1,689 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="管道," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="管道是Unix中最古老的进程间通信方式，把从一个进程连接到另一个进程的一个数据流叫做管道，可以将它看做一个固定大小的内核缓冲区。
+管道特点1、 管道是半双工的，数据只能向一个方向流动，要想双向通信就必须建立两个管道，如下图所示：2、 管道只能用于有亲缘关系的进程之间，一般由父进程创建，然后父子进程就可以通过该管道进行通信。
+pipe函数1int pipe(int fds[2]); // 成功返回0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IPC之管道">
+<meta property="og:url" content="http://yoursite.com/2016/06/15/IPC之管道/index.html">
+<meta property="og:site_name" content="DongMengLi">
+<meta property="og:description" content="管道是Unix中最古老的进程间通信方式，把从一个进程连接到另一个进程的一个数据流叫做管道，可以将它看做一个固定大小的内核缓冲区。
+管道特点1、 管道是半双工的，数据只能向一个方向流动，要想双向通信就必须建立两个管道，如下图所示：2、 管道只能用于有亲缘关系的进程之间，一般由父进程创建，然后父子进程就可以通过该管道进行通信。
+pipe函数1int pipe(int fds[2]); // 成功返回0">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_pipe1.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_pipe3.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_pipe2.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_pipe4.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_pipe5.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_pipe6.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_pipe7.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_pipe8.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_pipe9.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_pipe10.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_pipe11.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_pipe12.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_pipe13.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_pipe14.png">
+<meta property="og:updated_time" content="2016-06-15T14:18:45.822Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IPC之管道">
+<meta name="twitter:description" content="管道是Unix中最古老的进程间通信方式，把从一个进程连接到另一个进程的一个数据流叫做管道，可以将它看做一个固定大小的内核缓冲区。
+管道特点1、 管道是半双工的，数据只能向一个方向流动，要想双向通信就必须建立两个管道，如下图所示：2、 管道只能用于有亲缘关系的进程之间，一般由父进程创建，然后父子进程就可以通过该管道进行通信。
+pipe函数1int pipe(int fds[2]); // 成功返回0">
+<meta name="twitter:image" content="http://yoursite.com/images/APUE/ipc_pipe1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> IPC之管道 | DongMengLi </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6f009f48d4db1f62d52bf98f41c107d4";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">DongMengLi</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                IPC之管道
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-15T21:35:02+08:00" content="2016-06-15">
+              2016-06-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/IPC/" itemprop="url" rel="index">
+                    <span itemprop="name">IPC</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/15/IPC之管道/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/15/IPC之管道/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>管道是Unix中最古老的进程间通信方式，把从一个进程连接到另一个进程的一个数据流叫做管道，可以将它看做一个固定大小的内核缓冲区。</p>
+<h2 id="管道特点"><a href="#管道特点" class="headerlink" title="管道特点"></a>管道特点</h2><p>1、 管道是半双工的，数据只能向一个方向流动，要想双向通信就必须建立两个管道，如下图所示：<br><img src="/images/APUE/ipc_pipe1.png" alt="&quot;c3&quot;"><br><img src="/images/APUE/ipc_pipe3.png" alt="&quot;c3&quot;"><br>2、 管道只能用于有亲缘关系的进程之间，一般由父进程创建，然后父子进程就可以通过该管道进行通信。<br><img src="/images/APUE/ipc_pipe2.png" alt="&quot;c3&quot;"></p>
+<h2 id="pipe函数"><a href="#pipe函数" class="headerlink" title="pipe函数"></a>pipe函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int pipe(int fds[2]); // 成功返回0，并将管道描述符放在fds中，错误返回-1，</span><br></pre></td></tr></table></figure>
+<p>fds[0]表示读端，fds[1]表示写端。管道的文件描述符其他进程无法获取，只能通过子进程继承得来，所以管道只能在有亲缘关系的进程间使用。</p>
+<h2 id="程序举例"><a href="#程序举例" class="headerlink" title="程序举例"></a>程序举例</h2><h3 id="实现父子进程之间通信"><a href="#实现父子进程之间通信" class="headerlink" title="实现父子进程之间通信"></a>实现父子进程之间通信</h3><p>子进程向管道写入数据，父进程等待子进程消息到来，程序如下：<br><img src="/images/APUE/ipc_pipe4.png" alt="&quot;c3&quot;"><br>运行如下：<br><img src="/images/APUE/ipc_pipe5.png" alt="&quot;c3&quot;"></p>
+<h3 id="实现简单的shell的管道命令"><a href="#实现简单的shell的管道命令" class="headerlink" title="实现简单的shell的管道命令"></a>实现简单的shell的管道命令</h3><p>shell中管道命令是将通过fork子进程，父进程的管道描述符写端代替了标准输出描述符，子进程的读端代替了标准输入描述符，这样，父进程得到的本来输出到终端的数据都通过管道传到了子进程中，可以用dup或者dup2函数来复制文件描述符。  程序如下：<br><img src="/images/APUE/ipc_pipe6.png" alt="&quot;c3&quot;"><br>运行截图：<br><img src="/images/APUE/ipc_pipe7.png" alt="&quot;c3&quot;"></p>
+<h2 id="管道读写规则"><a href="#管道读写规则" class="headerlink" title="管道读写规则"></a>管道读写规则</h2><p>管道读写有一些规则,下面一一述来~</p>
+<h3 id="没有数据读"><a href="#没有数据读" class="headerlink" title="没有数据读"></a>没有数据读</h3><p>没有数据读时候，如果设置了读端文件描述符为O_NONBLOCK的，调用返回-1，错误为EAGAIN, 如果是阻塞调用，会阻塞。可以通过程序验证，如果父进程等待子进程的消息到来，先设置子进程睡眠5s在发送消息，如果设置了O_NONBLOCK会显示资源不可用并且errno是EAGAIN,如果未设置会一直阻塞直至消息到来。<br><img src="/images/APUE/ipc_pipe8.png" alt="&quot;c3&quot;"><br>运行如下：<br><img src="/images/APUE/ipc_pipe9.png" alt="&quot;c3&quot;"></p>
+<h3 id="读写端关闭"><a href="#读写端关闭" class="headerlink" title="读写端关闭"></a>读写端关闭</h3><p>如果管道的读端都关闭了，write操作产生SIGPIPE信号。如果写端都关闭了，read操作得到值0.</p>
+<h3 id="管道写满"><a href="#管道写满" class="headerlink" title="管道写满"></a>管道写满</h3><p>管道可以看做是内核中一个固定的buffer，具体的大小是65536bytes,如果写满了，如果阻塞调用write则会阻塞直到有进程读取数据，如果设置非阻塞调用则会返回-1并且errno为EAGAIN，具体程序如下，不断向管道写数据，直到管道写满为止，打印写入的字节数：<br><img src="/images/APUE/ipc_pipe10.png" alt="&quot;c3&quot;"><br>程序运行结果：<br><img src="/images/APUE/ipc_pipe11.png" alt="&quot;c3&quot;"><br>可以看到，管道的最大限制是65536字节。</p>
+<h3 id="管道PIPE-BUF常量"><a href="#管道PIPE-BUF常量" class="headerlink" title="管道PIPE_BUF常量"></a>管道PIPE_BUF常量</h3><p>当一次写入数据量不大于PIPE_BUF时候，Linux保证写入原子性，但是大于时候就不能保证了，两个进程分别同时向管道写入数据，原子性是说进程1一次性写入到管道中的数据要么全部写进去并且连续存放，要么都没写进去，Linux规定管道中一次性写入数据如果小于PIPE_BUF(值为4096bytes),下面程序演示了两个进程分别向管道写入大于PIPE_BUF值得数据:<br><img src="/images/APUE/ipc_pipe12.png" alt="&quot;c3&quot;"><br>我们运行两次：<br><img src="/images/APUE/ipc_pipe13.png" alt="&quot;c3&quot;"><br><img src="/images/APUE/ipc_pipe14.png" alt="&quot;c3&quot;"><br>可以发现运行结果不一样，所以原子性无法保证。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>APUE 第15章<br>UNP2 第四章<br><a href="http://www.cnblogs.com/webor2006/p/3789195.html" target="_blank" rel="external">http://www.cnblogs.com/webor2006/p/3789195.html</a><br><a href="http://www.cnblogs.com/webor2006/p/3776864.html" target="_blank" rel="external">http://www.cnblogs.com/webor2006/p/3776864.html</a></p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/管道/" rel="tag">#管道</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/14/Linux命令之ipcs/" rel="next" title="Linux命令之ipcs">
+                <i class="fa fa-chevron-left"></i> Linux命令之ipcs
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/06/15/IPC之具名管道fifo/" rel="prev" title="IPC之具名管道fifo">
+                IPC之具名管道fifo <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/06/15/IPC之管道/"
+     data-title="IPC之管道"
+     data-content=""
+     data-url="http://yoursite.com/2016/06/15/IPC之管道/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/06/15/IPC之管道/"
+           data-title="IPC之管道" data-url="http://yoursite.com/2016/06/15/IPC之管道/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.png"
+               alt="Dongmeng Li" />
+          <p class="site-author-name" itemprop="name">Dongmeng Li</p>
+          <p class="site-description motion-element" itemprop="description">你若盛开，蝴蝶自来。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">56</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lidongmeng" target="_blank">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+            <div class="links-of-blogroll-title">Links</div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://macshuo.com/" target="_blank">MacTalk</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://example.com/" target="_blank">Title</a>
+                </li>
+              
+            </ul>
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#管道特点"><span class="nav-number">1.</span> <span class="nav-text">管道特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pipe函数"><span class="nav-number">2.</span> <span class="nav-text">pipe函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序举例"><span class="nav-number">3.</span> <span class="nav-text">程序举例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现父子进程之间通信"><span class="nav-number">3.1.</span> <span class="nav-text">实现父子进程之间通信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现简单的shell的管道命令"><span class="nav-number">3.2.</span> <span class="nav-text">实现简单的shell的管道命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#管道读写规则"><span class="nav-number">4.</span> <span class="nav-text">管道读写规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#没有数据读"><span class="nav-number">4.1.</span> <span class="nav-text">没有数据读</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#读写端关闭"><span class="nav-number">4.2.</span> <span class="nav-text">读写端关闭</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#管道写满"><span class="nav-number">4.3.</span> <span class="nav-text">管道写满</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#管道PIPE-BUF常量"><span class="nav-number">4.4.</span> <span class="nav-text">管道PIPE_BUF常量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dongmeng Li</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lidongmeng0213"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

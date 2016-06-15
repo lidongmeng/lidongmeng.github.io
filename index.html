@@ -236,6 +236,671 @@
             
               
                 
+                <a class="post-title-link" href="/2016/06/15/IPC之具名管道fifo/" itemprop="url">
+                  IPC之具名管道fifo
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-15T21:35:16+08:00" content="2016-06-15">
+              2016-06-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/IPC/" itemprop="url" rel="index">
+                    <span itemprop="name">IPC</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/15/IPC之具名管道fifo/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/15/IPC之具名管道fifo/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>管道无法用于非亲缘关系的进程间通信，FIFO可以用于不相关进程之间交换数据，命名管道实质是一种特殊类型的文件，可以通过mkfifo来创建，创建一个管道文件并查看信息：<br><img src="/images/APUE/ipc_fifo1.png" alt="&quot;c3&quot;"></p>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="创建命名管道"><a href="#创建命名管道" class="headerlink" title="创建命名管道"></a>创建命名管道</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int mkfifo(const char * filename, mode_t mode);</span><br></pre></td></tr></table></figure>
+<p>成功返回0，失败返回-1，命名管道文件是一种特殊文件，无法用vim查看。</p>
+<h3 id="打开管道操作函数"><a href="#打开管道操作函数" class="headerlink" title="打开管道操作函数"></a>打开管道操作函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int open(const char * filename, int flags)</span><br></pre></td></tr></table></figure>
+<p>成功时候返回文件描述符，如果是只读打开，并且设置flag选项为非阻塞的，会立即返回成功，否则会阻塞等到有进程写时候才打开。如果是只写打开方式，设置了阻塞就会等到有相应的进程为读而打开fifo时候才返回，未设置阻塞就会立即返回。<br><img src="/images/APUE/ipc_fifo2.png" alt="&quot;c3&quot;"><br>运行两个程序：<br><img src="/images/APUE/ipc_fifo3.png" alt="&quot;c3&quot;"><br><img src="/images/APUE/ipc_fifo4.png" alt="&quot;c3&quot;"></p>
+<h2 id="fifo通信实例"><a href="#fifo通信实例" class="headerlink" title="fifo通信实例"></a>fifo通信实例</h2><p>实现一个程序类似拷培文件的功能，进程1打开管道向里面写入src文件的信息，进程2读取信息并写入dest文件中。<br><img src="/images/APUE/ipc_fifo5.png" alt="&quot;c3&quot;"><br><img src="/images/APUE/ipc_fifo6.png" alt="&quot;c3&quot;"><br>运行如下：<br><img src="/images/APUE/ipc_fifo7.png" alt="&quot;c3&quot;"><br>生成文件与源文件对比：<br><img src="/images/APUE/ipc_fifo8.png" alt="&quot;c3&quot;"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>APUE 第15章<br>UNP2 第四章<br><a href="http://www.cnblogs.com/webor2006/p/3789195.html" target="_blank" rel="external">http://www.cnblogs.com/webor2006/p/3789195.html</a></p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/15/IPC之管道/" itemprop="url">
+                  IPC之管道
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-15T21:35:02+08:00" content="2016-06-15">
+              2016-06-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/IPC/" itemprop="url" rel="index">
+                    <span itemprop="name">IPC</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/15/IPC之管道/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/15/IPC之管道/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>管道是Unix中最古老的进程间通信方式，把从一个进程连接到另一个进程的一个数据流叫做管道，可以将它看做一个固定大小的内核缓冲区。</p>
+<h2 id="管道特点"><a href="#管道特点" class="headerlink" title="管道特点"></a>管道特点</h2><p>1、 管道是半双工的，数据只能向一个方向流动，要想双向通信就必须建立两个管道，如下图所示：<br><img src="/images/APUE/ipc_pipe1.png" alt="&quot;c3&quot;"><br><img src="/images/APUE/ipc_pipe3.png" alt="&quot;c3&quot;"><br>2、 管道只能用于有亲缘关系的进程之间，一般由父进程创建，然后父子进程就可以通过该管道进行通信。<br><img src="/images/APUE/ipc_pipe2.png" alt="&quot;c3&quot;"></p>
+<h2 id="pipe函数"><a href="#pipe函数" class="headerlink" title="pipe函数"></a>pipe函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int pipe(int fds[2]); // 成功返回0，并将管道描述符放在fds中，错误返回-1，</span><br></pre></td></tr></table></figure>
+<p>fds[0]表示读端，fds[1]表示写端。管道的文件描述符其他进程无法获取，只能通过子进程继承得来，所以管道只能在有亲缘关系的进程间使用。</p>
+<h2 id="程序举例"><a href="#程序举例" class="headerlink" title="程序举例"></a>程序举例</h2><h3 id="实现父子进程之间通信"><a href="#实现父子进程之间通信" class="headerlink" title="实现父子进程之间通信"></a>实现父子进程之间通信</h3><p>子进程向管道写入数据，父进程等待子进程消息到来，程序如下：<br><img src="/images/APUE/ipc_pipe4.png" alt="&quot;c3&quot;"><br>运行如下：<br><img src="/images/APUE/ipc_pipe5.png" alt="&quot;c3&quot;"></p>
+<h3 id="实现简单的shell的管道命令"><a href="#实现简单的shell的管道命令" class="headerlink" title="实现简单的shell的管道命令"></a>实现简单的shell的管道命令</h3><p>shell中管道命令是将通过fork子进程，父进程的管道描述符写端代替了标准输出描述符，子进程的读端代替了标准输入描述符，这样，父进程得到的本来输出到终端的数据都通过管道传到了子进程中，可以用dup或者dup2函数来复制文件描述符。  程序如下：<br><img src="/images/APUE/ipc_pipe6.png" alt="&quot;c3&quot;"><br>运行截图：<br><img src="/images/APUE/ipc_pipe7.png" alt="&quot;c3&quot;"></p>
+<h2 id="管道读写规则"><a href="#管道读写规则" class="headerlink" title="管道读写规则"></a>管道读写规则</h2><p>管道读写有一些规则,下面一一述来~</p>
+<h3 id="没有数据读"><a href="#没有数据读" class="headerlink" title="没有数据读"></a>没有数据读</h3><p>没有数据读时候，如果设置了读端文件描述符为O_NONBLOCK的，调用返回-1，错误为EAGAIN, 如果是阻塞调用，会阻塞。可以通过程序验证，如果父进程等待子进程的消息到来，先设置子进程睡眠5s在发送消息，如果设置了O_NONBLOCK会显示资源不可用并且errno是EAGAIN,如果未设置会一直阻塞直至消息到来。<br><img src="/images/APUE/ipc_pipe8.png" alt="&quot;c3&quot;"><br>运行如下：<br><img src="/images/APUE/ipc_pipe9.png" alt="&quot;c3&quot;"></p>
+<h3 id="读写端关闭"><a href="#读写端关闭" class="headerlink" title="读写端关闭"></a>读写端关闭</h3><p>如果管道的读端都关闭了，write操作产生SIGPIPE信号。如果写端都关闭了，read操作得到值0.</p>
+<h3 id="管道写满"><a href="#管道写满" class="headerlink" title="管道写满"></a>管道写满</h3><p>管道可以看做是内核中一个固定的buffer，具体的大小是65536bytes,如果写满了，如果阻塞调用write则会阻塞直到有进程读取数据，如果设置非阻塞调用则会返回-1并且errno为EAGAIN，具体程序如下，不断向管道写数据，直到管道写满为止，打印写入的字节数：<br><img src="/images/APUE/ipc_pipe10.png" alt="&quot;c3&quot;"><br>程序运行结果：<br><img src="/images/APUE/ipc_pipe11.png" alt="&quot;c3&quot;"><br>可以看到，管道的最大限制是65536字节。</p>
+<h3 id="管道PIPE-BUF常量"><a href="#管道PIPE-BUF常量" class="headerlink" title="管道PIPE_BUF常量"></a>管道PIPE_BUF常量</h3><p>当一次写入数据量不大于PIPE_BUF时候，Linux保证写入原子性，但是大于时候就不能保证了，两个进程分别同时向管道写入数据，原子性是说进程1一次性写入到管道中的数据要么全部写进去并且连续存放，要么都没写进去，Linux规定管道中一次性写入数据如果小于PIPE_BUF(值为4096bytes),下面程序演示了两个进程分别向管道写入大于PIPE_BUF值得数据:<br><img src="/images/APUE/ipc_pipe12.png" alt="&quot;c3&quot;"><br>我们运行两次：<br><img src="/images/APUE/ipc_pipe13.png" alt="&quot;c3&quot;"><br><img src="/images/APUE/ipc_pipe14.png" alt="&quot;c3&quot;"><br>可以发现运行结果不一样，所以原子性无法保证。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>APUE 第15章<br>UNP2 第四章<br><a href="http://www.cnblogs.com/webor2006/p/3789195.html" target="_blank" rel="external">http://www.cnblogs.com/webor2006/p/3789195.html</a><br><a href="http://www.cnblogs.com/webor2006/p/3776864.html" target="_blank" rel="external">http://www.cnblogs.com/webor2006/p/3776864.html</a></p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/14/Linux命令之ipcs/" itemprop="url">
+                  Linux命令之ipcs
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-14T10:20:24+08:00" content="2016-06-14">
+              2016-06-14
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/14/Linux命令之ipcs/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/14/Linux命令之ipcs/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/14/IPC之SystemV消息队列/" itemprop="url">
+                  IPC之SystemV消息队列
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-14T10:06:49+08:00" content="2016-06-14">
+              2016-06-14
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/14/IPC之SystemV消息队列/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/14/IPC之SystemV消息队列/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/14/IPC之Posix信号量/" itemprop="url">
+                  IPC之Posix信号量
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-14T10:06:36+08:00" content="2016-06-14">
+              2016-06-14
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/14/IPC之Posix信号量/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/14/IPC之Posix信号量/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/13/IPC之SystemV信号量/" itemprop="url">
+                  IPC之SystemV信号量
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-13T20:26:23+08:00" content="2016-06-13">
+              2016-06-13
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/13/IPC之SystemV信号量/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/13/IPC之SystemV信号量/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Posix信号量虽然有有名和无名之分，但是都只是针对一个资源的数量的操作，但是SystemV信号量却可以针对一个或者多个信号量(计数信号量集)，所以增加了操作复杂性。</p>
+<h2 id="内核中的结构"><a href="#内核中的结构" class="headerlink" title="内核中的结构"></a>内核中的结构</h2><p>内核为每个信号量集维护了如下的信息结构：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">struct semid_d &#123;</span><br><span class="line">    struct ipc_perm sem_perm; // 当前信号量的访问权限</span><br><span class="line">    struct sem * sem_base; // 指向信号量集的指针</span><br><span class="line">    ushort sem_nsems;  // 信号量的数目</span><br><span class="line">    time_t sem_otime;  // </span><br><span class="line">    time_t sem_ctime;  // 创建时间</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>其中sem结构体如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct sem &#123;</span><br><span class="line">    ushort_t semval; // 信号量的值</span><br><span class="line">    short   sempid; // 上一个成功操作semop的进程的pid</span><br><span class="line">    ushort_t semncnt; // 等待其值增长的进程数目</span><br><span class="line">    ushort_t semzcnt; // 等待其值变为0的进程数目</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>下图是一个有两个信号量的信号量集的内核数据结构：<br><img src="/images/APUE/systemv_sem1.png" alt="&quot;c3&quot;"></p>
+<h2 id="systemv信号量相关操作函数"><a href="#systemv信号量相关操作函数" class="headerlink" title="systemv信号量相关操作函数"></a>systemv信号量相关操作函数</h2><h3 id="semget函数"><a href="#semget函数" class="headerlink" title="semget函数"></a>semget函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int semget(key_t key, int nsems, int semflg);</span><br><span class="line">// key使用ftok产生一个key_t的变量key_t ftok( char * fname, int id );</span><br><span class="line">// nsems是指定的信号量集中信号量的数目，如果是0，表示访问，一旦建立就不能更改数目</span><br><span class="line">// semflg是权限相关以及IPC_CREAT 或者IPC_CREAT|IPC_EXCL</span><br></pre></td></tr></table></figure>
+<p>成功返回信号量标识符，错误返回-1;函数功能是填写semid_ds中的相关数据sem_perm通过最后一个参数填写，sem_nsems通过nsems填写，sem_otime被置为0，sem_ctime被置为当前时间。<b>但是semget函数并不初始化各个信号量的semval，要通过semctl来进行初始化操作</b><br><b>创建和初始化是两个原子性操作，在创建后未进行初始化就有可能被别的进程抢占，而且直接使用，但是此时的信号量的值是不确定的，大写的尴尬，不过还好的是有sem_otime这个选项保证了未初始化时候为0，所以在别的进程使用信号量时候，得到信号量标识符后，不要直接操作信号p的v操作，先使用semctl的IPC_STAT命令循环等待sem_otime变为非0，也就是阻塞在这里。</b></p>
+<h3 id="semop函数–pv操作主要函数"><a href="#semop函数–pv操作主要函数" class="headerlink" title="semop函数–pv操作主要函数"></a>semop函数–pv操作主要函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int semop(int semid, struct sembuf * opsptr, size_t nops);</span><br></pre></td></tr></table></figure>
+<p>第二个参数表示的是对一个信号量的具体操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct sembuf &#123;</span><br><span class="line">    short sem_num;</span><br><span class="line">    short sem_op; </span><br><span class="line">    short sem_flg; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个结构体不一定只有这三个数据项，但至少要初始化这三个项目，内核保证传递给semop函数的这个操作数组被原子地操作。不过这三个参数还是要好好理解下：<br>1、 sem_num是对应值0-nsems-1，是处理哪一个信号量；<br>2、 sem_op是正数时候，表示v操作，释放资源，将对应信号量加上1;如果是0，表示调用者希望等待该信号量的值变为0，对应着信号量sem中的semzcnt这个变量，如果semval为0立即返回，不为0阻塞并使semzcnt增加1;如果是负数，则表示调用者希望等待semval变为大于或者等于sem_op的绝对值（可以请求一个或者多个资源），对应于p操作，如果semval的值小于sem_op绝对值，就减去sem_op绝对值然后返回，如果不大于，就阻塞等待。<br>3、 第三个sem_flag可以为0，IPC_NOWAIT,SEM_UNDO三个，如果为0，表示正常操作，如果为IPC_WAIT，使对信号量的操作时非阻塞的。即指定了该标志，调用线程在信号量的值不满足条件的情况下不会被阻塞，而是直接返回-1，并将errno设置为EAGAIN。如果为SEM_UNDO，那么将维护进程对信号量的调整值，以便进程结束时恢复信号量的状态。</p>
+<h3 id="sem-ctl函数—控制操作"><a href="#sem-ctl函数—控制操作" class="headerlink" title="sem_ctl函数—控制操作"></a>sem_ctl函数—控制操作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int semctl(int semid, int semnum, int cmd, .../* union semun arg */)</span><br></pre></td></tr></table></figure>
+<p>对信号量的各种控制操作，第二个参数表示所要操作的信号量的下标，只有在第三个是GETVAL, SETVAL, GETNCNT, GETZCNT以及GETPID时候才会用。第三项是具体的操作，第四项是一个联合体，这个<b>联合体系统不提供使用时候要自己申明</b>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">union semun &#123;</span><br><span class="line">    int val;</span><br><span class="line">    struct semid_ds * buf;</span><br><span class="line">    ushort * array;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个联合体，第一个是设置单个信号量值时候来设置它的值(SETVAL),第二个在IPC_SET和IPC_STAT使用；第三个是一个数组，是获取或者设置所有信号量值时候传入数组(SETALL,GETALL)。<br>第三个参数有很多选项：<br>1、 GETVAL把对应下标为semnum的sem的semval返回;SETVAL和GETVAL对应，设置semval值为arg.val值，如果成功，相应信号量在所有进程中的信号量调整值为0.<br>2、 GETPID,GETNCNT,GETZCNT都不用第四个参数；<br>3、 GETALL返回所有信号量的semval，并放入值到arg.array中；SETALL设置所有信号量的值为array数组指定的值。<br>4、 IPC_RMID是删除这个信号量集； (对于一个持有该信号量的进程在没有释放该信号量的情况下就终止了。那么该进程所占用的信号量内核是不会进行释放的。会立即将该信号量从系统中彻底删除，不能再对该信号量进行任何访问。)<br>5、 IPC_SET是设置信号量集的sem_perm.uid,sem_perm.gid和sem_perm.mode三个参数，由arg的第二项参数相应值来设置。<br>6、 IPC_STAT返回指定信号量集中semid_ds结构，通过arg.buf返回，调用者首先要分配一个semid_ds结构并把arg.buf指向这个结构。</p>
+<h3 id="程序实例"><a href="#程序实例" class="headerlink" title="程序实例"></a>程序实例</h3><h4 id="简单函数演示"><a href="#简单函数演示" class="headerlink" title="简单函数演示"></a>简单函数演示</h4><p>验证一下竞态的情况，一个进程先建立一个特定path的信号量，然后sleep一段时间，期间另外一个进程调用p和v操作，看是否正常工作，然后解决方法，用IPC_STAT获取sem_otime,看他是否变为非0，不断循环等待。</p>
+<h4 id="父子进程同步"><a href="#父子进程同步" class="headerlink" title="父子进程同步"></a>父子进程同步</h4><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://blog.csdn.net/hwz119/article/details/1613601(ftok" target="_blank" rel="external">http://blog.csdn.net/hwz119/article/details/1613601(ftok</a>)</p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/06/11/IPC之Posix消息队列/" itemprop="url">
                   IPC之Posix消息队列
                 </a>
@@ -729,677 +1394,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/04/miniftp项目实战之空闲断开，断点续传实现/" itemprop="url">
-                  miniftp项目实战之空闲断开，断点续传实现
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-04T09:46:30+08:00" content="2016-06-04">
-              2016-06-04
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/04/miniftp项目实战之空闲断开，断点续传实现/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/04/miniftp项目实战之空闲断开，断点续传实现/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/04/miniftp项目实战之上传下载以及限速实现/" itemprop="url">
-                  miniftp项目实战之上传下载以及限速实现
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-04T09:45:43+08:00" content="2016-06-04">
-              2016-06-04
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/04/miniftp项目实战之上传下载以及限速实现/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/04/miniftp项目实战之上传下载以及限速实现/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/03/minifftp项目实战之文件上传下载与限速/" itemprop="url">
-                  minifftp项目实战之文件上传下载与限速
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-03T09:00:24+08:00" content="2016-06-03">
-              2016-06-03
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/03/minifftp项目实战之文件上传下载与限速/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/03/minifftp项目实战之文件上传下载与限速/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/02/Linux网络编程之fcntl/" itemprop="url">
-                  Linux网络编程之fcntl
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-02T15:39:54+08:00" content="2016-06-02">
-              2016-06-02
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/网络编程/" itemprop="url" rel="index">
-                    <span itemprop="name">网络编程</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/02/Linux网络编程之fcntl/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/02/Linux网络编程之fcntl/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Linux下总是看到这个fcntl函数，似乎用法还是蛮多的，可以在网络编程中设置非阻塞模式，信号驱动I/O以及SIGURG时候设置属主等，在文件中可以复制文件描述符，改变<br><a href="http://blog.csdn.net/ctthuangcheng/article/details/9289277" target="_blank" rel="external">http://blog.csdn.net/ctthuangcheng/article/details/9289277</a><br><a href="http://blog.csdn.net/anonymalias/article/details/9197641" target="_blank" rel="external">http://blog.csdn.net/anonymalias/article/details/9197641</a><br><a href="http://blog.csdn.net/bailyzheng/article/details/7489656" target="_blank" rel="external">http://blog.csdn.net/bailyzheng/article/details/7489656</a><br><a href="http://blog.sina.com.cn/s/blog_4b226b9201011974.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_4b226b9201011974.html</a></p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/02/网络编程中的读写函数/" itemprop="url">
-                  网络编程中的读写函数
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-02T10:55:12+08:00" content="2016-06-02">
-              2016-06-02
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/网络编程/" itemprop="url" rel="index">
-                    <span itemprop="name">网络编程</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/02/网络编程中的读写函数/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/02/网络编程中的读写函数/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>网络编程中当连接建立好之后就是数据的传输了，系统提供了很多种读写的方式，本文对这些函数做一个大概的总结。</p>
-<h2 id="普通读写的流程"><a href="#普通读写的流程" class="headerlink" title="普通读写的流程"></a>普通读写的流程</h2><p>网络应用发送数据到对端接受到数据一般会经历下面的步骤：</p>
-<ol>
-<li>系统调用read()函数产生一个上下文切换，从user mode切换到kernel mode，然后DMA执行拷培，把文件从硬盘拷培到kernel buffer里面；</li>
-<li>数据从kernel buffer拷培到user buffer，然后系统调用read()返回，这时产生从kernal mode到user mode的切换；</li>
-<li>然后要发送数据了，通过调用write系统调用，从user mode切换到kernel mode，然后把步骤2中user mode的数据读到kernel buffer中，这个kernel buffer是和socket相关联的；</li>
-<li>系统调用write返回，产生一个切换，从kernel mode切换到user mode，然后DMA从kernel buffer拷培数据到协议栈。<br>所以从上面可以看到，从硬盘读取数据到最终发送到网络上面总共需要四次上下文切换，然后有4次拷培操作。  </li>
-</ol>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/06/02/网络编程中的读写函数/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/01/TCP带外数据/" itemprop="url">
-                  TCP带外数据
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-01T13:30:52+08:00" content="2016-06-01">
-              2016-06-01
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/网络编程/" itemprop="url" rel="index">
-                    <span itemprop="name">网络编程</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/01/TCP带外数据/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/01/TCP带外数据/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>带外数据，也成为经加速的数据，是一个连接的某一端发生了重要的事情，而且希望迅速通知对端，迅速是指虽然传过去很多数据，但是需要先处理这个紧急数据，可以看做它的优先级别比较高。ftp中的ABOR命令使用带外数据来中断文件传输，telnet和rlogin会将中止字符作为紧急数据传到对端，允许对端丢弃未处理的输入，并且丢弃未发送的输出。  </p>
-<h2 id="TCP带外数据"><a href="#TCP带外数据" class="headerlink" title="TCP带外数据"></a>TCP带外数据</h2><p>TCP协议并没有真正的带外数据，不过提供了紧急模式，TCP首部的URG标志位以及紧急指针偏移量两个变量。但是OOB字节的发送与否取决于发送缓冲区中先于它的字节数，window窗口大小以及TCP准备发送给对端的分节大小。下面举一个例子：<br>1、 发送方：发送进程已经在一个TCP套接字写入N字节数据，这些数据在套接字的发送缓冲区中，等待发送到对端，这时候，以MSG_OOB标志写入一个字节的带外数据，则该数据放在N字节的后面，并把TCP紧急指针设置为再下一个可用为值，并且将带外字节标记为OOB，下一次发送时候TCP首部会设置URG和偏移量，但是OOB呢个字节不一定发送出去（阻塞等情况，所以即使流量控制使数据无法发送，但是紧急通知照样可以发送到对端）。<br>2、 接收方：有新的紧急指针到达时候，接受进程的内核给套接字的属主进程发送SIGURG信号（所以接受进程要通过fcntl函数设置属主关系，而且设置信号处理函数），然后如果接受进程阻塞在select调用中，等待这个套接字的异常条件，select调用返回。一旦紧急通知到达，不论实际数据是否到达，都要通知，如果没到达，recv函数会返回EWOULDBLOCK，如果有多个OOB字节同时到达，则舍弃前面的，只保存最后一个，因为<b>OOB字节不是放在套接字的缓冲区，而是放在该连接的一个独立的单字节的带外缓冲区，而且接收字节从这个缓冲区读取该字节的唯一方法是通过指定MSG_OOB标志调用recv,recvfrom或者recvmsg函数</b>,当然了如果开启了SO_OOBINLINE套接字选项，这个实际数据就会在普通缓冲区中，需要检查带外标记以获得合适处理这个数据字节。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/06/01/TCP带外数据/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1440,7 +1439,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">50</span>
+              <span class="site-state-item-count">56</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1457,7 +1456,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
