@@ -1,0 +1,688 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="共享内存," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="IPC通信过程不同进程之间通过管道，消息队列或者FIFO进行通信，发送消息和接受消息都要经过内核调用，而共享内存方式的IPC，一旦这个内存区映射到共享它的进程地址空间中，消息的发送和接受就不用再涉及内核，因为这个区域在进程的地址空间中，如下图所示：可以看到客户和服务器在的进程地址空间有个相交的部分。   
+一次完整的客户服务器复制文件的实例设想我们在不同进程间传递一个文件的例子，服务器将文件从磁盘">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IPC之Posix共享内存">
+<meta property="og:url" content="http://yoursite.com/2016/06/18/IPC之Posix共享内存/index.html">
+<meta property="og:site_name" content="DongMengLi">
+<meta property="og:description" content="IPC通信过程不同进程之间通过管道，消息队列或者FIFO进行通信，发送消息和接受消息都要经过内核调用，而共享内存方式的IPC，一旦这个内存区映射到共享它的进程地址空间中，消息的发送和接受就不用再涉及内核，因为这个区域在进程的地址空间中，如下图所示：可以看到客户和服务器在的进程地址空间有个相交的部分。   
+一次完整的客户服务器复制文件的实例设想我们在不同进程间传递一个文件的例子，服务器将文件从磁盘">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_shm2.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_shm2.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_shm2.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_shm3.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_shm4.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_shm5.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_shm6.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_shm7.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_shm8.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_shm9.png">
+<meta property="og:updated_time" content="2016-06-22T15:17:32.035Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IPC之Posix共享内存">
+<meta name="twitter:description" content="IPC通信过程不同进程之间通过管道，消息队列或者FIFO进行通信，发送消息和接受消息都要经过内核调用，而共享内存方式的IPC，一旦这个内存区映射到共享它的进程地址空间中，消息的发送和接受就不用再涉及内核，因为这个区域在进程的地址空间中，如下图所示：可以看到客户和服务器在的进程地址空间有个相交的部分。   
+一次完整的客户服务器复制文件的实例设想我们在不同进程间传递一个文件的例子，服务器将文件从磁盘">
+<meta name="twitter:image" content="http://yoursite.com/images/APUE/ipc_posix_shm2.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> IPC之Posix共享内存 | DongMengLi </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6f009f48d4db1f62d52bf98f41c107d4";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">DongMengLi</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                IPC之Posix共享内存
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-18T11:35:01+08:00" content="2016-06-18">
+              2016-06-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/IPC/" itemprop="url" rel="index">
+                    <span itemprop="name">IPC</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/18/IPC之Posix共享内存/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/18/IPC之Posix共享内存/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="IPC通信过程"><a href="#IPC通信过程" class="headerlink" title="IPC通信过程"></a>IPC通信过程</h2><p>不同进程之间通过管道，消息队列或者FIFO进行通信，发送消息和接受消息都要经过内核调用，而共享内存方式的IPC，一旦这个内存区映射到共享它的进程地址空间中，消息的发送和接受就不用再涉及内核，因为这个区域在进程的地址空间中，如下图所示：<br><img src="/images/APUE/ipc_posix_shm2.png" alt="&quot;c3&quot;"><br>可以看到客户和服务器在的进程地址空间有个相交的部分。   </p>
+<h2 id="一次完整的客户服务器复制文件的实例"><a href="#一次完整的客户服务器复制文件的实例" class="headerlink" title="一次完整的客户服务器复制文件的实例"></a>一次完整的客户服务器复制文件的实例</h2><p>设想我们在不同进程间传递一个文件的例子，服务器将文件从磁盘读取然后发送到客户端，服务器接收，利用IPC方式，有以下两种：</p>
+<h3 id="普通IPC-lt-管道，FIFO，消息队列-gt"><a href="#普通IPC-lt-管道，FIFO，消息队列-gt" class="headerlink" title="普通IPC&lt;管道，FIFO，消息队列&gt;"></a>普通IPC&lt;管道，FIFO，消息队列&gt;</h3><p>需要经过以下四个步骤：<br><img src="/images/APUE/ipc_posix_shm2.png" alt="&quot;c3&quot;"><br>可以看出来需要四次内核空间与进程空间的数据交换，所以比较耗费时间。</p>
+<h3 id="共享内存方式"><a href="#共享内存方式" class="headerlink" title="共享内存方式"></a>共享内存方式</h3><p><img src="/images/APUE/ipc_posix_shm2.png" alt="&quot;c3&quot;"><br>而使用共享内存，则只需要两次，大大提升效率。</p>
+<h2 id="mmap，munmap函数"><a href="#mmap，munmap函数" class="headerlink" title="mmap，munmap函数"></a>mmap，munmap函数</h2><p>mmap函数是将一个文件或者一个Posix共享内存区对象映射到调用进程的地址空间，如下图所示：<br><img src="/images/APUE/ipc_posix_shm3.png" alt="&quot;c3&quot;"><br>函数原型如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/mman.h&gt; </span><br><span class="line">void *mmap(void *start, size_t length, </span><br><span class="line">    int prot, int flags, int fd, off_t offset);</span><br><span class="line">int munmap(void *start, size_t length);</span><br></pre></td></tr></table></figure></p>
+<p>start是映射的开始位置，一般设置为NULL,让进程自己决定起始位置，length进程地址空间映射区的长度，prot是期望的内存保护标志，不能与文件的打开模式冲突，(PROT_EXEC/READ/WRTIE/NODE分别为页面内容可执行，可读取，可写入，不可访问)；flags指定映射对象类型，映射页和映射选项是否能够共享，MAP_PRIVATE/MAP_SHARED；fd指定的是文件描述符，offset表示映射对象内容的起点。    当mmap返回成功后，可以关闭fd，对映射关系没有影响。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/mman.h&gt; </span><br><span class="line">int msync ( void * addr , size_t len, int flags)</span><br></pre></td></tr></table></figure></p>
+<p>msync是同步映射区的内容到文件中，第一个参数是mmap的返回值，第二个对应写入的数据大小，也可以是整个映射区大小，最后一个选项指定是同步还是异步的同步MS_ASYNC/MS_SYNC(直到写入成功才返回).<br>使用mmap一般有以下三种目的：</p>
+<h3 id="使用普通文件以提供内存映射IO"><a href="#使用普通文件以提供内存映射IO" class="headerlink" title="使用普通文件以提供内存映射IO"></a>使用普通文件以提供内存映射IO</h3><p>利用mmap将文件映射到进程的地址空间中，这样就不用调用read，write，lseek等函数来操作文件，但是不是所有的文件都可以映射，套接字或者访问终端就不可以映射，他们必须用read,write来访问。<br>下面程序首先读取命令行参数，包括文件名字，文件大小以及映射区的大小，然后创建新的文件，并且将大小设置为给定参数对应的大小，具体方法是先定位到最后一个字节的前一个位置，然后写入一个字节，然后测试不同映射区大小的影响。<br><img src="/images/APUE/ipc_posix_shm4.png" alt="&quot;c3&quot;"></p>
+<h4 id="测试一"><a href="#测试一" class="headerlink" title="测试一"></a>测试一</h4><p>文件大小和映射区大小一致，并且值相等，且大小不是页面大小的整数倍。<br><img src="/images/APUE/ipc_posix_shm5.png" alt="&quot;c3&quot;"><br>首先看一下映射的图：<br><img src="/images/APUE/ipc_posix_shm6.png" alt="&quot;c3&quot;"><br>由于文件大小只有5000，不够两个页面，但是映射区的大小确实自动扩展为2个页面大小，所以访问8091没有问题，但是这个改变并不会写入到文件中，只会改变文件大小的部分。</p>
+<h4 id="测试二"><a href="#测试二" class="headerlink" title="测试二"></a>测试二</h4><p>如果使用大于文件大小很大的size，出现了Bus Error,意思是说我们在内存映射区内访问，但是已经超出了底层支撑对象（文件）的大小（映射过来只有2个页面）。<br><img src="/images/APUE/ipc_posix_shm7.png" alt="&quot;c3&quot;"><br><img src="/images/APUE/ipc_posix_shm8.png" alt="&quot;c3&quot;"></p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>文件映射到进程地址空间中，文件被映射到多个页上，如果文件大小不是所有页大小之和，最后一个页不被使用的空间被清零。另外直接对该内存的写入字节数目不会超过文件的实际大小。另外，如果设置mmap区的页面太多，访问超过文件所对应的页面以外的内存区域会出现Bus Error的错误。</p>
+<h3 id="使用特殊文件以提供匿名内存映射"><a href="#使用特殊文件以提供匿名内存映射" class="headerlink" title="使用特殊文件以提供匿名内存映射"></a>使用特殊文件以提供匿名内存映射</h3><p>使用特殊文件提供匿名内存映射适用于具有亲缘关系的进程之间，比方父子进程，父进程先调用mmap，然后fork，子进程继承父进程匿名映射的地址空间，同样继承mmap返回地址，这样父子进程就可以通过映射区域进行通信。</p>
+<h3 id="使用shm-open提供无亲缘关系的进程间的共享内存区"><a href="#使用shm-open提供无亲缘关系的进程间的共享内存区" class="headerlink" title="使用shm_open提供无亲缘关系的进程间的共享内存区"></a>使用shm_open提供无亲缘关系的进程间的共享内存区</h3><p>这种方法和第一种方法都是可以用于无亲缘关系间的进程间通信，差别在于mmap参数之一的fd：<br><img src="/images/APUE/ipc_posix_shm9.png" alt="&quot;c3&quot;"><br>这两者称为内存区对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/mman.h&gt;  </span><br><span class="line">int shm_open(const char *name, int oflag, mode_t mode);  </span><br><span class="line">                              //成功返回非负的描述符，失败返回-1  </span><br><span class="line">int shm_unlink(const char *name);  </span><br><span class="line">                              //成功返回0，失败返回-1</span><br></pre></td></tr></table></figure></p>
+<p>shm_open会根据文件路径建立一个共享内存区对象或者打开一个已经存在的共享内存区对象，oflag和mode和Posix系列的其他IPC含义一致。shm_unlink是删除一个共享内存区对象，只有引用计数为0才执行删除操作。具备随内核的持续性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/stat.h&gt;</span><br><span class="line">int ftruncate(int fd, off_t length);</span><br><span class="line">int fstat(int fd, struct stat * buf);</span><br></pre></td></tr></table></figure></p>
+<p>ftruncate可以用来设置内存区对象的大小，对于普通文件，如果文件大小大于length额外数据丢弃，如果小于length大小，未定义，（对于普通文件的更改大小，可以lseek到length-1位置，然后写入一个字节）；对于共享内存区对象，ftruncate直接设置为length.<br>fstat获得这个内存区对象的各项信息。  </p>
+<h3 id="程序实例"><a href="#程序实例" class="headerlink" title="程序实例"></a>程序实例</h3><p>共享内存区由于是共享的，所以对它的访问要使用同步策略，互斥，条件变量或者信号量都可以，下面程序使用信号量来同步实现生产者消费者模型。<br>客户端：</p>
+<p>服务器：</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>APUE 15章<br>UNP2 12,13章</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/共享内存/" rel="tag">#共享内存</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/06/15/二分搜索之数学问题/" rel="next" title="二分搜索之数学问题">
+                <i class="fa fa-chevron-left"></i> 二分搜索之数学问题
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/06/18/IPC之SystemV共享内存/" rel="prev" title="IPC之SystemV共享内存">
+                IPC之SystemV共享内存 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/06/18/IPC之Posix共享内存/"
+     data-title="IPC之Posix共享内存"
+     data-content=""
+     data-url="http://yoursite.com/2016/06/18/IPC之Posix共享内存/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/06/18/IPC之Posix共享内存/"
+           data-title="IPC之Posix共享内存" data-url="http://yoursite.com/2016/06/18/IPC之Posix共享内存/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.png"
+               alt="Dongmeng Li" />
+          <p class="site-author-name" itemprop="name">Dongmeng Li</p>
+          <p class="site-description motion-element" itemprop="description">你若盛开，蝴蝶自来。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">62</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lidongmeng" target="_blank">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+            <div class="links-of-blogroll-title">Links</div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://macshuo.com/" target="_blank">MacTalk</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://example.com/" target="_blank">Title</a>
+                </li>
+              
+            </ul>
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#IPC通信过程"><span class="nav-number">1.</span> <span class="nav-text">IPC通信过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一次完整的客户服务器复制文件的实例"><span class="nav-number">2.</span> <span class="nav-text">一次完整的客户服务器复制文件的实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#普通IPC-lt-管道，FIFO，消息队列-gt"><span class="nav-number">2.1.</span> <span class="nav-text">普通IPC<管道，FIFO，消息队列></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#共享内存方式"><span class="nav-number">2.2.</span> <span class="nav-text">共享内存方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mmap，munmap函数"><span class="nav-number">3.</span> <span class="nav-text">mmap，munmap函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用普通文件以提供内存映射IO"><span class="nav-number">3.1.</span> <span class="nav-text">使用普通文件以提供内存映射IO</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#测试一"><span class="nav-number">3.1.1.</span> <span class="nav-text">测试一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试二"><span class="nav-number">3.1.2.</span> <span class="nav-text">测试二</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">3.1.3.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用特殊文件以提供匿名内存映射"><span class="nav-number">3.2.</span> <span class="nav-text">使用特殊文件以提供匿名内存映射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用shm-open提供无亲缘关系的进程间的共享内存区"><span class="nav-number">3.3.</span> <span class="nav-text">使用shm_open提供无亲缘关系的进程间的共享内存区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序实例"><span class="nav-number">3.4.</span> <span class="nav-text">程序实例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dongmeng Li</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lidongmeng0213"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="线程池," />
 
 
 
@@ -57,16 +57,16 @@
 
 
 
-<meta name="description" content="你若盛开，蝴蝶自来。">
+<meta name="description" content="线程池线程池，就是拥有若干个线程，线程的个数并不是越多越好，太多了会增加系统的开销，太少了会降低并发量，呢么设置多少个线程合适呢？另外是不是所有的任务放到线程池里面都合适呢？这些都要根据任务的类型来进行判断：1、 计算密集型任务：这个任务是占用cpu的，很少被外界事件打断，这时要设置线程个数=CPU个数，如果线程个数大于CPU个数的话，由于CPU个数不足，并发的数目是一定的，所以需要有少量的CPU">
 <meta property="og:type" content="article">
 <meta property="og:title" content="线程池的设计与应用">
 <meta property="og:url" content="http://yoursite.com/2016/05/22/线程池的设计与应用/index.html">
 <meta property="og:site_name" content="DongMengLi">
-<meta property="og:description" content="你若盛开，蝴蝶自来。">
-<meta property="og:updated_time" content="2016-05-22T09:20:59.097Z">
+<meta property="og:description" content="线程池线程池，就是拥有若干个线程，线程的个数并不是越多越好，太多了会增加系统的开销，太少了会降低并发量，呢么设置多少个线程合适呢？另外是不是所有的任务放到线程池里面都合适呢？这些都要根据任务的类型来进行判断：1、 计算密集型任务：这个任务是占用cpu的，很少被外界事件打断，这时要设置线程个数=CPU个数，如果线程个数大于CPU个数的话，由于CPU个数不足，并发的数目是一定的，所以需要有少量的CPU">
+<meta property="og:updated_time" content="2016-06-18T03:30:10.208Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="线程池的设计与应用">
-<meta name="twitter:description" content="你若盛开，蝴蝶自来。">
+<meta name="twitter:description" content="线程池线程池，就是拥有若干个线程，线程的个数并不是越多越好，太多了会增加系统的开销，太少了会降低并发量，呢么设置多少个线程合适呢？另外是不是所有的任务放到线程池里面都合适呢？这些都要根据任务的类型来进行判断：1、 计算密集型任务：这个任务是占用cpu的，很少被外界事件打断，这时要设置线程个数=CPU个数，如果线程个数大于CPU个数的话，由于CPU个数不足，并发的数目是一定的，所以需要有少量的CPU">
 
 
 
@@ -280,7 +280,17 @@
       
 
       
-        
+        <h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>线程池，就是拥有若干个线程，线程的个数并不是越多越好，太多了会增加系统的开销，太少了会降低并发量，呢么设置多少个线程合适呢？另外是不是所有的任务放到线程池里面都合适呢？这些都要根据任务的类型来进行判断：<br>1、 计算密集型任务：这个任务是占用cpu的，很少被外界事件打断，这时要设置线程个数=CPU个数，如果线程个数大于CPU个数的话，由于CPU个数不足，并发的数目是一定的，所以需要有少量的CPU个数调度多个线程，这涉及线程与线程之间的切换开销，会降低效率。<br>2、 IO密集型任务：这个时候线程个数要大于CPU个数，因为任务运行时候可能需要等待IO，可能将这个任务挂起。<br>线程池本质实际也是生产者消费者模型的应用，生产者向任务队列中添加任务，一旦队列有任务到来，有闲置线程就让它执行任务，没有就等待直到新的空闲线程到来，用互斥锁和条件变量可以来控制。  </p>
+<h2 id="线程池框架"><a href="#线程池框架" class="headerlink" title="线程池框架"></a>线程池框架</h2><p>下面介绍一个线程池框架，该线程池框架利用两个队列来管理闲置线程和繁忙线程，当任务到来并且有闲置线程时候分配它进行工作，并加入到繁忙线程队列中，当工作完成时候放回闲置线程。  </p>
+<h3 id="TThread"><a href="#TThread" class="headerlink" title="TThread"></a>TThread</h3><p>TThread是对线程的创建和销毁的基类，注意线程创建里面的thread_func必须是C语言中的函数命名编译规则，所以要么加上”extern C”，要么设置为静态函数。</p>
+<h3 id="TWorkThread"><a href="#TWorkThread" class="headerlink" title="TWorkThread"></a>TWorkThread</h3><p>TWorkThread继承与TThread，是工作线程，每个工作线程里面有TThreadPool的引用，是该工作线程从属于哪个线程池，另外有相应的工作TJob表示具体的工作，线程开启后不断的循环等待工作到来，如果工作不为空执行工作。  </p>
+<h3 id="TMutex"><a href="#TMutex" class="headerlink" title="TMutex"></a>TMutex</h3><p>TMutex是对Posix互斥锁的封装。</p>
+<h3 id="TCondition"><a href="#TCondition" class="headerlink" title="TCondition"></a>TCondition</h3><p>TCondition是对Posix条件变量的封装。</p>
+<h3 id="TThreadPool"><a href="#TThreadPool" class="headerlink" title="TThreadPool"></a>TThreadPool</h3><p>线程池管理闲置和繁忙的线程队列，由于这两个队列都是共享资源，所以要用互斥锁和条件变量来进行管理。</p>
+<h3 id="TThreadPoolManager"><a href="#TThreadPoolManager" class="headerlink" title="TThreadPoolManager"></a>TThreadPoolManager</h3><p>对TThreadPool简单的封装。</p>
+<h3 id="TJob"><a href="#TJob" class="headerlink" title="TJob"></a>TJob</h3><p>具体的工作，交给工作线程执行的就是该工作，有一个run方法的接口，具体的工作可以通过继承该类然后实现run方法进行特定工作的处理。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://www.cnblogs.com/webor2006/p/4266726.html" target="_blank" rel="external">http://www.cnblogs.com/webor2006/p/4266726.html</a></p>
+
       
     </div>
     
@@ -297,6 +307,12 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/线程池/" rel="tag">#线程池</a>
+          
+        </div>
       
 
       
@@ -404,7 +420,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">56</span>
+              <span class="site-state-item-count">62</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -421,7 +437,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -485,7 +501,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池"><span class="nav-number">1.</span> <span class="nav-text">线程池</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池框架"><span class="nav-number">2.</span> <span class="nav-text">线程池框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TThread"><span class="nav-number">2.1.</span> <span class="nav-text">TThread</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TWorkThread"><span class="nav-number">2.2.</span> <span class="nav-text">TWorkThread</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TMutex"><span class="nav-number">2.3.</span> <span class="nav-text">TMutex</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCondition"><span class="nav-number">2.4.</span> <span class="nav-text">TCondition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TThreadPool"><span class="nav-number">2.5.</span> <span class="nav-text">TThreadPool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TThreadPoolManager"><span class="nav-number">2.6.</span> <span class="nav-text">TThreadPoolManager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TJob"><span class="nav-number">2.7.</span> <span class="nav-text">TJob</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
           </div>
         </section>
