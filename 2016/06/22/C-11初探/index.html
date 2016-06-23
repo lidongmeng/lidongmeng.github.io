@@ -63,7 +63,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/06/22/C-11初探/index.html">
 <meta property="og:site_name" content="DongMengLi">
 <meta property="og:description" content="自动推导autoC++98中auto是具有自动存储期的局部变量，不过基本无人使用，因为一般函数内没有声明为static的变量总是具有自动存储期的局部变量。C++11中auto不再是一个存储类型指示符，而是一个新的类型指示符来指示编译器，auto声明的变量的类型必须在编译时期推导得到。此外，auto声明的变量必须被初始化，以使编译器能够从其初始化表达式中推导出它的类型，所以其实auto并不是一个类型">
-<meta property="og:updated_time" content="2016-06-22T06:11:19.255Z">
+<meta property="og:updated_time" content="2016-06-23T14:53:07.961Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++11初探">
 <meta name="twitter:description" content="自动推导autoC++98中auto是具有自动存储期的局部变量，不过基本无人使用，因为一般函数内没有声明为static的变量总是具有自动存储期的局部变量。C++11中auto不再是一个存储类型指示符，而是一个新的类型指示符来指示编译器，auto声明的变量的类型必须在编译时期推导得到。此外，auto声明的变量必须被初始化，以使编译器能够从其初始化表达式中推导出它的类型，所以其实auto并不是一个类型">
@@ -282,7 +282,7 @@
       
         <h2 id="自动推导"><a href="#自动推导" class="headerlink" title="自动推导"></a>自动推导</h2><h3 id="auto"><a href="#auto" class="headerlink" title="auto"></a>auto</h3><p>C++98中auto是具有自动存储期的局部变量，不过基本无人使用，因为一般函数内没有声明为static的变量总是具有自动存储期的局部变量。C++11中auto不再是一个存储类型指示符，而是一个新的<b>类型指示符</b>来指示编译器，auto声明的变量的类型必须在编译时期推导得到。此外，auto声明的变量<b>必须被初始化</b>，以使编译器能够从其初始化表达式中推导出它的类型，所以其实auto并不是一个类型声明，而是类型声明时的占位符，编译器在编译时期会将auto替代为变量实际的类型。</p>
 <h4 id="auto使用及优势"><a href="#auto使用及优势" class="headerlink" title="auto使用及优势"></a>auto使用及优势</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">std::vector&lt;std::string&gt;::iterator i=vs.begin();------auto i = vs.begin();</span><br></pre></td></tr></table></figure>
-<p>1、 可以简化代码；<br>2、 可以解决一些精度问题（隐式类型转换）；<br>3、当auto应用于模板的定义中，其”自适应”性会得到更加充分的体现;</p>
+<p>1、 可以简化代码；<br>2、 可以解决一些精度问题（隐式类型转换）；<br><a id="more"></a><br>3、当auto应用于模板的定义中，其”自适应”性会得到更加充分的体现;</p>
 <h4 id="auto注意点"><a href="#auto注意点" class="headerlink" title="auto注意点"></a>auto注意点</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 错误的使用举例：</span><br><span class="line">auto int p;</span><br><span class="line">auto p;</span><br><span class="line">void fun(auto z = 1);</span><br><span class="line">struct str &#123;</span><br><span class="line">    auto var = 10;</span><br><span class="line">&#125;</span><br><span class="line">char x[3];</span><br><span class="line">auto p[3] = x;</span><br><span class="line"></span><br><span class="line">vector&lt;auto&gt; v = &#123;1&#125;;</span><br><span class="line"></span><br><span class="line">auto p = new auto(0);</span><br><span class="line">auto pp = new auto;</span><br></pre></td></tr></table></figure>
 <p>1、 auto int p这种类型定义不能在C++11中了，因为C++11去除了auto自动存储变量的含义；<br>2、 auto p; 这个编译无法通过，auto声明的变量必须初始化;<br>3、 函数声明中的形参不能声明为auto;<br>4、 结构体中的非静态成员不能是auto;<br>5、 定义在堆上的变量，使用了auto的表达式必须被初始化;<br>6、 auto会退化成指向数组的指针，除非被声明为引用；<br>7、 auto是一个占位符，并不是一个他自己的类型，因此不能用于类型转换或其他一些操作，如sizeof和typeid。</p>
 <h3 id="decltype"><a href="#decltype" class="headerlink" title="decltype"></a>decltype</h3><p>decltype是以<b>一个普通的表达式为参数，返回该表达式的类型</b>，与auto一样，decltype也是一个类型指示符，可以将获得的类型来定义另外一个变量，推导过程也是在编译期间进行的。</p>
@@ -325,6 +325,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/06/23/编程珠玑之采样问题/" rel="prev" title="编程珠玑之采样问题">
+                编程珠玑之采样问题 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -415,7 +419,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">62</span>
+              <span class="site-state-item-count">63</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -423,7 +427,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -432,7 +436,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

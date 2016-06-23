@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="共享内存," />
 
 
 
@@ -57,16 +57,20 @@
 
 
 
-<meta name="description" content="你若盛开，蝴蝶自来。">
+<meta name="description" content="数据结构SystemV共享内存和消息队列一样，有自己的数据结构，如下：12345678910struct shmid_ds &amp;#123;    struct ip_perm shm_perm; // ipc对象数据结构    size_t shm_segsz; // 共享内存的字节数    time_t shm_atime; // 最后一次映射的时间    time_t shm_dtime; //">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IPC之SystemV共享内存">
 <meta property="og:url" content="http://yoursite.com/2016/06/18/IPC之SystemV共享内存/index.html">
 <meta property="og:site_name" content="DongMengLi">
-<meta property="og:description" content="你若盛开，蝴蝶自来。">
-<meta property="og:updated_time" content="2016-06-18T03:35:09.607Z">
+<meta property="og:description" content="数据结构SystemV共享内存和消息队列一样，有自己的数据结构，如下：12345678910struct shmid_ds &amp;#123;    struct ip_perm shm_perm; // ipc对象数据结构    size_t shm_segsz; // 共享内存的字节数    time_t shm_atime; // 最后一次映射的时间    time_t shm_dtime; //">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_system_shm1.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_system_shm2.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_system_shm3.png">
+<meta property="og:updated_time" content="2016-06-23T14:52:33.525Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IPC之SystemV共享内存">
-<meta name="twitter:description" content="你若盛开，蝴蝶自来。">
+<meta name="twitter:description" content="数据结构SystemV共享内存和消息队列一样，有自己的数据结构，如下：12345678910struct shmid_ds &amp;#123;    struct ip_perm shm_perm; // ipc对象数据结构    size_t shm_segsz; // 共享内存的字节数    time_t shm_atime; // 最后一次映射的时间    time_t shm_dtime; //">
+<meta name="twitter:image" content="http://yoursite.com/images/APUE/ipc_system_shm1.png">
 
 
 
@@ -252,6 +256,25 @@
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/IPC/" itemprop="url" rel="index">
+                    <span itemprop="name">IPC</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -280,7 +303,19 @@
       
 
       
-        
+        <h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><p>SystemV共享内存和消息队列一样，有自己的数据结构，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">struct shmid_ds &#123;</span><br><span class="line">    struct ip_perm shm_perm; // ipc对象数据结构</span><br><span class="line">    size_t shm_segsz; // 共享内存的字节数</span><br><span class="line">    time_t shm_atime; // 最后一次映射的时间</span><br><span class="line">    time_t shm_dtime; // 最后一次解除映射的时间</span><br><span class="line">    time_t shm_ctime; // 最后一次共享内存发生状态改变的时间</span><br><span class="line">    pid_t shm_cpid; // 共享内存创建者的pid</span><br><span class="line">    pid_t shm_clpid; // 最后一次连接或者脱离共享内存的进程ID</span><br><span class="line">    shmatt_t shm_nattach; // 当前被共享内存连接的次数</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="shmget"><a href="#shmget" class="headerlink" title="shmget"></a>shmget</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/ipc.h&gt;</span><br><span class="line">#include &lt;sys/shm.h&gt;</span><br><span class="line">int shmget(key_t key, size_t size, int shmflg);</span><br></pre></td></tr></table></figure>
+<p>shmget用来创建共享内存，key还是用ftok进行转换，size是共享内存大小（当用来打开时候可以设置为0，用来创建时候必须为大于0），shmflg是权限标识。</p>
+<h3 id="shmat"><a href="#shmat" class="headerlink" title="shmat"></a>shmat</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void * shmat(int shmid, const void * shmaddr, int shmflg);</span><br></pre></td></tr></table></figure>
+<p>shmat是将共享内存段连接到进程地址空间，一般shmaddr设置为NULL，会自动选择一个地址。</p>
+<h3 id="shmdt"><a href="#shmdt" class="headerlink" title="shmdt"></a>shmdt</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int shmdt(const void * shmaddr);</span><br></pre></td></tr></table></figure>
+<p>进程用这个函数断开这个内存区，参数是shmat返回的地址，当进程终止时候，当前连接的所有共享内存区都会自动断开。</p>
+<h3 id="shmctl"><a href="#shmctl" class="headerlink" title="shmctl"></a>shmctl</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int shmctl(int shmid, int cmd, struct shmid_ds * buff);</span><br></pre></td></tr></table></figure>
+<p>cmd可以是IPC_STAT用来获得共享内存的当前状态存储到buff里面；可以是IPC_RMID是从系统中删除共享内存区；可以是IPC_SET设置shmid_ds里面的shm_perm.uid,shm_perm.gid,shm_perm.mode，值来自后面的buff。</p>
+<h2 id="程序举例"><a href="#程序举例" class="headerlink" title="程序举例"></a>程序举例</h2><p>write程序建立一个共享内存区，然后向其中写入一条消息，然后read程序从中读取消息并打印出来。<br><img src="/images/APUE/ipc_system_shm1.png" alt="&quot;c3&quot;"><br><img src="/images/APUE/ipc_system_shm2.png" alt="&quot;c3&quot;"><br>运行结果如下：<br><img src="/images/APUE/ipc_system_shm3.png" alt="&quot;c3&quot;"><br>从上面可以看到利用ipcs查看，可以看到新创建的共享内存。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>UNP2 第14章<br>APUE 第15章</p>
+
       
     </div>
     
@@ -297,6 +332,12 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/共享内存/" rel="tag">#共享内存</a>
+          
+        </div>
       
 
       
@@ -404,7 +445,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">62</span>
+              <span class="site-state-item-count">63</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -412,7 +453,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -421,7 +462,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -485,7 +526,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据结构"><span class="nav-number">1.</span> <span class="nav-text">数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数"><span class="nav-number">2.</span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#shmget"><span class="nav-number">2.1.</span> <span class="nav-text">shmget</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shmat"><span class="nav-number">2.2.</span> <span class="nav-text">shmat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shmdt"><span class="nav-number">2.3.</span> <span class="nav-text">shmdt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shmctl"><span class="nav-number">2.4.</span> <span class="nav-text">shmctl</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序举例"><span class="nav-number">3.</span> <span class="nav-text">程序举例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
           </div>
         </section>

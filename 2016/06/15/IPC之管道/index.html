@@ -58,15 +58,13 @@
 
 
 <meta name="description" content="管道是Unix中最古老的进程间通信方式，把从一个进程连接到另一个进程的一个数据流叫做管道，可以将它看做一个固定大小的内核缓冲区。
-管道特点1、 管道是半双工的，数据只能向一个方向流动，要想双向通信就必须建立两个管道，如下图所示：2、 管道只能用于有亲缘关系的进程之间，一般由父进程创建，然后父子进程就可以通过该管道进行通信。
-pipe函数1int pipe(int fds[2]); // 成功返回0">
+管道特点1、 管道是半双工的，数据只能向一个方向流动，要想双向通信就必须建立两个管道，如下图所示：2、 管道只能用于有亲缘关系的进程之间，一般由父进程创建，然后父子进程就可以通过该管道进行通信。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IPC之管道">
 <meta property="og:url" content="http://yoursite.com/2016/06/15/IPC之管道/index.html">
 <meta property="og:site_name" content="DongMengLi">
 <meta property="og:description" content="管道是Unix中最古老的进程间通信方式，把从一个进程连接到另一个进程的一个数据流叫做管道，可以将它看做一个固定大小的内核缓冲区。
-管道特点1、 管道是半双工的，数据只能向一个方向流动，要想双向通信就必须建立两个管道，如下图所示：2、 管道只能用于有亲缘关系的进程之间，一般由父进程创建，然后父子进程就可以通过该管道进行通信。
-pipe函数1int pipe(int fds[2]); // 成功返回0">
+管道特点1、 管道是半双工的，数据只能向一个方向流动，要想双向通信就必须建立两个管道，如下图所示：2、 管道只能用于有亲缘关系的进程之间，一般由父进程创建，然后父子进程就可以通过该管道进行通信。">
 <meta property="og:image" content="http://yoursite.com/images/APUE/ipc_pipe1.png">
 <meta property="og:image" content="http://yoursite.com/images/APUE/ipc_pipe3.png">
 <meta property="og:image" content="http://yoursite.com/images/APUE/ipc_pipe2.png">
@@ -81,12 +79,11 @@ pipe函数1int pipe(int fds[2]); // 成功返回0">
 <meta property="og:image" content="http://yoursite.com/images/APUE/ipc_pipe12.png">
 <meta property="og:image" content="http://yoursite.com/images/APUE/ipc_pipe13.png">
 <meta property="og:image" content="http://yoursite.com/images/APUE/ipc_pipe14.png">
-<meta property="og:updated_time" content="2016-06-15T14:18:45.822Z">
+<meta property="og:updated_time" content="2016-06-23T14:53:15.465Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IPC之管道">
 <meta name="twitter:description" content="管道是Unix中最古老的进程间通信方式，把从一个进程连接到另一个进程的一个数据流叫做管道，可以将它看做一个固定大小的内核缓冲区。
-管道特点1、 管道是半双工的，数据只能向一个方向流动，要想双向通信就必须建立两个管道，如下图所示：2、 管道只能用于有亲缘关系的进程之间，一般由父进程创建，然后父子进程就可以通过该管道进行通信。
-pipe函数1int pipe(int fds[2]); // 成功返回0">
+管道特点1、 管道是半双工的，数据只能向一个方向流动，要想双向通信就必须建立两个管道，如下图所示：2、 管道只能用于有亲缘关系的进程之间，一般由父进程创建，然后父子进程就可以通过该管道进行通信。">
 <meta name="twitter:image" content="http://yoursite.com/images/APUE/ipc_pipe1.png">
 
 
@@ -321,7 +318,7 @@ pipe函数1int pipe(int fds[2]); // 成功返回0">
 
       
         <p>管道是Unix中最古老的进程间通信方式，把从一个进程连接到另一个进程的一个数据流叫做管道，可以将它看做一个固定大小的内核缓冲区。</p>
-<h2 id="管道特点"><a href="#管道特点" class="headerlink" title="管道特点"></a>管道特点</h2><p>1、 管道是半双工的，数据只能向一个方向流动，要想双向通信就必须建立两个管道，如下图所示：<br><img src="/images/APUE/ipc_pipe1.png" alt="&quot;c3&quot;"><br><img src="/images/APUE/ipc_pipe3.png" alt="&quot;c3&quot;"><br>2、 管道只能用于有亲缘关系的进程之间，一般由父进程创建，然后父子进程就可以通过该管道进行通信。<br><img src="/images/APUE/ipc_pipe2.png" alt="&quot;c3&quot;"></p>
+<h2 id="管道特点"><a href="#管道特点" class="headerlink" title="管道特点"></a>管道特点</h2><p>1、 管道是半双工的，数据只能向一个方向流动，要想双向通信就必须建立两个管道，如下图所示：<br><img src="/images/APUE/ipc_pipe1.png" alt="&quot;c3&quot;"><br><img src="/images/APUE/ipc_pipe3.png" alt="&quot;c3&quot;"><br>2、 管道只能用于有亲缘关系的进程之间，一般由父进程创建，然后父子进程就可以通过该管道进行通信。<br><img src="/images/APUE/ipc_pipe2.png" alt="&quot;c3&quot;"><br><a id="more"></a></p>
 <h2 id="pipe函数"><a href="#pipe函数" class="headerlink" title="pipe函数"></a>pipe函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int pipe(int fds[2]); // 成功返回0，并将管道描述符放在fds中，错误返回-1，</span><br></pre></td></tr></table></figure>
 <p>fds[0]表示读端，fds[1]表示写端。管道的文件描述符其他进程无法获取，只能通过子进程继承得来，所以管道只能在有亲缘关系的进程间使用。</p>
 <h2 id="程序举例"><a href="#程序举例" class="headerlink" title="程序举例"></a>程序举例</h2><h3 id="实现父子进程之间通信"><a href="#实现父子进程之间通信" class="headerlink" title="实现父子进程之间通信"></a>实现父子进程之间通信</h3><p>子进程向管道写入数据，父进程等待子进程消息到来，程序如下：<br><img src="/images/APUE/ipc_pipe4.png" alt="&quot;c3&quot;"><br>运行如下：<br><img src="/images/APUE/ipc_pipe5.png" alt="&quot;c3&quot;"></p>
@@ -462,7 +459,7 @@ pipe函数1int pipe(int fds[2]); // 成功返回0">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">62</span>
+              <span class="site-state-item-count">63</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -470,7 +467,7 @@ pipe函数1int pipe(int fds[2]); // 成功返回0">
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -479,7 +476,7 @@ pipe函数1int pipe(int fds[2]); // 成功返回0">
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

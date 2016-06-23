@@ -66,7 +66,7 @@
 <meta property="og:description" content="Posix信号量虽然有有名和无名之分，但是都只是针对一个资源的数量的操作，但是SystemV信号量却可以针对一个或者多个信号量(计数信号量集)，所以增加了操作复杂性。
 内核中的结构内核为每个信号量集维护了如下的信息结构：1234567struct semid_d &amp;#123;    struct ipc_perm sem_perm; // 当前信号量的访问权限    struct sem * se">
 <meta property="og:image" content="http://yoursite.com/images/APUE/systemv_sem1.png">
-<meta property="og:updated_time" content="2016-06-13T16:14:34.605Z">
+<meta property="og:updated_time" content="2016-06-23T14:53:41.657Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IPC之SystemV信号量">
 <meta name="twitter:description" content="Posix信号量虽然有有名和无名之分，但是都只是针对一个资源的数量的操作，但是SystemV信号量却可以针对一个或者多个信号量(计数信号量集)，所以增加了操作复杂性。
@@ -289,7 +289,8 @@
 <h2 id="内核中的结构"><a href="#内核中的结构" class="headerlink" title="内核中的结构"></a>内核中的结构</h2><p>内核为每个信号量集维护了如下的信息结构：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">struct semid_d &#123;</span><br><span class="line">    struct ipc_perm sem_perm; // 当前信号量的访问权限</span><br><span class="line">    struct sem * sem_base; // 指向信号量集的指针</span><br><span class="line">    ushort sem_nsems;  // 信号量的数目</span><br><span class="line">    time_t sem_otime;  // </span><br><span class="line">    time_t sem_ctime;  // 创建时间</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
 <p>其中sem结构体如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct sem &#123;</span><br><span class="line">    ushort_t semval; // 信号量的值</span><br><span class="line">    short   sempid; // 上一个成功操作semop的进程的pid</span><br><span class="line">    ushort_t semncnt; // 等待其值增长的进程数目</span><br><span class="line">    ushort_t semzcnt; // 等待其值变为0的进程数目</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
 <p>下图是一个有两个信号量的信号量集的内核数据结构：<br><img src="/images/APUE/systemv_sem1.png" alt="&quot;c3&quot;"></p>
-<h2 id="systemv信号量相关操作函数"><a href="#systemv信号量相关操作函数" class="headerlink" title="systemv信号量相关操作函数"></a>systemv信号量相关操作函数</h2><h3 id="semget函数"><a href="#semget函数" class="headerlink" title="semget函数"></a>semget函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int semget(key_t key, int nsems, int semflg);</span><br><span class="line">// key使用ftok产生一个key_t的变量key_t ftok( char * fname, int id );</span><br><span class="line">// nsems是指定的信号量集中信号量的数目，如果是0，表示访问，一旦建立就不能更改数目</span><br><span class="line">// semflg是权限相关以及IPC_CREAT 或者IPC_CREAT|IPC_EXCL</span><br></pre></td></tr></table></figure>
+<h2 id="systemv信号量相关操作函数"><a href="#systemv信号量相关操作函数" class="headerlink" title="systemv信号量相关操作函数"></a>systemv信号量相关操作函数</h2><a id="more"></a>
+<h3 id="semget函数"><a href="#semget函数" class="headerlink" title="semget函数"></a>semget函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int semget(key_t key, int nsems, int semflg);</span><br><span class="line">// key使用ftok产生一个key_t的变量key_t ftok( char * fname, int id );</span><br><span class="line">// nsems是指定的信号量集中信号量的数目，如果是0，表示访问，一旦建立就不能更改数目</span><br><span class="line">// semflg是权限相关以及IPC_CREAT 或者IPC_CREAT|IPC_EXCL</span><br></pre></td></tr></table></figure>
 <p>成功返回信号量标识符，错误返回-1;函数功能是填写semid_ds中的相关数据sem_perm通过最后一个参数填写，sem_nsems通过nsems填写，sem_otime被置为0，sem_ctime被置为当前时间。<b>但是semget函数并不初始化各个信号量的semval，要通过semctl来进行初始化操作</b><br><b>创建和初始化是两个原子性操作，在创建后未进行初始化就有可能被别的进程抢占，而且直接使用，但是此时的信号量的值是不确定的，大写的尴尬，不过还好的是有sem_otime这个选项保证了未初始化时候为0，所以在别的进程使用信号量时候，得到信号量标识符后，不要直接操作信号p的v操作，先使用semctl的IPC_STAT命令循环等待sem_otime变为非0，也就是阻塞在这里。</b></p>
 <h3 id="semop函数–pv操作主要函数"><a href="#semop函数–pv操作主要函数" class="headerlink" title="semop函数–pv操作主要函数"></a>semop函数–pv操作主要函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int semop(int semid, struct sembuf * opsptr, size_t nops);</span><br></pre></td></tr></table></figure>
 <p>第二个参数表示的是对一个信号量的具体操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct sembuf &#123;</span><br><span class="line">    short sem_num;</span><br><span class="line">    short sem_op; </span><br><span class="line">    short sem_flg; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -429,7 +430,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">62</span>
+              <span class="site-state-item-count">63</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -437,7 +438,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -446,7 +447,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

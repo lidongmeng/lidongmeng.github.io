@@ -81,7 +81,7 @@
 <meta property="og:image" content="http://yoursite.com/images/APUE/c3-13.png">
 <meta property="og:image" content="http://yoursite.com/images/APUE/c3-14.png">
 <meta property="og:image" content="http://yoursite.com/images/APUE/c3-15.png">
-<meta property="og:updated_time" content="2016-06-10T16:47:13.077Z">
+<meta property="og:updated_time" content="2016-06-23T14:54:46.809Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="APUE之文件与IO编程">
 <meta name="twitter:description" content="Linux中有两种类型的IO，一种是ANSIC提供的高级IO,叫做带缓冲的IO，另外一种是低级IO，系统调用的IO，不带缓冲，带不带缓冲取决于调用一次是否是内核的一个系统调用。
@@ -322,7 +322,8 @@
         <p>Linux中有两种类型的IO，一种是ANSIC提供的高级IO,叫做带缓冲的IO，另外一种是低级IO，系统调用的IO，不带缓冲，带不带缓冲取决于调用一次是否是内核的一个系统调用。</p>
 <h2 id="文件描述符"><a href="#文件描述符" class="headerlink" title="文件描述符"></a>文件描述符</h2><p>对应Linux内核来说，每一个打开的文件通过文件描述符引用，读写文件都通过该文件描述符进行操作，系统默认的3个文件0,1,2分别代表标准输入，标准输出以及标准错误。一个进程能打开的最多描述符个数是1024个(ulimit -a/-n)，一个系统打开的最多文件数目查看(cat /proc/sys/fs/file-max)，如下图所示：<br><img src="/images/APUE/c3.png" alt="&quot;c3&quot;"></p>
 <h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><p>Linux中编程中的错误会记录在errno中，可以通过错误处理函数perror或者strerror来将错误打印出来，供分析，下面程序演示了两个函数的使用:<br><img src="/images/APUE/c3-2.png" alt="&quot;c3&quot;"><br>编译运行得到如下截图，第二个参数表明使用哪个函数，1表示使用perror，2表示使用strerror：<br><img src="/images/APUE/c3-1.png" alt="&quot;c3&quot;"><br>可以看出，perror的消息是固定的，而strerror可以很灵活。</p>
-<h2 id="低级IO函数"><a href="#低级IO函数" class="headerlink" title="低级IO函数"></a>低级IO函数</h2><h3 id="open"><a href="#open" class="headerlink" title="open"></a>open</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/stat.h&gt;</span><br><span class="line">#include &lt;fcntl.h&gt;</span><br><span class="line">int open(const char *path, int oflag, ...);</span><br><span class="line">int openat(int fd, const char *path, int oflag, ...);</span><br><span class="line">// 返回的一定是最小的未用的描述符数值</span><br></pre></td></tr></table></figure>
+<h2 id="低级IO函数"><a href="#低级IO函数" class="headerlink" title="低级IO函数"></a>低级IO函数</h2><a id="more"></a>
+<h3 id="open"><a href="#open" class="headerlink" title="open"></a>open</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/stat.h&gt;</span><br><span class="line">#include &lt;fcntl.h&gt;</span><br><span class="line">int open(const char *path, int oflag, ...);</span><br><span class="line">int openat(int fd, const char *path, int oflag, ...);</span><br><span class="line">// 返回的一定是最小的未用的描述符数值</span><br></pre></td></tr></table></figure>
 <p>第二个函数可以以相对路径名字打开文件，第一个是绝对路径。第二个参数表示是打开模式，可以是以下的组合（不存在时候要使用O_CREAT):<br><img src="/images/APUE/c3-3.png" alt="&quot;c3&quot;"><br>第三个参数是可选的，是规定文件的权限，这个权限要与系统的umask进行&amp;操作。</p>
 <h3 id="create"><a href="#create" class="headerlink" title="create"></a>create</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int creat(const char *path, mode_t mode);</span><br></pre></td></tr></table></figure>
 <p>和open一样，一般使用open来代替。</p>
@@ -469,7 +470,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">62</span>
+              <span class="site-state-item-count">63</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -477,7 +478,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -486,7 +487,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

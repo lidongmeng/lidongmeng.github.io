@@ -236,6 +236,105 @@
             
               
                 
+                <a class="post-title-link" href="/2016/06/14/IPC之SystemV消息队列/" itemprop="url">
+                  IPC之SystemV消息队列
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-14T10:06:49+08:00" content="2016-06-14">
+              2016-06-14
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/14/IPC之SystemV消息队列/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/14/IPC之SystemV消息队列/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/06/14/IPC之Posix信号量/" itemprop="url">
                   IPC之Posix信号量
                 </a>
@@ -255,6 +354,25 @@
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/IPC/" itemprop="url" rel="index">
+                    <span itemprop="name">IPC</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
@@ -384,23 +502,16 @@
 
       
         
-          
-            <p>Posix信号量虽然有有名和无名之分，但是都只是针对一个资源的数量的操作，但是SystemV信号量却可以针对一个或者多个信号量(计数信号量集)，所以增加了操作复杂性。</p>
+          <p>Posix信号量虽然有有名和无名之分，但是都只是针对一个资源的数量的操作，但是SystemV信号量却可以针对一个或者多个信号量(计数信号量集)，所以增加了操作复杂性。</p>
 <h2 id="内核中的结构"><a href="#内核中的结构" class="headerlink" title="内核中的结构"></a>内核中的结构</h2><p>内核为每个信号量集维护了如下的信息结构：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">struct semid_d &#123;</span><br><span class="line">    struct ipc_perm sem_perm; // 当前信号量的访问权限</span><br><span class="line">    struct sem * sem_base; // 指向信号量集的指针</span><br><span class="line">    ushort sem_nsems;  // 信号量的数目</span><br><span class="line">    time_t sem_otime;  // </span><br><span class="line">    time_t sem_ctime;  // 创建时间</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
 <p>其中sem结构体如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct sem &#123;</span><br><span class="line">    ushort_t semval; // 信号量的值</span><br><span class="line">    short   sempid; // 上一个成功操作semop的进程的pid</span><br><span class="line">    ushort_t semncnt; // 等待其值增长的进程数目</span><br><span class="line">    ushort_t semzcnt; // 等待其值变为0的进程数目</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
 <p>下图是一个有两个信号量的信号量集的内核数据结构：<br><img src="/images/APUE/systemv_sem1.png" alt="&quot;c3&quot;"></p>
-<h2 id="systemv信号量相关操作函数"><a href="#systemv信号量相关操作函数" class="headerlink" title="systemv信号量相关操作函数"></a>systemv信号量相关操作函数</h2><h3 id="semget函数"><a href="#semget函数" class="headerlink" title="semget函数"></a>semget函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int semget(key_t key, int nsems, int semflg);</span><br><span class="line">// key使用ftok产生一个key_t的变量key_t ftok( char * fname, int id );</span><br><span class="line">// nsems是指定的信号量集中信号量的数目，如果是0，表示访问，一旦建立就不能更改数目</span><br><span class="line">// semflg是权限相关以及IPC_CREAT 或者IPC_CREAT|IPC_EXCL</span><br></pre></td></tr></table></figure>
-<p>成功返回信号量标识符，错误返回-1;函数功能是填写semid_ds中的相关数据sem_perm通过最后一个参数填写，sem_nsems通过nsems填写，sem_otime被置为0，sem_ctime被置为当前时间。<b>但是semget函数并不初始化各个信号量的semval，要通过semctl来进行初始化操作</b><br><b>创建和初始化是两个原子性操作，在创建后未进行初始化就有可能被别的进程抢占，而且直接使用，但是此时的信号量的值是不确定的，大写的尴尬，不过还好的是有sem_otime这个选项保证了未初始化时候为0，所以在别的进程使用信号量时候，得到信号量标识符后，不要直接操作信号p的v操作，先使用semctl的IPC_STAT命令循环等待sem_otime变为非0，也就是阻塞在这里。</b></p>
-<h3 id="semop函数–pv操作主要函数"><a href="#semop函数–pv操作主要函数" class="headerlink" title="semop函数–pv操作主要函数"></a>semop函数–pv操作主要函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int semop(int semid, struct sembuf * opsptr, size_t nops);</span><br></pre></td></tr></table></figure>
-<p>第二个参数表示的是对一个信号量的具体操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct sembuf &#123;</span><br><span class="line">    short sem_num;</span><br><span class="line">    short sem_op; </span><br><span class="line">    short sem_flg; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这个结构体不一定只有这三个数据项，但至少要初始化这三个项目，内核保证传递给semop函数的这个操作数组被原子地操作。不过这三个参数还是要好好理解下：<br>1、 sem_num是对应值0-nsems-1，是处理哪一个信号量；<br>2、 sem_op是正数时候，表示v操作，释放资源，将对应信号量加上1;如果是0，表示调用者希望等待该信号量的值变为0，对应着信号量sem中的semzcnt这个变量，如果semval为0立即返回，不为0阻塞并使semzcnt增加1;如果是负数，则表示调用者希望等待semval变为大于或者等于sem_op的绝对值（可以请求一个或者多个资源），对应于p操作，如果semval的值小于sem_op绝对值，就减去sem_op绝对值然后返回，如果不大于，就阻塞等待。<br>3、 第三个sem_flag可以为0，IPC_NOWAIT,SEM_UNDO三个，如果为0，表示正常操作，如果为IPC_WAIT，使对信号量的操作时非阻塞的。即指定了该标志，调用线程在信号量的值不满足条件的情况下不会被阻塞，而是直接返回-1，并将errno设置为EAGAIN。如果为SEM_UNDO，那么将维护进程对信号量的调整值，以便进程结束时恢复信号量的状态。</p>
-<h3 id="sem-ctl函数—控制操作"><a href="#sem-ctl函数—控制操作" class="headerlink" title="sem_ctl函数—控制操作"></a>sem_ctl函数—控制操作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int semctl(int semid, int semnum, int cmd, .../* union semun arg */)</span><br></pre></td></tr></table></figure>
-<p>对信号量的各种控制操作，第二个参数表示所要操作的信号量的下标，只有在第三个是GETVAL, SETVAL, GETNCNT, GETZCNT以及GETPID时候才会用。第三项是具体的操作，第四项是一个联合体，这个<b>联合体系统不提供使用时候要自己申明</b>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">union semun &#123;</span><br><span class="line">    int val;</span><br><span class="line">    struct semid_ds * buf;</span><br><span class="line">    ushort * array;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这个联合体，第一个是设置单个信号量值时候来设置它的值(SETVAL),第二个在IPC_SET和IPC_STAT使用；第三个是一个数组，是获取或者设置所有信号量值时候传入数组(SETALL,GETALL)。<br>第三个参数有很多选项：<br>1、 GETVAL把对应下标为semnum的sem的semval返回;SETVAL和GETVAL对应，设置semval值为arg.val值，如果成功，相应信号量在所有进程中的信号量调整值为0.<br>2、 GETPID,GETNCNT,GETZCNT都不用第四个参数；<br>3、 GETALL返回所有信号量的semval，并放入值到arg.array中；SETALL设置所有信号量的值为array数组指定的值。<br>4、 IPC_RMID是删除这个信号量集； (对于一个持有该信号量的进程在没有释放该信号量的情况下就终止了。那么该进程所占用的信号量内核是不会进行释放的。会立即将该信号量从系统中彻底删除，不能再对该信号量进行任何访问。)<br>5、 IPC_SET是设置信号量集的sem_perm.uid,sem_perm.gid和sem_perm.mode三个参数，由arg的第二项参数相应值来设置。<br>6、 IPC_STAT返回指定信号量集中semid_ds结构，通过arg.buf返回，调用者首先要分配一个semid_ds结构并把arg.buf指向这个结构。</p>
-<h3 id="程序实例"><a href="#程序实例" class="headerlink" title="程序实例"></a>程序实例</h3><h4 id="简单函数演示"><a href="#简单函数演示" class="headerlink" title="简单函数演示"></a>简单函数演示</h4><p>验证一下竞态的情况，一个进程先建立一个特定path的信号量，然后sleep一段时间，期间另外一个进程调用p和v操作，看是否正常工作，然后解决方法，用IPC_STAT获取sem_otime,看他是否变为非0，不断循环等待。</p>
-<h4 id="父子进程同步"><a href="#父子进程同步" class="headerlink" title="父子进程同步"></a>父子进程同步</h4><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://blog.csdn.net/hwz119/article/details/1613601(ftok" target="_blank" rel="external">http://blog.csdn.net/hwz119/article/details/1613601(ftok</a>)</p>
-
-          
+<h2 id="systemv信号量相关操作函数"><a href="#systemv信号量相关操作函数" class="headerlink" title="systemv信号量相关操作函数"></a>systemv信号量相关操作函数</h2>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/06/13/IPC之SystemV信号量/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -664,29 +775,15 @@
 
       
         
-          
-            <p>Linux中有两种类型的IO，一种是ANSIC提供的高级IO,叫做带缓冲的IO，另外一种是低级IO，系统调用的IO，不带缓冲，带不带缓冲取决于调用一次是否是内核的一个系统调用。</p>
+          <p>Linux中有两种类型的IO，一种是ANSIC提供的高级IO,叫做带缓冲的IO，另外一种是低级IO，系统调用的IO，不带缓冲，带不带缓冲取决于调用一次是否是内核的一个系统调用。</p>
 <h2 id="文件描述符"><a href="#文件描述符" class="headerlink" title="文件描述符"></a>文件描述符</h2><p>对应Linux内核来说，每一个打开的文件通过文件描述符引用，读写文件都通过该文件描述符进行操作，系统默认的3个文件0,1,2分别代表标准输入，标准输出以及标准错误。一个进程能打开的最多描述符个数是1024个(ulimit -a/-n)，一个系统打开的最多文件数目查看(cat /proc/sys/fs/file-max)，如下图所示：<br><img src="/images/APUE/c3.png" alt="&quot;c3&quot;"></p>
 <h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><p>Linux中编程中的错误会记录在errno中，可以通过错误处理函数perror或者strerror来将错误打印出来，供分析，下面程序演示了两个函数的使用:<br><img src="/images/APUE/c3-2.png" alt="&quot;c3&quot;"><br>编译运行得到如下截图，第二个参数表明使用哪个函数，1表示使用perror，2表示使用strerror：<br><img src="/images/APUE/c3-1.png" alt="&quot;c3&quot;"><br>可以看出，perror的消息是固定的，而strerror可以很灵活。</p>
-<h2 id="低级IO函数"><a href="#低级IO函数" class="headerlink" title="低级IO函数"></a>低级IO函数</h2><h3 id="open"><a href="#open" class="headerlink" title="open"></a>open</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/stat.h&gt;</span><br><span class="line">#include &lt;fcntl.h&gt;</span><br><span class="line">int open(const char *path, int oflag, ...);</span><br><span class="line">int openat(int fd, const char *path, int oflag, ...);</span><br><span class="line">// 返回的一定是最小的未用的描述符数值</span><br></pre></td></tr></table></figure>
-<p>第二个函数可以以相对路径名字打开文件，第一个是绝对路径。第二个参数表示是打开模式，可以是以下的组合（不存在时候要使用O_CREAT):<br><img src="/images/APUE/c3-3.png" alt="&quot;c3&quot;"><br>第三个参数是可选的，是规定文件的权限，这个权限要与系统的umask进行&amp;操作。</p>
-<h3 id="create"><a href="#create" class="headerlink" title="create"></a>create</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int creat(const char *path, mode_t mode);</span><br></pre></td></tr></table></figure>
-<p>和open一样，一般使用open来代替。</p>
-<h3 id="close"><a href="#close" class="headerlink" title="close"></a>close</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int close(int fildes);</span><br></pre></td></tr></table></figure>
-<p>关闭打开的文件描述符，错误返回-1.</p>
-<h3 id="read"><a href="#read" class="headerlink" title="read"></a>read</h3><p>当打开文件时候使用O_RDONLY或者O_RDWR标志打开时候就可以从文件中读取字节。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssize_t read(int fildes, void *buf, size_t nbyte);</span><br></pre></td></tr></table></figure></p>
-<p>读文件时候返回值如果是0表示读取到文件结尾，读取到-1表示出错，否则返回的表示已经读取的字节数。</p>
-<h3 id="write"><a href="#write" class="headerlink" title="write"></a>write</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssize_t write(int fildes, const void *buf, size_t nbyte);</span><br></pre></td></tr></table></figure>
-<p>write返回值大于0并不一定已经将缓冲区数据写入到磁盘中，仅仅表示数据缓冲区中数据复制到了内核缓冲区，并未同步到磁盘上面，如果想立即同步使用fsync函数来进行同步，或者在open时候指定oflag异或O_SYNC选项即可。<br>下面使用一个实例来演示上述低级IO的使用，实现功能是复制test.txt文件内容到testcp.txt中：<br><img src="/images/APUE/c3-4.png" alt="&quot;c3&quot;"><br>编译运行得到如下截图：<br><img src="/images/APUE/c3-5.png" alt="&quot;c3&quot;"></p>
-<h3 id="lseek随机读写"><a href="#lseek随机读写" class="headerlink" title="lseek随机读写"></a>lseek随机读写</h3><p>每一个打开的文件都有一个与其相关联的当前文件偏移量，表示从文件开始处计算的字节数目，并且读写都是从该偏移量开始，读写时候会更新偏移量的值，打开时候如果没有O_APPEND选项，则默认为0.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">off_t lseek(int fd, off_t offset, int whence); //成功返回偏移量值</span><br></pre></td></tr></table></figure></p>
-<p>1、 whence参数只有三种值,是SEEK_SET(离开头处offset)、SEEK_CUR(距离当前偏移位置offset)、SEEK_END(距离结尾处offset);<br>2、 offset一般为正数，但是也有可能是负数，可以大于文件长度，如果大于文件长度，下一次写时候，中间部分会形成空洞，一般自动置为0，空洞部分不分配磁盘空间，下面通过一个例子验证这个观点：<br><img src="/images/APUE/c3-6.png" alt="&quot;c3&quot;"><br>编译运行得到如下截图：<br><img src="/images/APUE/c3-7.png" alt="&quot;c3&quot;"><br><img src="/images/APUE/c3-8.png" alt="&quot;c3&quot;"><br>利用od命令查看文件实际内容，发现中间的都为0。但是如果查看他们的占用的磁盘块会发现没有空洞的占的磁盘块多。<br><img src="/images/APUE/c3-9.png" alt="&quot;c3&quot;"></p>
-<h3 id="文件共享"><a href="#文件共享" class="headerlink" title="文件共享"></a>文件共享</h3><p>一个进程打开的两个文件，在内核中的数据结构如下图：<br><img src="/images/APUE/c3-10.png" alt="&quot;c3&quot;"><br>进程启动时候会自动打开三个描述符0,1,2，所以打开两个文件描述符分别为3,4。<br>每当打开一个文件时候，内核会分配一个文件表文件表才指向系统中inode，每个文件表中信息包括偏移量，引用数目(描述一个文件被多少个文件描述符指向了,只有引用数目减少到0时候才删除)，文件状态标志(读，写，追加，同步非阻塞等方式打开)，v节点指针(指向真正的inode,可以用stat函数获得详细信息).<br>一个进程可以两次打开同一个文件，会有两个文件表，但是都指向同一个inode，并且这两个文件表是独立的，偏移量独立存在，如下的实例可以验证：<br><img src="/images/APUE/c3-12.png" alt="&quot;c3&quot;"><br><img src="/images/APUE/c3-11.png" alt="&quot;c3&quot;"><br>可以看出来有各自的偏移量，独立存在。但是你写入数据再重新读取时候就会增加信息，因为它们最终指向的是同一个inode，是同一个文件。</p>
-<h3 id="复制文件描述符"><a href="#复制文件描述符" class="headerlink" title="复制文件描述符"></a>复制文件描述符</h3><h4 id="使用dup"><a href="#使用dup" class="headerlink" title="使用dup"></a>使用dup</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int dup(int fildes);</span><br><span class="line">int dup2(int fildes, int fildes2);</span><br><span class="line">// dup执行后将会返回最小的可返回的文件描述符，dup2则是自定义文件描述符值</span><br></pre></td></tr></table></figure>
-<p>复制文件描述符，可以执行dup命令，注意，这时它会从0开始找出有空闲的文件描述符，如图，0、1、2是已经默认被系统给占用了，这时，执行dup之后，就会找到空闲的fd 4文件描述符，将它也指向同一个文件表，如图：<br><img src="/images/APUE/c3-13.png" alt="&quot;c3&quot;"><br>shell管道的重定向命令就是利用dup来实现的，下面重定向标准输出到文件中，先关闭1然后dup操作或者直接dup2(fd, 1)：<br><img src="/images/APUE/c3-14.png" alt="&quot;c3&quot;"><br><img src="/images/APUE/c3-15.png" alt="&quot;c3&quot;"></p>
-<h4 id="使用fcntl"><a href="#使用fcntl" class="headerlink" title="使用fcntl"></a>使用fcntl</h4><p>可以设置fcntl第二个参数为F_DUPFD来复制文件描述符，第三项可以指定从哪一个文件描述符开始往下搜寻。而dup只能从第0个开始搜寻。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://segmentfault.com/a/1190000004392560" target="_blank" rel="external">https://segmentfault.com/a/1190000004392560</a><br><a href="http://www.cnblogs.com/webor2006/p/3498443.html" target="_blank" rel="external">http://www.cnblogs.com/webor2006/p/3498443.html</a></p>
-
-          
+<h2 id="低级IO函数"><a href="#低级IO函数" class="headerlink" title="低级IO函数"></a>低级IO函数</h2>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/06/10/APUE之文件与IO编程/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -802,17 +899,15 @@
 
       
         
-          
-            <p>朋友给推荐了这本高质量程序设计指南，在看完基本的C++书籍，再看这本书，有一种醍醐灌顶的感觉，所以做笔记来记录下！</p>
+          <p>朋友给推荐了这本高质量程序设计指南，在看完基本的C++书籍，再看这本书，有一种醍醐灌顶的感觉，所以做笔记来记录下！</p>
 <h2 id="Chapter8-高级数据类型"><a href="#Chapter8-高级数据类型" class="headerlink" title="Chapter8 高级数据类型"></a>Chapter8 高级数据类型</h2><p>C++对C的结构体、联合、枚举等做了改造和增强。</p>
 <h3 id="struct与class"><a href="#struct与class" class="headerlink" title="struct与class"></a>struct与class</h3><p>C++中的struct与class除了默认的成员访问权限不同(struct默认为public,class默认为private)之外，别的没有任何区别，struct中可以声明成员函数，可以有构造函数，析构函数，虚函数等等。不过使用过程中最好还是用struct定义简单的类型，class定义有具体行为的ADT。<b>以前知道struct可以有class的一切行为但是没有尝试过，所以编程序试一把</b><br><img src="/images/highCplus/structTest.png" alt="&quot;struct vs class&quot;"><br>编译运行结果如下：<br><img src="/images/highCplus/structTestResult.png" alt="&quot;struct vs class&quot;"></p>
-<h4 id="POD类型"><a href="#POD类型" class="headerlink" title="POD类型"></a>POD类型</h4><p>C风格的struct叫做POD(Plain Old Data)对象，仅仅包含数据成员(基本类型，任何类型的指针或者引用)，任何POD对象的初始化都可以使用memset()函数，初始化<code>memset(&amp;s, 0, sizeof(Test))</code>,定义时候也可以直接指定初值，<code>`Test t = {0};</code>第一个成员初始化为0，其余的自动初始化为0.<br>另外赋值与相等语义如果默认的无法保证正确，需要自定义重载函数。</p>
-<h4 id="位域"><a href="#位域" class="headerlink" title="位域"></a>位域</h4><p>可以使用位域来设计struct从而减少存储空间,但是位域使得程序运行速度下降，因为无法直接寻址到单个字节中的某些位，必须通过额外代码。C语言中位域必须是int,unsigned int等类型，C++中还可以为char,long等类型，但是<b>不允许使用指针类型或者浮点类型为位域的成员类型，因为它们可能导致无效的值。</b></p>
-<h4 id="字节对齐"><a href="#字节对齐" class="headerlink" title="字节对齐"></a>字节对齐</h4><p>可以使用offsetof宏来查看每个变量的偏移量，使用方法是：<br><code>offsetof(struct T, a)</code>，查看结构体T中a成员的偏移量，不能使用取地址符号操作成员变量，因为会忽略隐含成员，下面程序演示了这一操作：<br><img src="/images/highCplus/bytepadding-1.png" alt="&quot;bytepadding&quot;"><br>编译运行结果如下：<br><img src="/images/highCplus/bytepadding-2.png" alt="&quot;bytepadding&quot;"><br>可以看到利用offsetof可以得到正确的偏移量，但是使用取地址符号得到的都是1，应该是编译器做的处理。<br><b>从字节对齐可以学到，在设计类或者struct的时候，成员变量的成员的声明顺序要从大到小，因为对象头部不可能填充字节如果从小到大就会在中间填充空洞，而从大到小声明则只会在末尾处填充。</b></p>
-<h3 id="Union"><a href="#Union" class="headerlink" title="Union"></a>Union</h3><p>联合提供了一种使不同类型数据成员之间共享存储空间的方法，同时可以实现不同类型数据成员之间的自动类型转换，但是同一时间只能存储一个成员的值，占用的内存大小取决于字节数最多的那个变量。C++中的Union还可以定义成员的访问说明符，定义成员函数，甚至析构和构造函数，但是不能包含虚拟成员函数和静态数据成员，不能作为基类。  </p>
-<h3 id="Enum"><a href="#Enum" class="headerlink" title="Enum"></a>Enum</h3><p>枚举类型允许我们定义特定用途的一组符号常量，它表明这种类型的变量可以取值的范围，如果不指定初始值，则第一个为0，后面依次递增1，如果指定了某一个，则它后面的依次在此基础上加1，它占用的字节数一般与int相同，但是不同编译器可能不一样，可以是short,byte等。</p>
-<h2 id="Chapter9-预编译"><a href="#Chapter9-预编译" class="headerlink" title="Chapter9 预编译"></a>Chapter9 预编译</h2>
-          
+<h4 id="POD类型"><a href="#POD类型" class="headerlink" title="POD类型"></a>POD类型</h4>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/06/10/高质量程序设计指南读书笔记1/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1238,125 +1333,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/02/Linux网络编程之fcntl/" itemprop="url">
-                  Linux网络编程之fcntl
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-02T15:39:54+08:00" content="2016-06-02">
-              2016-06-02
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/网络编程/" itemprop="url" rel="index">
-                    <span itemprop="name">网络编程</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/02/Linux网络编程之fcntl/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/02/Linux网络编程之fcntl/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Linux下总是看到这个fcntl函数，似乎用法还是蛮多的，可以在网络编程中设置非阻塞模式，信号驱动I/O以及SIGURG时候设置属主等，在文件中可以复制文件描述符，改变<br><a href="http://blog.csdn.net/ctthuangcheng/article/details/9289277" target="_blank" rel="external">http://blog.csdn.net/ctthuangcheng/article/details/9289277</a><br><a href="http://blog.csdn.net/anonymalias/article/details/9197641" target="_blank" rel="external">http://blog.csdn.net/anonymalias/article/details/9197641</a><br><a href="http://blog.csdn.net/bailyzheng/article/details/7489656" target="_blank" rel="external">http://blog.csdn.net/bailyzheng/article/details/7489656</a><br><a href="http://blog.sina.com.cn/s/blog_4b226b9201011974.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_4b226b9201011974.html</a></p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1402,7 +1378,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">62</span>
+              <span class="site-state-item-count">63</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1410,7 +1386,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1419,7 +1395,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

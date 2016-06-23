@@ -66,7 +66,7 @@
 <meta property="og:description" content="IPC通信过程不同进程之间通过管道，消息队列或者FIFO进行通信，发送消息和接受消息都要经过内核调用，而共享内存方式的IPC，一旦这个内存区映射到共享它的进程地址空间中，消息的发送和接受就不用再涉及内核，因为这个区域在进程的地址空间中，如下图所示：可以看到客户和服务器在的进程地址空间有个相交的部分。   
 一次完整的客户服务器复制文件的实例设想我们在不同进程间传递一个文件的例子，服务器将文件从磁盘">
 <meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_shm2.png">
-<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_shm2.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_shm1.png">
 <meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_shm2.png">
 <meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_shm3.png">
 <meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_shm4.png">
@@ -81,7 +81,7 @@
 <meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_shm13.png">
 <meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_shm14.png">
 <meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_shm15.png">
-<meta property="og:updated_time" content="2016-06-23T01:37:10.738Z">
+<meta property="og:updated_time" content="2016-06-23T14:52:57.658Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IPC之Posix共享内存">
 <meta name="twitter:description" content="IPC通信过程不同进程之间通过管道，消息队列或者FIFO进行通信，发送消息和接受消息都要经过内核调用，而共享内存方式的IPC，一旦这个内存区映射到共享它的进程地址空间中，消息的发送和接受就不用再涉及内核，因为这个区域在进程的地址空间中，如下图所示：可以看到客户和服务器在的进程地址空间有个相交的部分。   
@@ -321,7 +321,8 @@
       
         <h2 id="IPC通信过程"><a href="#IPC通信过程" class="headerlink" title="IPC通信过程"></a>IPC通信过程</h2><p>不同进程之间通过管道，消息队列或者FIFO进行通信，发送消息和接受消息都要经过内核调用，而共享内存方式的IPC，一旦这个内存区映射到共享它的进程地址空间中，消息的发送和接受就不用再涉及内核，因为这个区域在进程的地址空间中，如下图所示：<br><img src="/images/APUE/ipc_posix_shm2.png" alt="&quot;c3&quot;"><br>可以看到客户和服务器在的进程地址空间有个相交的部分。   </p>
 <h2 id="一次完整的客户服务器复制文件的实例"><a href="#一次完整的客户服务器复制文件的实例" class="headerlink" title="一次完整的客户服务器复制文件的实例"></a>一次完整的客户服务器复制文件的实例</h2><p>设想我们在不同进程间传递一个文件的例子，服务器将文件从磁盘读取然后发送到客户端，服务器接收，利用IPC方式，有以下两种：</p>
-<h3 id="普通IPC-lt-管道，FIFO，消息队列-gt"><a href="#普通IPC-lt-管道，FIFO，消息队列-gt" class="headerlink" title="普通IPC&lt;管道，FIFO，消息队列&gt;"></a>普通IPC&lt;管道，FIFO，消息队列&gt;</h3><p>需要经过以下四个步骤：<br><img src="/images/APUE/ipc_posix_shm2.png" alt="&quot;c3&quot;"><br>可以看出来需要四次内核空间与进程空间的数据交换，所以比较耗费时间。</p>
+<h3 id="普通IPC-lt-管道，FIFO，消息队列-gt"><a href="#普通IPC-lt-管道，FIFO，消息队列-gt" class="headerlink" title="普通IPC&lt;管道，FIFO，消息队列&gt;"></a>普通IPC&lt;管道，FIFO，消息队列&gt;</h3><a id="more"></a>
+<p>需要经过以下四个步骤：<br><img src="/images/APUE/ipc_posix_shm1.png" alt="&quot;c3&quot;"><br>可以看出来需要四次内核空间与进程空间的数据交换，所以比较耗费时间。</p>
 <h3 id="共享内存方式"><a href="#共享内存方式" class="headerlink" title="共享内存方式"></a>共享内存方式</h3><p><img src="/images/APUE/ipc_posix_shm2.png" alt="&quot;c3&quot;"><br>而使用共享内存，则只需要两次，大大提升效率。</p>
 <h2 id="mmap，munmap函数"><a href="#mmap，munmap函数" class="headerlink" title="mmap，munmap函数"></a>mmap，munmap函数</h2><p>mmap函数是将一个文件或者一个Posix共享内存区对象映射到调用进程的地址空间，如下图所示：<br><img src="/images/APUE/ipc_posix_shm3.png" alt="&quot;c3&quot;"><br>函数原型如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/mman.h&gt; </span><br><span class="line">void *mmap(void *start, size_t length, </span><br><span class="line">    int prot, int flags, int fd, off_t offset);</span><br><span class="line">int munmap(void *start, size_t length);</span><br></pre></td></tr></table></figure></p>
 <p>start是映射的开始位置，一般设置为NULL,让进程自己决定起始位置，length进程地址空间映射区的长度，prot是期望的内存保护标志，不能与文件的打开模式冲突，(PROT_EXEC/READ/WRTIE/NODE分别为页面内容可执行，可读取，可写入，不可访问)；flags指定映射对象类型，映射页和映射选项是否能够共享，MAP_PRIVATE/MAP_SHARED；fd指定的是文件描述符，offset表示映射对象内容的起点。    当mmap返回成功后，可以关闭fd，对映射关系没有影响。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/mman.h&gt; </span><br><span class="line">int msync ( void * addr , size_t len, int flags)</span><br></pre></td></tr></table></figure></p>
@@ -467,7 +468,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">62</span>
+              <span class="site-state-item-count">63</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -475,7 +476,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -484,7 +485,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
