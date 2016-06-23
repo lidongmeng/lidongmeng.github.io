@@ -66,7 +66,8 @@
 <meta property="og:image" content="http://yoursite.com/images/APUE/ipc_system_shm1.png">
 <meta property="og:image" content="http://yoursite.com/images/APUE/ipc_system_shm2.png">
 <meta property="og:image" content="http://yoursite.com/images/APUE/ipc_system_shm3.png">
-<meta property="og:updated_time" content="2016-06-23T14:52:33.525Z">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_system_shm4.png">
+<meta property="og:updated_time" content="2016-06-23T15:00:36.021Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IPC之SystemV共享内存">
 <meta name="twitter:description" content="数据结构SystemV共享内存和消息队列一样，有自己的数据结构，如下：12345678910struct shmid_ds &amp;#123;    struct ip_perm shm_perm; // ipc对象数据结构    size_t shm_segsz; // 共享内存的字节数    time_t shm_atime; // 最后一次映射的时间    time_t shm_dtime; //">
@@ -314,7 +315,9 @@
 <h3 id="shmctl"><a href="#shmctl" class="headerlink" title="shmctl"></a>shmctl</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int shmctl(int shmid, int cmd, struct shmid_ds * buff);</span><br></pre></td></tr></table></figure>
 <p>cmd可以是IPC_STAT用来获得共享内存的当前状态存储到buff里面；可以是IPC_RMID是从系统中删除共享内存区；可以是IPC_SET设置shmid_ds里面的shm_perm.uid,shm_perm.gid,shm_perm.mode，值来自后面的buff。</p>
 <h2 id="程序举例"><a href="#程序举例" class="headerlink" title="程序举例"></a>程序举例</h2><p>write程序建立一个共享内存区，然后向其中写入一条消息，然后read程序从中读取消息并打印出来。<br><img src="/images/APUE/ipc_system_shm1.png" alt="&quot;c3&quot;"><br><img src="/images/APUE/ipc_system_shm2.png" alt="&quot;c3&quot;"><br>运行结果如下：<br><img src="/images/APUE/ipc_system_shm3.png" alt="&quot;c3&quot;"><br>从上面可以看到利用ipcs查看，可以看到新创建的共享内存。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>UNP2 第14章<br>APUE 第15章</p>
+<h2 id="共享内存的实现原理"><a href="#共享内存的实现原理" class="headerlink" title="共享内存的实现原理"></a>共享内存的实现原理</h2><p>内核里面存在一个特殊的文件系统，这个文件系统的存储介质不是别的，而是RAM，在shmget调用后，系统会在这个文件系统上面创建一个文件，但是这个时候仅仅是创建了这个文件，然后调用shmat，内核会调用mmap将这个文件映射到进程的地址空间，这个时候就能直接读取映射后的地址。</p>
+<h2 id="共享内存限制"><a href="#共享内存限制" class="headerlink" title="共享内存限制"></a>共享内存限制</h2><p>有以下四个限制：<br><img src="/images/APUE/ipc_system_shm4.png" alt="&quot;c3&quot;"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>UNP2 第14章<br>APUE 第15章<br><a href="http://www.cnblogs.com/webor2006/p/4189567.html" target="_blank" rel="external">http://www.cnblogs.com/webor2006/p/4189567.html</a><br><a href="https://www.zhihu.com/question/29973022" target="_blank" rel="external">https://www.zhihu.com/question/29973022</a></p>
 
       
     </div>
@@ -526,7 +529,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据结构"><span class="nav-number">1.</span> <span class="nav-text">数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数"><span class="nav-number">2.</span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#shmget"><span class="nav-number">2.1.</span> <span class="nav-text">shmget</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shmat"><span class="nav-number">2.2.</span> <span class="nav-text">shmat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shmdt"><span class="nav-number">2.3.</span> <span class="nav-text">shmdt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shmctl"><span class="nav-number">2.4.</span> <span class="nav-text">shmctl</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序举例"><span class="nav-number">3.</span> <span class="nav-text">程序举例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据结构"><span class="nav-number">1.</span> <span class="nav-text">数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数"><span class="nav-number">2.</span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#shmget"><span class="nav-number">2.1.</span> <span class="nav-text">shmget</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shmat"><span class="nav-number">2.2.</span> <span class="nav-text">shmat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shmdt"><span class="nav-number">2.3.</span> <span class="nav-text">shmdt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shmctl"><span class="nav-number">2.4.</span> <span class="nav-text">shmctl</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序举例"><span class="nav-number">3.</span> <span class="nav-text">程序举例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#共享内存的实现原理"><span class="nav-number">4.</span> <span class="nav-text">共享内存的实现原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#共享内存限制"><span class="nav-number">5.</span> <span class="nav-text">共享内存限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">6.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
           </div>
         </section>

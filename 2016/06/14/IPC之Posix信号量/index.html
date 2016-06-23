@@ -57,16 +57,25 @@
 
 
 
-<meta name="description" content="你若盛开，蝴蝶自来。">
+<meta name="description" content="信号量的主要目的是提供进程间同步，互斥量和条件变量的意图是线程间同步，但是信号量也可以线程间同步，互斥量和条件变量也可以用于共享内存区进行进程间同步。
+Posix信号量POSIX信号量有两种：有名信号量和无名信号量，无名信号量也被称作基于内存的信号量。有名信号量通过IPC名字进行进程间的同步，而无名信号量如果不是放在进程间的共享内存区中，是不能用来进行进程间同步的，只能用来进行线程同步。
+Posi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IPC之Posix信号量">
 <meta property="og:url" content="http://yoursite.com/2016/06/14/IPC之Posix信号量/index.html">
 <meta property="og:site_name" content="DongMengLi">
-<meta property="og:description" content="你若盛开，蝴蝶自来。">
-<meta property="og:updated_time" content="2016-06-23T14:54:21.048Z">
+<meta property="og:description" content="信号量的主要目的是提供进程间同步，互斥量和条件变量的意图是线程间同步，但是信号量也可以线程间同步，互斥量和条件变量也可以用于共享内存区进行进程间同步。
+Posix信号量POSIX信号量有两种：有名信号量和无名信号量，无名信号量也被称作基于内存的信号量。有名信号量通过IPC名字进行进程间的同步，而无名信号量如果不是放在进程间的共享内存区中，是不能用来进行进程间同步的，只能用来进行线程同步。
+Posi">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_sem1.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_sem2.png">
+<meta property="og:updated_time" content="2016-06-23T15:31:00.124Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IPC之Posix信号量">
-<meta name="twitter:description" content="你若盛开，蝴蝶自来。">
+<meta name="twitter:description" content="信号量的主要目的是提供进程间同步，互斥量和条件变量的意图是线程间同步，但是信号量也可以线程间同步，互斥量和条件变量也可以用于共享内存区进行进程间同步。
+Posix信号量POSIX信号量有两种：有名信号量和无名信号量，无名信号量也被称作基于内存的信号量。有名信号量通过IPC名字进行进程间的同步，而无名信号量如果不是放在进程间的共享内存区中，是不能用来进行进程间同步的，只能用来进行线程同步。
+Posi">
+<meta name="twitter:image" content="http://yoursite.com/images/APUE/ipc_posix_sem1.png">
 
 
 
@@ -299,7 +308,25 @@
       
 
       
-        
+        <p>信号量的主要目的是提供进程间同步，互斥量和条件变量的意图是线程间同步，但是信号量也可以线程间同步，互斥量和条件变量也可以用于共享内存区进行进程间同步。</p>
+<h2 id="Posix信号量"><a href="#Posix信号量" class="headerlink" title="Posix信号量"></a>Posix信号量</h2><p>POSIX信号量有两种：有名信号量和无名信号量，无名信号量也被称作基于内存的信号量。有名信号量通过IPC名字进行进程间的同步，而无名信号量如果不是放在进程间的共享内存区中，是不能用来进行进程间同步的，只能用来进行线程同步。</p>
+<h2 id="Posix信号量函数"><a href="#Posix信号量函数" class="headerlink" title="Posix信号量函数"></a>Posix信号量函数</h2><h3 id="有名信号量"><a href="#有名信号量" class="headerlink" title="有名信号量"></a>有名信号量</h3><h4 id="sem-open"><a href="#sem-open" class="headerlink" title="sem_open"></a>sem_open</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;semaphore.h&gt;  </span><br><span class="line">sem_t *sem_open(const char *name, int oflag);  </span><br><span class="line">sem_t *sem_open(const char *name, int oflag,  </span><br><span class="line">                  mode_t mode, unsigned int value);  </span><br><span class="line">                              //成功返回信号量指针，失败返回SEM_FAILED</span><br></pre></td></tr></table></figure>
+<p>sem_open用于创建或打开一个信号量，信号量是通过name参数即信号量的名字来进行标识的，oflag参数可以为：0，O_CREAT，O_EXCL；mode参数用于创建信号量时，表示信号量的权限位；value是创建信号量的初值。<br>信号量有二值信号量（和互斥量相似）和计数信号量（多资源可用）。</p>
+<h4 id="sem-close"><a href="#sem-close" class="headerlink" title="sem_close"></a>sem_close</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;semaphore.h&gt;  </span><br><span class="line">int sem_close(sem_t *sem);  </span><br><span class="line">int sem_unlink(const char *name);    //成功返回0，失败返回-1</span><br></pre></td></tr></table></figure>
+<p>close是关闭打开的信号量，unlink是删除，引用计数为0才真正从系统移除。</p>
+<h4 id="sem-wait–p操作"><a href="#sem-wait–p操作" class="headerlink" title="sem_wait–p操作"></a>sem_wait–p操作</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;semaphore.h&gt;  </span><br><span class="line">int sem_wait (sem_t *sem);  </span><br><span class="line">int sem_trywait (sem_t * sem);  //成功返回0，失败返回-1</span><br></pre></td></tr></table></figure>
+<p>请求资源是原子操作，就是PV操作中的P操作，如果有可用资源都立即返回并将信号量的值减1，这是原子操作；当没有可用资源时候，sem_wait会阻塞，而sem_trywait立即返回-1，并且errno是EAGAIN。</p>
+<h4 id="sem-post–v操作"><a href="#sem-post–v操作" class="headerlink" title="sem_post–v操作"></a>sem_post–v操作</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;semaphore.h&gt;  </span><br><span class="line">int sem_post(sem_t *sem);  //成功返回0，失败返回-1</span><br></pre></td></tr></table></figure>
+<p>sem_post就是V操作，释放资源，会将资源数目加1.</p>
+<h4 id="sem-getvalue"><a href="#sem-getvalue" class="headerlink" title="sem_getvalue"></a>sem_getvalue</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;semaphore.h&gt;  </span><br><span class="line">int sem_getvalue(sem_t *sem,  int *sval);   //成功返回0，失败返回-1</span><br></pre></td></tr></table></figure>
+<p>存储信号量的值到sval中。</p>
+<h3 id="无名信号量"><a href="#无名信号量" class="headerlink" title="无名信号量"></a>无名信号量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;semaphore.h&gt;  </span><br><span class="line">int sem_init(sem_t *sem, int pshared, unsigned int value);                            //若出错则返回-1  </span><br><span class="line">int sem_destroy(sem_t *sem);  //成功返回0，失败返回-1</span><br></pre></td></tr></table></figure>
+<p>用于无名信号量的创建和销毁。无名信号量不使用任何类似O_CREAT的标志，这表示sem_init()总是会初始化信号量的值，所以对于特定的一个信号量，我们必须保证只调用sem_init()进行初始化一次，对于一个已初始化过的信号量调用sem_init()的行为是未定义的。如果信号量还没有被某个线程调用还好，否则基本上会出现问题。</p>
+<h2 id="Posix信号量解决生产者消费者问题"><a href="#Posix信号量解决生产者消费者问题" class="headerlink" title="Posix信号量解决生产者消费者问题"></a>Posix信号量解决生产者消费者问题</h2><p>生产者消费者问题是说有一个公共的环形缓冲区，生产者向缓冲区里面放置消息，消费者从缓冲区里面拿走消息，这个缓冲区的大小人为设置。当有消息时候，才可以从中取消息，有剩余的空间时候，生产者才可以向其中写入消息。</p>
+<h3 id="单生产者单消费者"><a href="#单生产者单消费者" class="headerlink" title="单生产者单消费者"></a>单生产者单消费者</h3><p>单生产者单消费者不用考虑生产者之间的同步以及消费者之间的同步，所以只用三个信号量即可，一个信号量控制对缓冲区的操作，两个信号量控制缓冲区剩余的空间数目和填充的空间数目。程序如下：<br><img src="/images/APUE/ipc_posix_sem1.png" alt="&quot;c3&quot;"><br>运行结果：<br><img src="/images/APUE/ipc_posix_sem2.png" alt="&quot;c3&quot;"></p>
+<h3 id="多生产者单消费者"><a href="#多生产者单消费者" class="headerlink" title="多生产者单消费者"></a>多生产者单消费者</h3><p>多生产者需要考虑生产者之间的互斥关系，</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://blog.csdn.net/anonymalias/article/details/9219945" target="_blank" rel="external">http://blog.csdn.net/anonymalias/article/details/9219945</a></p>
+
       
     </div>
     
@@ -504,7 +531,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Posix信号量"><span class="nav-number">1.</span> <span class="nav-text">Posix信号量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Posix信号量函数"><span class="nav-number">2.</span> <span class="nav-text">Posix信号量函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#有名信号量"><span class="nav-number">2.1.</span> <span class="nav-text">有名信号量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sem-open"><span class="nav-number">2.1.1.</span> <span class="nav-text">sem_open</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sem-close"><span class="nav-number">2.1.2.</span> <span class="nav-text">sem_close</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sem-wait–p操作"><span class="nav-number">2.1.3.</span> <span class="nav-text">sem_wait–p操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sem-post–v操作"><span class="nav-number">2.1.4.</span> <span class="nav-text">sem_post–v操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sem-getvalue"><span class="nav-number">2.1.5.</span> <span class="nav-text">sem_getvalue</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#无名信号量"><span class="nav-number">2.2.</span> <span class="nav-text">无名信号量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Posix信号量解决生产者消费者问题"><span class="nav-number">3.</span> <span class="nav-text">Posix信号量解决生产者消费者问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单生产者单消费者"><span class="nav-number">3.1.</span> <span class="nav-text">单生产者单消费者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多生产者单消费者"><span class="nav-number">3.2.</span> <span class="nav-text">多生产者单消费者</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
           </div>
         </section>
