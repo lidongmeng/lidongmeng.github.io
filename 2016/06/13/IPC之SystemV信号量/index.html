@@ -57,20 +57,24 @@
 
 
 
-<meta name="description" content="Posix信号量虽然有有名和无名之分，但是都只是针对一个资源的数量的操作，但是SystemV信号量却可以针对一个或者多个信号量(计数信号量集)，所以增加了操作复杂性。
-内核中的结构内核为每个信号量集维护了如下的信息结构：1234567struct semid_d &amp;#123;    struct ipc_perm sem_perm; // 当前信号量的访问权限    struct sem * se">
+<meta name="description" content="信号量是一个计数器，常用于处理进程和线程的同步问题，特别是对临界资源访问的同步。获取一次信号量的操作就是对信号量减一P操作，而释放一次信号量的操作就是对信号量加一V操作。Posix信号量虽然有有名和无名之分，但是都只是针对一个资源的数量的操作，但是SystemV信号量却可以针对一个或者多个信号量(计数信号量集)，所以增加了操作复杂性。
+内核中的结构内核为每个信号量集维护了如下的信息结构：12345">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IPC之SystemV信号量">
 <meta property="og:url" content="http://yoursite.com/2016/06/13/IPC之SystemV信号量/index.html">
 <meta property="og:site_name" content="DongMengLi">
-<meta property="og:description" content="Posix信号量虽然有有名和无名之分，但是都只是针对一个资源的数量的操作，但是SystemV信号量却可以针对一个或者多个信号量(计数信号量集)，所以增加了操作复杂性。
-内核中的结构内核为每个信号量集维护了如下的信息结构：1234567struct semid_d &amp;#123;    struct ipc_perm sem_perm; // 当前信号量的访问权限    struct sem * se">
+<meta property="og:description" content="信号量是一个计数器，常用于处理进程和线程的同步问题，特别是对临界资源访问的同步。获取一次信号量的操作就是对信号量减一P操作，而释放一次信号量的操作就是对信号量加一V操作。Posix信号量虽然有有名和无名之分，但是都只是针对一个资源的数量的操作，但是SystemV信号量却可以针对一个或者多个信号量(计数信号量集)，所以增加了操作复杂性。
+内核中的结构内核为每个信号量集维护了如下的信息结构：12345">
 <meta property="og:image" content="http://yoursite.com/images/APUE/systemv_sem1.png">
-<meta property="og:updated_time" content="2016-06-23T14:53:41.657Z">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_systemv_sem1.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_systemv_sem2.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_systemv_sem3.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_systemv_sem4.png">
+<meta property="og:updated_time" content="2016-06-25T02:39:18.943Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IPC之SystemV信号量">
-<meta name="twitter:description" content="Posix信号量虽然有有名和无名之分，但是都只是针对一个资源的数量的操作，但是SystemV信号量却可以针对一个或者多个信号量(计数信号量集)，所以增加了操作复杂性。
-内核中的结构内核为每个信号量集维护了如下的信息结构：1234567struct semid_d &amp;#123;    struct ipc_perm sem_perm; // 当前信号量的访问权限    struct sem * se">
+<meta name="twitter:description" content="信号量是一个计数器，常用于处理进程和线程的同步问题，特别是对临界资源访问的同步。获取一次信号量的操作就是对信号量减一P操作，而释放一次信号量的操作就是对信号量加一V操作。Posix信号量虽然有有名和无名之分，但是都只是针对一个资源的数量的操作，但是SystemV信号量却可以针对一个或者多个信号量(计数信号量集)，所以增加了操作复杂性。
+内核中的结构内核为每个信号量集维护了如下的信息结构：12345">
 <meta name="twitter:image" content="http://yoursite.com/images/APUE/systemv_sem1.png">
 
 
@@ -285,11 +289,11 @@
       
 
       
-        <p>Posix信号量虽然有有名和无名之分，但是都只是针对一个资源的数量的操作，但是SystemV信号量却可以针对一个或者多个信号量(计数信号量集)，所以增加了操作复杂性。</p>
+        <p>信号量是一个计数器，常用于处理进程和线程的同步问题，特别是对<b>临界资源访问的同步</b>。获取一次信号量的操作就是对信号量减一P操作，而释放一次信号量的操作就是对信号量加一V操作。Posix信号量虽然有有名和无名之分，但是都只是针对一个资源的数量的操作，但是SystemV信号量却可以针对一个或者多个信号量(计数信号量集)，所以增加了操作复杂性。</p>
 <h2 id="内核中的结构"><a href="#内核中的结构" class="headerlink" title="内核中的结构"></a>内核中的结构</h2><p>内核为每个信号量集维护了如下的信息结构：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">struct semid_d &#123;</span><br><span class="line">    struct ipc_perm sem_perm; // 当前信号量的访问权限</span><br><span class="line">    struct sem * sem_base; // 指向信号量集的指针</span><br><span class="line">    ushort sem_nsems;  // 信号量的数目</span><br><span class="line">    time_t sem_otime;  // </span><br><span class="line">    time_t sem_ctime;  // 创建时间</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>其中sem结构体如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct sem &#123;</span><br><span class="line">    ushort_t semval; // 信号量的值</span><br><span class="line">    short   sempid; // 上一个成功操作semop的进程的pid</span><br><span class="line">    ushort_t semncnt; // 等待其值增长的进程数目</span><br><span class="line">    ushort_t semzcnt; // 等待其值变为0的进程数目</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>其中sem结构体如下：<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct sem &#123;</span><br><span class="line">    ushort_t semval; // 信号量的值</span><br><span class="line">    short   sempid; // 上一个成功操作semop的进程的pid</span><br><span class="line">    ushort_t semncnt; // 等待其值增长的进程数目</span><br><span class="line">    ushort_t semzcnt; // 等待其值变为0的进程数目</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
 <p>下图是一个有两个信号量的信号量集的内核数据结构：<br><img src="/images/APUE/systemv_sem1.png" alt="&quot;c3&quot;"></p>
-<h2 id="systemv信号量相关操作函数"><a href="#systemv信号量相关操作函数" class="headerlink" title="systemv信号量相关操作函数"></a>systemv信号量相关操作函数</h2><a id="more"></a>
+<h2 id="systemv信号量相关操作函数"><a href="#systemv信号量相关操作函数" class="headerlink" title="systemv信号量相关操作函数"></a>systemv信号量相关操作函数</h2><!--more-->
 <h3 id="semget函数"><a href="#semget函数" class="headerlink" title="semget函数"></a>semget函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int semget(key_t key, int nsems, int semflg);</span><br><span class="line">// key使用ftok产生一个key_t的变量key_t ftok( char * fname, int id );</span><br><span class="line">// nsems是指定的信号量集中信号量的数目，如果是0，表示访问，一旦建立就不能更改数目</span><br><span class="line">// semflg是权限相关以及IPC_CREAT 或者IPC_CREAT|IPC_EXCL</span><br></pre></td></tr></table></figure>
 <p>成功返回信号量标识符，错误返回-1;函数功能是填写semid_ds中的相关数据sem_perm通过最后一个参数填写，sem_nsems通过nsems填写，sem_otime被置为0，sem_ctime被置为当前时间。<b>但是semget函数并不初始化各个信号量的semval，要通过semctl来进行初始化操作</b><br><b>创建和初始化是两个原子性操作，在创建后未进行初始化就有可能被别的进程抢占，而且直接使用，但是此时的信号量的值是不确定的，大写的尴尬，不过还好的是有sem_otime这个选项保证了未初始化时候为0，所以在别的进程使用信号量时候，得到信号量标识符后，不要直接操作信号p的v操作，先使用semctl的IPC_STAT命令循环等待sem_otime变为非0，也就是阻塞在这里。</b></p>
 <h3 id="semop函数–pv操作主要函数"><a href="#semop函数–pv操作主要函数" class="headerlink" title="semop函数–pv操作主要函数"></a>semop函数–pv操作主要函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int semop(int semid, struct sembuf * opsptr, size_t nops);</span><br></pre></td></tr></table></figure>
@@ -297,9 +301,10 @@
 <p>这个结构体不一定只有这三个数据项，但至少要初始化这三个项目，内核保证传递给semop函数的这个操作数组被原子地操作。不过这三个参数还是要好好理解下：<br>1、 sem_num是对应值0-nsems-1，是处理哪一个信号量；<br>2、 sem_op是正数时候，表示v操作，释放资源，将对应信号量加上1;如果是0，表示调用者希望等待该信号量的值变为0，对应着信号量sem中的semzcnt这个变量，如果semval为0立即返回，不为0阻塞并使semzcnt增加1;如果是负数，则表示调用者希望等待semval变为大于或者等于sem_op的绝对值（可以请求一个或者多个资源），对应于p操作，如果semval的值小于sem_op绝对值，就减去sem_op绝对值然后返回，如果不大于，就阻塞等待。<br>3、 第三个sem_flag可以为0，IPC_NOWAIT,SEM_UNDO三个，如果为0，表示正常操作，如果为IPC_WAIT，使对信号量的操作时非阻塞的。即指定了该标志，调用线程在信号量的值不满足条件的情况下不会被阻塞，而是直接返回-1，并将errno设置为EAGAIN。如果为SEM_UNDO，那么将维护进程对信号量的调整值，以便进程结束时恢复信号量的状态。</p>
 <h3 id="sem-ctl函数—控制操作"><a href="#sem-ctl函数—控制操作" class="headerlink" title="sem_ctl函数—控制操作"></a>sem_ctl函数—控制操作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int semctl(int semid, int semnum, int cmd, .../* union semun arg */)</span><br></pre></td></tr></table></figure>
 <p>对信号量的各种控制操作，第二个参数表示所要操作的信号量的下标，只有在第三个是GETVAL, SETVAL, GETNCNT, GETZCNT以及GETPID时候才会用。第三项是具体的操作，第四项是一个联合体，这个<b>联合体系统不提供使用时候要自己申明</b>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">union semun &#123;</span><br><span class="line">    int val;</span><br><span class="line">    struct semid_ds * buf;</span><br><span class="line">    ushort * array;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这个联合体，第一个是设置单个信号量值时候来设置它的值(SETVAL),第二个在IPC_SET和IPC_STAT使用；第三个是一个数组，是获取或者设置所有信号量值时候传入数组(SETALL,GETALL)。<br>第三个参数有很多选项：<br>1、 GETVAL把对应下标为semnum的sem的semval返回;SETVAL和GETVAL对应，设置semval值为arg.val值，如果成功，相应信号量在所有进程中的信号量调整值为0.<br>2、 GETPID,GETNCNT,GETZCNT都不用第四个参数；<br>3、 GETALL返回所有信号量的semval，并放入值到arg.array中；SETALL设置所有信号量的值为array数组指定的值。<br>4、 IPC_RMID是删除这个信号量集； (对于一个持有该信号量的进程在没有释放该信号量的情况下就终止了。那么该进程所占用的信号量内核是不会进行释放的。会立即将该信号量从系统中彻底删除，不能再对该信号量进行任何访问。)<br>5、 IPC_SET是设置信号量集的sem_perm.uid,sem_perm.gid和sem_perm.mode三个参数，由arg的第二项参数相应值来设置。<br>6、 IPC_STAT返回指定信号量集中semid_ds结构，通过arg.buf返回，调用者首先要分配一个semid_ds结构并把arg.buf指向这个结构。</p>
-<h3 id="程序实例"><a href="#程序实例" class="headerlink" title="程序实例"></a>程序实例</h3><h4 id="简单函数演示"><a href="#简单函数演示" class="headerlink" title="简单函数演示"></a>简单函数演示</h4><p>验证一下竞态的情况，一个进程先建立一个特定path的信号量，然后sleep一段时间，期间另外一个进程调用p和v操作，看是否正常工作，然后解决方法，用IPC_STAT获取sem_otime,看他是否变为非0，不断循环等待。</p>
-<h4 id="父子进程同步"><a href="#父子进程同步" class="headerlink" title="父子进程同步"></a>父子进程同步</h4><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://blog.csdn.net/hwz119/article/details/1613601(ftok" target="_blank" rel="external">http://blog.csdn.net/hwz119/article/details/1613601(ftok</a>)</p>
+<p>这个联合体，第一个是设置单个信号量值时候来设置它的值(SETVAL),第二个在IPC_SET和IPC_STAT使用；第三个是一个数组，是获取或者设置所有信号量值时候传入数组(SETALL,GETALL)。<br>第三个参数有很多选项：<br>1、 GETVAL把对应下标为semnum的sem的semval返回;SETVAL和GETVAL对应，设置semval值为arg.val值，如果成功，相应信号量在所有进程中的信号量调整值为0.<br>2、 GETPID,GETNCNT,GETZCNT都不用第四个参数；<br>3、 GETALL返回所有信号量的semval，并放入值到arg.array中；SETALL设置所有信号量的值为array数组指定的值。<br>4、 IPC_RMID是删除这个信号量集； (对于一个持有该信号量的进程在没有释放该信号量的情况下就终止了。那么该进程所占用的信号量内核是不会进行释放的。会立即将该信号量从系统中彻底删除，不能再对该信号量进行任何访问。)<br>5、 IPC_SET是设置信号量集的sem_perm.uid,sem_perm.gid和sem_perm.mode三个参数，由arg的第二项参数相应值来设置。<br>6、 IPC_STAT返回指定信号量集中semid_ds结构，通过arg.buf返回，调用者首先要分配一个semid_ds结构并把arg.buf指向这个结构。  </p>
+<h2 id="程序实例"><a href="#程序实例" class="headerlink" title="程序实例"></a>程序实例</h2><p>父进程创建信号量，并设置初值为0，然后创建子进程，然后父进程进行P操作，会阻塞直到资源数目增加，子进程先sleep几秒，然后对资源进行V操作，父进程解除阻塞顺利运行。对于信号量在父进程中打开的任何信号量在子进程中仍是打开的。<br><img src="/images/APUE/ipc_systemv_sem1.png" alt="&quot;c3&quot;"><br><img src="/images/APUE/ipc_systemv_sem2.png" alt="&quot;c3&quot;"><br>运行截图如下：<br><img src="/images/APUE/ipc_systemv_sem3.png" alt="&quot;c3&quot;"></p>
+<h2 id="信号量限制"><a href="#信号量限制" class="headerlink" title="信号量限制"></a>信号量限制</h2><p><img src="/images/APUE/ipc_systemv_sem4.png" alt="&quot;c3&quot;"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://blog.csdn.net/hwz119/article/details/1613601" target="_blank" rel="external">http://blog.csdn.net/hwz119/article/details/1613601</a><br>APUE 第15章<br>UNP2 第11章</p>
 
       
     </div>
@@ -430,7 +435,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">63</span>
+              <span class="site-state-item-count">64</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -511,7 +516,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#内核中的结构"><span class="nav-number">1.</span> <span class="nav-text">内核中的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#systemv信号量相关操作函数"><span class="nav-number">2.</span> <span class="nav-text">systemv信号量相关操作函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#semget函数"><span class="nav-number">2.1.</span> <span class="nav-text">semget函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#semop函数–pv操作主要函数"><span class="nav-number">2.2.</span> <span class="nav-text">semop函数–pv操作主要函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sem-ctl函数—控制操作"><span class="nav-number">2.3.</span> <span class="nav-text">sem_ctl函数—控制操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序实例"><span class="nav-number">2.4.</span> <span class="nav-text">程序实例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#简单函数演示"><span class="nav-number">2.4.1.</span> <span class="nav-text">简单函数演示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#父子进程同步"><span class="nav-number">2.4.2.</span> <span class="nav-text">父子进程同步</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#内核中的结构"><span class="nav-number">1.</span> <span class="nav-text">内核中的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#systemv信号量相关操作函数"><span class="nav-number">2.</span> <span class="nav-text">systemv信号量相关操作函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#semget函数"><span class="nav-number">2.1.</span> <span class="nav-text">semget函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#semop函数–pv操作主要函数"><span class="nav-number">2.2.</span> <span class="nav-text">semop函数–pv操作主要函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sem-ctl函数—控制操作"><span class="nav-number">2.3.</span> <span class="nav-text">sem_ctl函数—控制操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序实例"><span class="nav-number">3.</span> <span class="nav-text">程序实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信号量限制"><span class="nav-number">4.</span> <span class="nav-text">信号量限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
           </div>
         </section>

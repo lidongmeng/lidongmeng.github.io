@@ -236,6 +236,129 @@
             
               
                 
+                <a class="post-title-link" href="/2016/06/25/Posix与SystemV的三个IPC比较/" itemprop="url">
+                  Posix与SystemV的三个IPC比较
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-25T09:48:03+08:00" content="2016-06-25">
+              2016-06-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/IPC/" itemprop="url" rel="index">
+                    <span itemprop="name">IPC</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/25/Posix与SystemV的三个IPC比较/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/25/Posix与SystemV的三个IPC比较/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="整体结构"><a href="#整体结构" class="headerlink" title="整体结构"></a>整体结构</h2><h3 id="Posix-IPC"><a href="#Posix-IPC" class="headerlink" title="Posix IPC"></a>Posix IPC</h3><p>Posix IPC在打开或者创建一个IPC对象时候有一些共同的特性，用于标识的路径名，打开或者创建时候需要指定的标志以及访问权限。<br><img src="/images/APUE/ipc_cmp1.png" alt="&quot;c3&quot;"></p>
+<h4 id="IPC名字"><a href="#IPC名字" class="headerlink" title="IPC名字"></a>IPC名字</h4><p>xx_open的第一参数是名字，名字必须符合已有路径名字命名规则（可以是文件系统中的实际路径名，也可以不是），要求说是必须以/打头，但是实际使用中取决于实现，使用一个单纯的名字似乎也可以。</p>
+<h4 id="标识"><a href="#标识" class="headerlink" title="标识"></a>标识</h4><p>xx_open的第二个参数指定怎么样打开所请求的对象，可以用下面选项：<br><img src="/images/APUE/ipc_cmp2.png" alt="&quot;c3&quot;"><br>前三个必须指定一个，消息队列能以任何一种模式打开，信号量打开不需要指定，共享内存不能以只写方式打开。另外消息队列可以以指定O_NONBLOCK选项，表示消息队列空或者满时候不阻塞，O_TRUNC则是共享内存的，使该对象长度被截断为0.另外指定O_CREAT和O_EXEL可能遇到的情况如下：<br><img src="/images/APUE/ipc_cmp3.png" alt="&quot;c3&quot;"><br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/06/25/Posix与SystemV的三个IPC比较/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/06/23/编程珠玑之采样问题/" itemprop="url">
                   编程珠玑之采样问题
                 </a>
@@ -1252,105 +1375,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/14/Linux命令之ipcs/" itemprop="url">
-                  Linux命令之ipcs
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-14T10:20:24+08:00" content="2016-06-14">
-              2016-06-14
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/14/Linux命令之ipcs/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/14/Linux命令之ipcs/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1396,7 +1420,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">63</span>
+              <span class="site-state-item-count">64</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

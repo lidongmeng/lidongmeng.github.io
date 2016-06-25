@@ -236,6 +236,128 @@
             
               
                 
+                <a class="post-title-link" href="/2016/06/14/Linux命令之ipcs/" itemprop="url">
+                  Linux命令之ipcs
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-14T10:20:24+08:00" content="2016-06-14">
+              2016-06-14
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/IPC/" itemprop="url" rel="index">
+                    <span itemprop="name">IPC</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/14/Linux命令之ipcs/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/14/Linux命令之ipcs/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>进程间通信可以通过系统命令ipcs进行查看，ipcrm是用来删除(unlink)一个消息队列，共享内存或者是信号量，这些命令都只是针对SystemV的IPC才管用，对PosixIPC并没有作用，Posix IPC的三种IPC只能通过/dev/文件夹下的相应文件夹里面的文件查看。  </p>
+<h2 id="ipcs查询"><a href="#ipcs查询" class="headerlink" title="ipcs查询"></a>ipcs查询</h2><p>利用ipcs可以查询系统中维护的SystemV的IPC对象：<br><img src="/images/APUE/ipc_ipcs_1.png" alt="&quot;c3&quot;"><br>可以看出有key,id，ower,perms，bytes,nattach和status组成<br>另外查看特定的可以通过选项-m(共享内存),-s(信号量),-q(消息队列)；<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/06/14/Linux命令之ipcs/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/06/14/IPC之SystemV消息队列/" itemprop="url">
                   IPC之SystemV消息队列
                 </a>
@@ -255,6 +377,25 @@
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/IPC/" itemprop="url" rel="index">
+                    <span itemprop="name">IPC</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
@@ -520,11 +661,9 @@
 
       
         
-          <p>Posix信号量虽然有有名和无名之分，但是都只是针对一个资源的数量的操作，但是SystemV信号量却可以针对一个或者多个信号量(计数信号量集)，所以增加了操作复杂性。</p>
+          <p>信号量是一个计数器，常用于处理进程和线程的同步问题，特别是对<b>临界资源访问的同步</b>。获取一次信号量的操作就是对信号量减一P操作，而释放一次信号量的操作就是对信号量加一V操作。Posix信号量虽然有有名和无名之分，但是都只是针对一个资源的数量的操作，但是SystemV信号量却可以针对一个或者多个信号量(计数信号量集)，所以增加了操作复杂性。</p>
 <h2 id="内核中的结构"><a href="#内核中的结构" class="headerlink" title="内核中的结构"></a>内核中的结构</h2><p>内核为每个信号量集维护了如下的信息结构：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">struct semid_d &#123;</span><br><span class="line">    struct ipc_perm sem_perm; // 当前信号量的访问权限</span><br><span class="line">    struct sem * sem_base; // 指向信号量集的指针</span><br><span class="line">    ushort sem_nsems;  // 信号量的数目</span><br><span class="line">    time_t sem_otime;  // </span><br><span class="line">    time_t sem_ctime;  // 创建时间</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>其中sem结构体如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct sem &#123;</span><br><span class="line">    ushort_t semval; // 信号量的值</span><br><span class="line">    short   sempid; // 上一个成功操作semop的进程的pid</span><br><span class="line">    ushort_t semncnt; // 等待其值增长的进程数目</span><br><span class="line">    ushort_t semzcnt; // 等待其值变为0的进程数目</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>下图是一个有两个信号量的信号量集的内核数据结构：<br><img src="/images/APUE/systemv_sem1.png" alt="&quot;c3&quot;"></p>
-<h2 id="systemv信号量相关操作函数"><a href="#systemv信号量相关操作函数" class="headerlink" title="systemv信号量相关操作函数"></a>systemv信号量相关操作函数</h2>
+<p>其中sem结构体如下：<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/06/13/IPC之SystemV信号量/#more" rel="contents">
               阅读全文 &raquo;
@@ -1252,105 +1391,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/03/minifftp项目实战之文件上传下载与限速/" itemprop="url">
-                  minifftp项目实战之文件上传下载与限速
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-03T09:00:24+08:00" content="2016-06-03">
-              2016-06-03
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/03/minifftp项目实战之文件上传下载与限速/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/03/minifftp项目实战之文件上传下载与限速/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1396,7 +1436,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">63</span>
+              <span class="site-state-item-count">64</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

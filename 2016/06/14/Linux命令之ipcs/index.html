@@ -57,16 +57,22 @@
 
 
 
-<meta name="description" content="你若盛开，蝴蝶自来。">
+<meta name="description" content="进程间通信可以通过系统命令ipcs进行查看，ipcrm是用来删除(unlink)一个消息队列，共享内存或者是信号量，这些命令都只是针对SystemV的IPC才管用，对PosixIPC并没有作用，Posix IPC的三种IPC只能通过/dev/文件夹下的相应文件夹里面的文件查看。  
+ipcs查询利用ipcs可以查询系统中维护的SystemV的IPC对象：可以看出有key,id，ower,perms">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux命令之ipcs">
 <meta property="og:url" content="http://yoursite.com/2016/06/14/Linux命令之ipcs/index.html">
 <meta property="og:site_name" content="DongMengLi">
-<meta property="og:description" content="你若盛开，蝴蝶自来。">
-<meta property="og:updated_time" content="2016-06-14T02:20:24.600Z">
+<meta property="og:description" content="进程间通信可以通过系统命令ipcs进行查看，ipcrm是用来删除(unlink)一个消息队列，共享内存或者是信号量，这些命令都只是针对SystemV的IPC才管用，对PosixIPC并没有作用，Posix IPC的三种IPC只能通过/dev/文件夹下的相应文件夹里面的文件查看。  
+ipcs查询利用ipcs可以查询系统中维护的SystemV的IPC对象：可以看出有key,id，ower,perms">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_ipcs_1.png">
+<meta property="og:image" content="http://yoursite.com/images/APUE/ipc_ipcs_3.png">
+<meta property="og:updated_time" content="2016-06-25T03:56:42.766Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux命令之ipcs">
-<meta name="twitter:description" content="你若盛开，蝴蝶自来。">
+<meta name="twitter:description" content="进程间通信可以通过系统命令ipcs进行查看，ipcrm是用来删除(unlink)一个消息队列，共享内存或者是信号量，这些命令都只是针对SystemV的IPC才管用，对PosixIPC并没有作用，Posix IPC的三种IPC只能通过/dev/文件夹下的相应文件夹里面的文件查看。  
+ipcs查询利用ipcs可以查询系统中维护的SystemV的IPC对象：可以看出有key,id，ower,perms">
+<meta name="twitter:image" content="http://yoursite.com/images/APUE/ipc_ipcs_1.png">
 
 
 
@@ -252,6 +258,25 @@
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/IPC/" itemprop="url" rel="index">
+                    <span itemprop="name">IPC</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -280,7 +305,12 @@
       
 
       
-        
+        <p>进程间通信可以通过系统命令ipcs进行查看，ipcrm是用来删除(unlink)一个消息队列，共享内存或者是信号量，这些命令都只是针对SystemV的IPC才管用，对PosixIPC并没有作用，Posix IPC的三种IPC只能通过/dev/文件夹下的相应文件夹里面的文件查看。  </p>
+<h2 id="ipcs查询"><a href="#ipcs查询" class="headerlink" title="ipcs查询"></a>ipcs查询</h2><p>利用ipcs可以查询系统中维护的SystemV的IPC对象：<br><img src="/images/APUE/ipc_ipcs_1.png" alt="&quot;c3&quot;"><br>可以看出有key,id，ower,perms，bytes,nattach和status组成<br>另外查看特定的可以通过选项-m(共享内存),-s(信号量),-q(消息队列)；<br><a id="more"></a></p>
+<h2 id="ipcrm删除"><a href="#ipcrm删除" class="headerlink" title="ipcrm删除"></a>ipcrm删除</h2><p>清除可以指定参数-M(S/Q)后面跟的是key,-m(s/q)后面跟的参数是xxid，只有root用户或者是ipc对象创建者才可以删除。</p>
+<h2 id="系统参数查询"><a href="#系统参数查询" class="headerlink" title="系统参数查询"></a>系统参数查询</h2><h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h3><p>通过-l选项可以查看：<br><img src="/images/APUE/ipc_ipcs_3.png" alt="&quot;c3&quot;"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>APUE 第15章<br>UNP2 第2,3章<br><a href="http://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/ipcs.html" target="_blank" rel="external">http://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/ipcs.html</a></p>
+
       
     </div>
     
@@ -404,7 +434,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">63</span>
+              <span class="site-state-item-count">64</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -485,7 +515,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ipcs查询"><span class="nav-number">1.</span> <span class="nav-text">ipcs查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ipcrm删除"><span class="nav-number">2.</span> <span class="nav-text">ipcrm删除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统参数查询"><span class="nav-number">3.</span> <span class="nav-text">系统参数查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查询"><span class="nav-number">3.1.</span> <span class="nav-text">查询</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
           </div>
         </section>
