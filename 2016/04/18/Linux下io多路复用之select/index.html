@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="IO多路复用," />
 
 
 
@@ -57,16 +57,19 @@
 
 
 
-<meta name="description" content="你若盛开，蝴蝶自来。">
+<meta name="description" content="IO多路复用IO多路复用是指内核一旦发现进程指定的一个或者多个IO准备就绪，就通知进程进行处理。适用于以下场合：1、 客户处理多个套接字描述符时候；2、 TCP服务器既要处理监听套接字又要处理已经连接的套接字；3、 服务器既要处理TCP又要处理UDP；4、 服务器处理多个协议或者服务。当然，以上场合都可以通过多线程或者多进程的方式去实现，但是使用IO多路复用可以使系统开销减小，系统不必创建进程或者">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux下io多路复用之select">
 <meta property="og:url" content="http://yoursite.com/2016/04/18/Linux下io多路复用之select/index.html">
 <meta property="og:site_name" content="DongMengLi">
-<meta property="og:description" content="你若盛开，蝴蝶自来。">
-<meta property="og:updated_time" content="2016-04-18T07:59:31.121Z">
+<meta property="og:description" content="IO多路复用IO多路复用是指内核一旦发现进程指定的一个或者多个IO准备就绪，就通知进程进行处理。适用于以下场合：1、 客户处理多个套接字描述符时候；2、 TCP服务器既要处理监听套接字又要处理已经连接的套接字；3、 服务器既要处理TCP又要处理UDP；4、 服务器处理多个协议或者服务。当然，以上场合都可以通过多线程或者多进程的方式去实现，但是使用IO多路复用可以使系统开销减小，系统不必创建进程或者">
+<meta property="og:image" content="http://yoursite.com/images/UNP/select1.png">
+<meta property="og:image" content="http://yoursite.com/images/UNP/select2.png">
+<meta property="og:updated_time" content="2016-06-26T01:35:31.025Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux下io多路复用之select">
-<meta name="twitter:description" content="你若盛开，蝴蝶自来。">
+<meta name="twitter:description" content="IO多路复用IO多路复用是指内核一旦发现进程指定的一个或者多个IO准备就绪，就通知进程进行处理。适用于以下场合：1、 客户处理多个套接字描述符时候；2、 TCP服务器既要处理监听套接字又要处理已经连接的套接字；3、 服务器既要处理TCP又要处理UDP；4、 服务器处理多个协议或者服务。当然，以上场合都可以通过多线程或者多进程的方式去实现，但是使用IO多路复用可以使系统开销减小，系统不必创建进程或者">
+<meta name="twitter:image" content="http://yoursite.com/images/UNP/select1.png">
 
 
 
@@ -252,6 +255,25 @@
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">网络编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -280,7 +302,20 @@
       
 
       
-        
+        <h2 id="IO多路复用"><a href="#IO多路复用" class="headerlink" title="IO多路复用"></a>IO多路复用</h2><p>IO多路复用是指内核一旦发现进程指定的一个或者多个IO准备就绪，就通知进程进行处理。适用于以下场合：<br>1、 客户处理多个套接字描述符时候；<br>2、 TCP服务器既要处理监听套接字又要处理已经连接的套接字；<br>3、 服务器既要处理TCP又要处理UDP；<br>4、 服务器处理多个协议或者服务。<br>当然，以上场合都可以通过多线程或者多进程的方式去实现，但是使用IO多路复用可以使系统开销减小，系统不必创建进程或者线程。  </p>
+<h2 id="select函数"><a href="#select函数" class="headerlink" title="select函数"></a>select函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> #include &lt;sys/select.h&gt;</span><br><span class="line"> #include &lt;sys/time.h&gt;</span><br><span class="line"> int select(int maxfdp1, fd_set *readset, fd_set *writeset,</span><br><span class="line">     fd_set *exceptset, const struct timeval *timeout)</span><br><span class="line">//返回值：就绪描述符的数目，超时返回0，出错返回-1</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>1、 第一个参数是指定待测试的描述符的个数，它的值为最大描述符加1，小于等于最大描述符的描述符都会被测试；<br>2、 中间三个参数分别表示让内核测试读，写以及异常的描述符集，不感兴趣可以设置为NULL.可以通过下面四个宏来清空，添加，删除，测试fd:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">void FD_ZERO(fd_set *fdset);           // 清空集合</span><br><span class="line">void FD_SET(int fd, fd_set *fdset);   // 将一个给定的文件描述符加入集合之中</span><br><span class="line">void FD_CLR(int fd, fd_set *fdset);   // 将一个给定的文件描述符从集合中删除</span><br><span class="line">int FD_ISSET(int fd, fd_set *fdset);  </span><br><span class="line">  // 检查集合中指定的文件描述符是否可以读写</span><br></pre></td></tr></table></figure></p>
+<p>3、 最后一个参数告知内核等待所指定描述符中任意一个就绪可花的时间，timeval可指定秒数和微秒数，所以精度为微妙：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">struct timeval &#123;</span><br><span class="line">    long tv_sec;   // seconds</span><br><span class="line">    long tv_usec;  // microseconds</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果设置timeout为NULL，将永远等待直到有一个描述符就绪；如果设置了时间，在时间范围内有描述符就绪，就返回就绪的描述符集合的数目，如果没有就返回-1出错并且码为？？；如果设置为0，则表示不等待，立即返回即轮询。</p>
+<h2 id="select实现"><a href="#select实现" class="headerlink" title="select实现"></a>select实现</h2><h3 id="select调用过程"><a href="#select调用过程" class="headerlink" title="select调用过程"></a>select调用过程</h3><p>select需要驱动程序的支持，驱动程序实现fops的poll函数，select通过每个设备文件对应的poll函数提供的信息判断当前是否有资源可用，有的话返回可用资源的文件个数，没有的话睡眠。<br><img src="/images/UNP/select1.png" alt="&quot;c3&quot;"><br>1、 拷培fd_set到内核空间；<br>2、 遍历所有的fd,调用它对应的poll方法，主要是_pollwait，它的主要工作是将当前进程挂到设备的等待队列中，不同的设备具有不同的等待队列，设备收到一条消息（网络设备）或者填写完文件数据（磁盘设备）后，会唤醒设备等待队列上面的睡眠的进程，这时当前进程就被唤醒；然后poll方法返回一个描述读写操作是否就绪的mask掩码，根据这个掩码给fd_set赋值；<br>3、 如果遍历完所有的fd，还没有一个可读写的mask掩码，则调用schedule_timeout使进程进入睡眠，当设备驱动发现自身资源可读写时，会唤醒等待队列上面的睡眠的进程，如果超过一旦时间没有唤醒，则调用select的进程则会被重新唤醒获得CPU,进而重新遍历fd，判断有没有就绪的fd；<br>4、 吧fd_set从内核空间拷培到用户空间。</p>
+<h3 id="select缺点"><a href="#select缺点" class="headerlink" title="select缺点"></a>select缺点</h3><p>所以可以看出select有以下缺点：<br>1、 每次调用select，都需要将fd集合从用户空间拷培到内核空间，如果fd较多则开销较大；<br>2、 每次调用select都需要在内核中遍历所有的fd，fd较多时候这个开销也很大；<br>3、 select支持的文件描述符数量太小，一般为1024.</p>
+<h2 id="select实现回显cs程序"><a href="#select实现回显cs程序" class="headerlink" title="select实现回显cs程序"></a>select实现回显cs程序</h2><p>客户端发送一条消息，服务接收到回传。</p>
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p>参见</p>
+<h3 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h3><p>参见</p>
+<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><p><img src="/images/UNP/select2.png" alt="&quot;c3&quot;"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://blog.csdn.net/lizhiguo0532/article/details/6568964#comments" target="_blank" rel="external">http://blog.csdn.net/lizhiguo0532/article/details/6568964#comments</a><br><a href="http://www.cnblogs.com/Anker/p/3265058.html" target="_blank" rel="external">http://www.cnblogs.com/Anker/p/3265058.html</a><br><a href="http://linux.chinaunix.net/techdoc/net/2009/05/03/1109887.shtml" target="_blank" rel="external">http://linux.chinaunix.net/techdoc/net/2009/05/03/1109887.shtml</a></p>
+
       
     </div>
     
@@ -297,6 +332,12 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/IO多路复用/" rel="tag">#IO多路复用</a>
+          
+        </div>
       
 
       
@@ -421,7 +462,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -485,7 +526,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#IO多路复用"><span class="nav-number">1.</span> <span class="nav-text">IO多路复用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#select函数"><span class="nav-number">2.</span> <span class="nav-text">select函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#select实现"><span class="nav-number">3.</span> <span class="nav-text">select实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#select调用过程"><span class="nav-number">3.1.</span> <span class="nav-text">select调用过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#select缺点"><span class="nav-number">3.2.</span> <span class="nav-text">select缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#select实现回显cs程序"><span class="nav-number">4.</span> <span class="nav-text">select实现回显cs程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端"><span class="nav-number">4.1.</span> <span class="nav-text">客户端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务器"><span class="nav-number">4.2.</span> <span class="nav-text">服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行"><span class="nav-number">4.3.</span> <span class="nav-text">运行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
           </div>
         </section>

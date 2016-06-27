@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="IO多路复用," />
 
 
 
@@ -57,16 +57,19 @@
 
 
 
-<meta name="description" content="你若盛开，蝴蝶自来。">
+<meta name="description" content="epoll函数epoll_create12int epoll_create(int size);    // 返回：若成功返回非负epoll描述符，否则返回-1，并设置errno的值
+其中的参数是指定生成描述符的最大范围,当创建好epoll句柄后，它就是会占用一个fd值，在linux下如果查看/proc/进程id号/fd/，是能够看到这个fd的，所以在使用完epoll后，必须调用close()关闭">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux下io多路复用之epoll">
 <meta property="og:url" content="http://yoursite.com/2016/04/18/Linux下io多路复用之epoll/index.html">
 <meta property="og:site_name" content="DongMengLi">
-<meta property="og:description" content="你若盛开，蝴蝶自来。">
-<meta property="og:updated_time" content="2016-04-18T07:59:42.857Z">
+<meta property="og:description" content="epoll函数epoll_create12int epoll_create(int size);    // 返回：若成功返回非负epoll描述符，否则返回-1，并设置errno的值
+其中的参数是指定生成描述符的最大范围,当创建好epoll句柄后，它就是会占用一个fd值，在linux下如果查看/proc/进程id号/fd/，是能够看到这个fd的，所以在使用完epoll后，必须调用close()关闭">
+<meta property="og:updated_time" content="2016-06-27T06:05:51.289Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux下io多路复用之epoll">
-<meta name="twitter:description" content="你若盛开，蝴蝶自来。">
+<meta name="twitter:description" content="epoll函数epoll_create12int epoll_create(int size);    // 返回：若成功返回非负epoll描述符，否则返回-1，并设置errno的值
+其中的参数是指定生成描述符的最大范围,当创建好epoll句柄后，它就是会占用一个fd值，在linux下如果查看/proc/进程id号/fd/，是能够看到这个fd的，所以在使用完epoll后，必须调用close()关闭">
 
 
 
@@ -252,6 +255,25 @@
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">网络编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -280,7 +302,20 @@
       
 
       
-        
+        <h2 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h2><h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><h4 id="epoll-create"><a href="#epoll-create" class="headerlink" title="epoll_create"></a>epoll_create</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int epoll_create(int size);    </span><br><span class="line">// 返回：若成功返回非负epoll描述符，否则返回-1，并设置errno的值</span><br></pre></td></tr></table></figure>
+<p>其中的参数是指定生成描述符的最大范围,当创建好epoll句柄后，它就是会占用一个fd值，在linux下如果查看/proc/进程id号/fd/，是能够看到这个fd的，所以在使用完epoll后，必须调用close()关闭，否则可能导致fd被耗尽。</p>
+<h4 id="epoll-ctl"><a href="#epoll-ctl" class="headerlink" title="epoll_ctl"></a>epoll_ctl</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int epoll_ctl(int epfd, int op, int fd, struct epoll_event *events);    </span><br><span class="line">// 返回：若成功返回0，否则返回-1，并设置errno的值</span><br><span class="line"></span><br><span class="line">struct epoll_event &#123;</span><br><span class="line">    uint32_t events;    /* Epoll events */</span><br><span class="line">    epoll_data_t data;  /* User data variable */</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>第一个参数是epoll_create的返回值，第二个参数是动作：EPOLL_CTL_ADD,EPOLL_CTL_MOD,EPOLL_CTL_DEL；第三个参数是要监听的fd，第四个是结构体告诉内核需要监听什么事件，events可以是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">EPOLLIN:可读； EPOLLOUT:可写； EPOLLPRT:紧急数据可读； EPOLLERR错误</span><br><span class="line">EPOLLONESHOT当监听一次事件，当监听完这次事件之后，如果还需要继续监听这个socket的话，需要再次把这个socket加入到EPOLL队列里；</span><br><span class="line">EPOLLET:et模式，默认为lt模式</span><br></pre></td></tr></table></figure></p>
+<h4 id="epoll-wait"><a href="#epoll-wait" class="headerlink" title="epoll_wait"></a>epoll_wait</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int  timeout);    // 返回：若成功返回在timeout时间内就绪的文件描述符数，否则返回-1，并设置errno的值</span><br></pre></td></tr></table></figure>
+<p>该函数等待事件的产生，类似于select()调用。参数events用来从内核得到事件的集合；maxevents告诉内核返回的events的最大大小，这个maxevents的值不能大于创建epoll_create()时的size，也必须大于0；参数timeout是超时时间（毫秒，0会立即返回，-1将永久阻塞）。该函数返回需要处理的数目，如返回0表示已超时。</p>
+<h3 id="et与lt模式比较"><a href="#et与lt模式比较" class="headerlink" title="et与lt模式比较"></a>et与lt模式比较</h3><p>epoll对文件描述符的操作有两种模式：LT（level trigger）和ET（edge trigger）。LT模式是默认模式，LT模式与ET模式的区别如下：LT模式：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，应用程序可以不立即处理该事件。下次调用epoll_wait时，会再次响应应用程序并通知此事件。ET模式：当epoll_wait检测到描述符事件发生并将此事件通知应用程序，应用程序必须立即处理该事件。如果不处理，下次调用epoll_wait时，不会再次响应应用程序并通知此事件。<br>ET模式在很大程度上减少了epoll事件被重复触发的次数，因此效率要比LT模式高。epoll工作在ET模式的时候，必须使用非阻塞套接口，以避免由于一个文件句柄的阻塞读/阻塞写操作把处理多个文件描述符的任务饿死。</p>
+<h4 id="et模式下的读操作"><a href="#et模式下的读操作" class="headerlink" title="et模式下的读操作"></a>et模式下的读操作</h4><p>由于只通知一次，所以要读完缓冲区内所有数据，不然下次不会通知，所以要读就要一直读，直到为0，或者出错，错误码是EAGAIN(表示阻塞)，所以socket要使用非阻塞模式，因为阻塞模式可能会导致阻塞在读或者写上面，而不会去阻塞到epoll_wait上面，造成其他任务饿死。</p>
+<h4 id="et模式下的写操作"><a href="#et模式下的写操作" class="headerlink" title="et模式下的写操作"></a>et模式下的写操作</h4><p>当然写一样，也是要直到EAGAIN，但并不能保证要写的内容全部发送了。</p>
+<h4 id="et模式下的accept操作"><a href="#et模式下的accept操作" class="headerlink" title="et模式下的accept操作"></a>et模式下的accept操作</h4><p>et模式下由于只通知一次，accept 只处理一个连接，导致 TCP 就绪队列中剩下的连接都得不到处理。解决办法是用 while 循环抱住 accept 调用，处理完TCP就绪队列中的所有连接后再退出循环。如何知道是否处理完就绪队列中的所有连接呢？accept返回-1并且errno设置为 EAGAIN，就表示所有连接都处理完。<br>此外，必须设置监听套接字为非阻塞的，原因：如果accept工作在阻塞模式，考虑这种情况： TCP连接被客户端夭折，即在服务器调用 accept 之前（此时select等已经返回连接到达读就绪），客户端主动发送 RST 终止连接，导致刚刚建立的连接从就绪队列中移出，如果套接口被设置成阻塞模式，服务器就会一直阻塞在 accept 调用上，直到其他某个客户建立一个新的连接为止。但是在此期间，服务器单纯地阻塞在accept调用上（实际应该阻塞在select上），就绪队列中的其他描述符都得不到处理。解决办法是把监听套接口设置为非阻塞， 当客户在服务器调用 accept 之前中止某个连接时，accept 调用可以立即返回 -1， 这时源自 Berkeley 的实现会在内核中处理该事件，并不会将该事件通知给 epoll，而其他实现把 errno 设置为 ECONNABORTED 或者 EPROTO 错误，我们应该忽略这两个错误。</p>
+<h2 id="epoll高效的缘由"><a href="#epoll高效的缘由" class="headerlink" title="epoll高效的缘由"></a>epoll高效的缘由</h2><p>epoll可以高效的处理数以万计的socket句柄，比select、poll效率高很多，得益于它的实现，我们知道select和poll必须先将fd集合从用户空间拷培到内核空间，然后顺序遍历，在从内核空间拷培到用户空间，两次拷培以及O(n)的顺序遍历必然在遇到socket句柄比较多时候效率低下的问题。<br>在内核中，一切皆文件，epoll向内核注册了一个文件系统，用于存储被监视的socket，epoll_create在创建时候会在这个文件系统上面建立一个file节点，不是普通的文件，只服务于epoll，同时会开辟出自己的高速cache区，用于安置每一个需要监控的socket，这些socket会以红黑树的形式保存在内存cache里，支持快速查找删除插入，这个高速cache区就是物理上分配好你想要的size的内存对象，每次使用时都是使用空闲的已分配好的对象。  调用epoll_create时，内核除了帮我们在epoll文件系统里建了个file结点，在内核cache里建了个红黑树用于存储以后epoll_ctl传来的socket外，还会再建立一个list链表，用于存储准备就绪的事件，当epoll_wait调用时，仅仅观察这个list链表里有没有数据即可。有数据就返回，没有数据就sleep，等到timeout时间到后即使链表没数据也返回。所以，epoll_wait非常高效。那么，这个准备就绪list链表是怎么维护的呢？当我们执行epoll_ctl时，除了<b>把socket放到epoll文件系统里file对象对应的红黑树上之外，还会给内核中断处理程序注册一个回调函数，告诉内核，如果这个句柄的中断到了，就把它放到准备就绪list链表里</b>。所以，当一个socket上有数据到了，内核在把网卡上的数据copy到内核中后就来把socket插入到准备就绪链表里了。如此，一颗红黑树，一张准备就绪句柄链表，少量的内核cache，就帮我们解决了大并发下的socket处理问题。执行epoll_create时，创建了红黑树和就绪链表，执行epoll_ctl时，如果增加socket句柄，则检查在红黑树中是否存在，存在立即返回，不存在则添加到树干上，然后向内核注册回调函数，用于当中断事件来临时向准备就绪链表中插入数据。执行epoll_wait时立刻返回准备就绪链表里的数据即可。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://www.jianshu.com/p/b5bc204da984" target="_blank" rel="external">http://www.jianshu.com/p/b5bc204da984</a><br><a href="http://www.cnblogs.com/xiehongfeng100/p/4636118.html" target="_blank" rel="external">http://www.cnblogs.com/xiehongfeng100/p/4636118.html</a><br><a href="http://www.jiancool.com/article/77324651218/" target="_blank" rel="external">http://www.jiancool.com/article/77324651218/</a><br><a href="http://www.cnblogs.com/Anker/archive/2013/08/17/3263780.html" target="_blank" rel="external">http://www.cnblogs.com/Anker/archive/2013/08/17/3263780.html</a></p>
+
       
     </div>
     
@@ -297,6 +332,12 @@
     </div>
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/IO多路复用/" rel="tag">#IO多路复用</a>
+          
+        </div>
       
 
       
@@ -421,7 +462,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -485,7 +526,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#epoll"><span class="nav-number">1.</span> <span class="nav-text">epoll</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#函数"><span class="nav-number">1.1.</span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#epoll-create"><span class="nav-number">1.1.1.</span> <span class="nav-text">epoll_create</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#epoll-ctl"><span class="nav-number">1.1.2.</span> <span class="nav-text">epoll_ctl</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#epoll-wait"><span class="nav-number">1.1.3.</span> <span class="nav-text">epoll_wait</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#et与lt模式比较"><span class="nav-number">1.2.</span> <span class="nav-text">et与lt模式比较</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#et模式下的读操作"><span class="nav-number">1.2.1.</span> <span class="nav-text">et模式下的读操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#et模式下的写操作"><span class="nav-number">1.2.2.</span> <span class="nav-text">et模式下的写操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#et模式下的accept操作"><span class="nav-number">1.2.3.</span> <span class="nav-text">et模式下的accept操作</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#epoll高效的缘由"><span class="nav-number">2.</span> <span class="nav-text">epoll高效的缘由</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
           </div>
         </section>
