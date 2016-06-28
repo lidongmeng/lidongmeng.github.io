@@ -236,6 +236,560 @@
             
               
                 
+                <a class="post-title-link" href="/2016/05/22/线程池的设计与应用/" itemprop="url">
+                  线程池的设计与应用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-22T17:20:59+08:00" content="2016-05-22">
+              2016-05-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/22/线程池的设计与应用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/22/线程池的设计与应用/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>线程池，就是拥有若干个线程，线程的个数并不是越多越好，太多了会增加系统的开销，太少了会降低并发量，呢么设置多少个线程合适呢？另外是不是所有的任务放到线程池里面都合适呢？这些都要根据任务的类型来进行判断：<br>1、 计算密集型任务：这个任务是占用cpu的，很少被外界事件打断，这时要设置线程个数=CPU个数，如果线程个数大于CPU个数的话，由于CPU个数不足，并发的数目是一定的，所以需要有少量的CPU个数调度多个线程，这涉及线程与线程之间的切换开销，会降低效率。<br>2、 IO密集型任务：这个时候线程个数要大于CPU个数，因为任务运行时候可能需要等待IO，可能将这个任务挂起。<br>线程池本质实际也是生产者消费者模型的应用，生产者向任务队列中添加任务，一旦队列有任务到来，有闲置线程就让它执行任务，没有就等待直到新的空闲线程到来，用互斥锁和条件变量可以来控制。  </p>
+<h2 id="线程池框架"><a href="#线程池框架" class="headerlink" title="线程池框架"></a>线程池框架</h2><p>下面介绍一个线程池框架，该线程池框架利用两个队列来管理闲置线程和繁忙线程，当任务到来并且有闲置线程时候分配它进行工作，并加入到繁忙线程队列中，当工作完成时候放回闲置线程。  </p>
+<h3 id="TThread"><a href="#TThread" class="headerlink" title="TThread"></a>TThread</h3><p>TThread是对线程的创建和销毁的基类，注意线程创建里面的thread_func必须是C语言中的函数命名编译规则，所以要么加上”extern C”，要么设置为静态函数。</p>
+<h3 id="TWorkThread"><a href="#TWorkThread" class="headerlink" title="TWorkThread"></a>TWorkThread</h3><p>TWorkThread继承与TThread，是工作线程，每个工作线程里面有TThreadPool的引用，是该工作线程从属于哪个线程池，另外有相应的工作TJob表示具体的工作，线程开启后不断的循环等待工作到来，如果工作不为空执行工作。  </p>
+<h3 id="TMutex"><a href="#TMutex" class="headerlink" title="TMutex"></a>TMutex</h3><p>TMutex是对Posix互斥锁的封装。</p>
+<h3 id="TCondition"><a href="#TCondition" class="headerlink" title="TCondition"></a>TCondition</h3><p>TCondition是对Posix条件变量的封装。</p>
+<h3 id="TThreadPool"><a href="#TThreadPool" class="headerlink" title="TThreadPool"></a>TThreadPool</h3><p>线程池管理闲置和繁忙的线程队列，由于这两个队列都是共享资源，所以要用互斥锁和条件变量来进行管理。</p>
+<h3 id="TThreadPoolManager"><a href="#TThreadPoolManager" class="headerlink" title="TThreadPoolManager"></a>TThreadPoolManager</h3><p>对TThreadPool简单的封装。</p>
+<h3 id="TJob"><a href="#TJob" class="headerlink" title="TJob"></a>TJob</h3><p>具体的工作，交给工作线程执行的就是该工作，有一个run方法的接口，具体的工作可以通过继承该类然后实现run方法进行特定工作的处理。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://www.cnblogs.com/webor2006/p/4266726.html" target="_blank" rel="external">http://www.cnblogs.com/webor2006/p/4266726.html</a></p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/22/有限自动机解析Http请求/" itemprop="url">
+                  有限自动机解析Http请求
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-22T17:20:42+08:00" content="2016-05-22">
+              2016-05-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/22/有限自动机解析Http请求/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/22/有限自动机解析Http请求/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/20/C-11中的智能指针/" itemprop="url">
+                  C++11中的智能指针
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-20T16:45:54+08:00" content="2016-05-20">
+              2016-05-20
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/20/C-11中的智能指针/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/20/C-11中的智能指针/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/20/Leetcode-Count-of-Smaller-Numbers-After-Self/" itemprop="url">
+                  Leetcode--Count of Smaller Numbers After Self
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-20T15:02:17+08:00" content="2016-05-20">
+              2016-05-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/20/Leetcode-Count-of-Smaller-Numbers-After-Self/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/20/Leetcode-Count-of-Smaller-Numbers-After-Self/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>一个无序数组，查找每个元素后面有几个元素比它小，即统计每一个位置i，使得i小于j但是nums[i] &gt; nums[j]的个数。</p>
+<h2 id="naive-解法"><a href="#naive-解法" class="headerlink" title="naive 解法"></a>naive 解法</h2><p>O(n2)轻松搞定，遍历每一个数，然后统计后面的数字小于该元素的数字的个数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;int&gt; countSmaller(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    vector&lt;int&gt; result;</span><br><span class="line">    int n = nums.size();</span><br><span class="line">    for (int i = 0; i &lt; n; ++i) &#123;</span><br><span class="line">        int cnt = 0;</span><br><span class="line">        for (int j = i + 1; j &lt; n; ++j) cnt += (nums[j] &lt; nums[i]) ? 1 : 0;</span><br><span class="line">        result.push_back(cnt);</span><br><span class="line">    &#125;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当然这种方式肯定不是最优解了，肯定会超时的。</p>
+<h2 id="进一步思考"><a href="#进一步思考" class="headerlink" title="进一步思考"></a>进一步思考</h2>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/05/20/Leetcode-Count-of-Smaller-Numbers-After-Self/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/17/Maximum-Gap-无序数组的最大间隔/" itemprop="url">
+                   Maximum Gap--无序数组的最大间隔
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-17T17:02:41+08:00" content="2016-05-17">
+              2016-05-17
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/17/Maximum-Gap-无序数组的最大间隔/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/17/Maximum-Gap-无序数组的最大间隔/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>一个无序数组，求它的有序模式下的相邻数字之间的最大差。</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>首先看到题目，第一想法肯定好简单，排个序，然后相邻相减即可，当然这样的复杂度是排序的复杂度o(nlogn)，但是题目中要求使用线性复杂度。呢么就只能在排序的基础上面进行优化，而线性时间的排序只有三种计数排序(count sort)，基数排序(radix sort)以及桶排序(bucket sort),计数排序这里显然不太合适，本文讲述基数排序和桶排序两种做法。</p>
+<h2 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h2><p>桶排序是说将数字分到n个不同的桶中，然后对每个桶进行排序，具体见专门讲桶排序的呢篇文章吧.<br>这里由于要求得是最大间隔，所以我们可以将桶的个数分为n-1个，每个桶里面存放[min+(k-1)*gap, min+k*gap)区间的数，最小的数和最大的数都不放到桶里，这样就有n-2个数字放到n-1个桶里，每个桶里面的数字的最大间隔不大于gap，由于只有n-2个数字，所以得到的桶肯定有一个是空的，呢么最大间隔产生肯定在不同桶之间，可以不断扫描求得即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">int maximumGap(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    int n = nums.size();</span><br><span class="line">    if (n &lt; 2) return 0;</span><br><span class="line">    int maxNum = INT_MIN, minNum = INT_MAX;</span><br><span class="line">    for (int i = 0; i &lt; n; ++i) &#123;</span><br><span class="line">        maxNum = max(nums[i], maxNum);</span><br><span class="line">        minNum = min(nums[i], minNum);</span><br><span class="line">    &#125;</span><br><span class="line">    int gap = ceil((maxNum - minNum)*1.0 / (n - 1)); </span><br><span class="line">    vector&lt;int&gt; maxVec(n-1, INT_MIN);</span><br><span class="line">    vector&lt;int&gt; minVec(n-1, INT_MAX);</span><br><span class="line">    for (int i = 0; i &lt; n; ++i) &#123;</span><br><span class="line">        if (nums[i] == minNum || nums[i] == maxNum) &#123;</span><br><span class="line">            continue;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            int index = (nums[i] - minNum) / gap;</span><br><span class="line">            maxVec[index] = max(maxVec[index], nums[i]);</span><br><span class="line">            minVec[index] = min(minVec[index], nums[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    int prev = minNum;</span><br><span class="line">    int maxGap = 0;</span><br><span class="line">    for (int i = 0; i &lt; n-1; ++i) &#123;</span><br><span class="line">        if (minVec[i] == INT_MAX ) continue;</span><br><span class="line">        maxGap = max(maxGap, minVec[i] - prev);</span><br><span class="line">        prev = maxVec[i];</span><br><span class="line">    &#125;</span><br><span class="line">    maxGap = max(maxGap, maxNum-prev);</span><br><span class="line">    return maxGap;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h2><p>基数排序有两种，一种是LSB，一种是MSB。先进行排序，排序后扫描一遍即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">void radixSort(vector&lt;int&gt;&amp; X, int exp, int base)&#123;</span><br><span class="line">    int len = X.size();</span><br><span class="line">    int start = INT_MAX, end = INT_MIN;</span><br><span class="line">    for (int i = 0; i &lt; len; i++)&#123;</span><br><span class="line">        start = min(start, (X[i] / exp)%base);</span><br><span class="line">        end = max(end, (X[i] / exp) % base);</span><br><span class="line">    &#125;</span><br><span class="line">    int range = end - start + 1;</span><br><span class="line">    vector&lt;int&gt; count(range, 0);</span><br><span class="line">    vector&lt;int&gt; result(len, 0);</span><br><span class="line">    for (int i = 0; i &lt; len; i++)&#123;</span><br><span class="line">        count[(X[i] / exp) % base -start]++;</span><br><span class="line">    &#125;</span><br><span class="line">    for (int i = 1; i &lt; range; i++)&#123;</span><br><span class="line">        count[i] = count[i - 1] + count[i];</span><br><span class="line">    &#125;</span><br><span class="line">    //back-ward traverse is stable sorting</span><br><span class="line">    for (int i = len - 1; i &gt;= 0; i--)&#123;</span><br><span class="line">        //as we know that the count array recorded element should &apos;-1&apos; to get the index</span><br><span class="line">        result[count[(X[i] / exp) % base -start] - 1] = X[i];</span><br><span class="line">        count[(X[i] / exp) % base - start]--;</span><br><span class="line">    &#125;</span><br><span class="line">    for (int i = 0; i &lt; len; i++)&#123;</span><br><span class="line">        X[i] = result[i];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://leetcode.com/discuss/18499/bucket-sort-java-solution-with-explanation-o-time-and-space" target="_blank" rel="external">https://leetcode.com/discuss/18499/bucket-sort-java-solution-with-explanation-o-time-and-space</a></p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/05/13/设计模式之简单工厂模式/" itemprop="url">
                   设计模式之简单工厂模式
                 </a>
@@ -807,595 +1361,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/27/智能指针的简单实现/" itemprop="url">
-                  智能指针的简单实现
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-27T16:35:12+08:00" content="2016-04-27">
-              2016-04-27
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/27/智能指针的简单实现/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/27/智能指针的简单实现/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h2><p>c++的内存管理是让很多人头疼的事，当我们写一个new语句时，一般就会立即把delete语句直接也写了，但是我们不能避免程序还未执行到delete时就跳转了或者在函数中没有执行到最后的delete语句就返回了，如果我们不在每一个可能跳转或者返回的语句前释放资源，就会造成内存泄露。使用智能指针可以很大程度上的避免这个问题，因为智能指针就是一个类，当超出了类的作用域是，类会自动调用析构函数，析构函数会自动释放资源。</p>
-<h2 id="C-智能指针"><a href="#C-智能指针" class="headerlink" title="C++智能指针"></a>C++智能指针</h2><p>c++里面的四个智能指针: auto_ptr, shared_ptr, weak_ptr, unique_ptr 其中后三个是c++11支持，并且第一个已经被c++11弃用。</p>
-<h3 id="shared-ptr"><a href="#shared-ptr" class="headerlink" title="shared_ptr"></a>shared_ptr</h3><p>资源可以被多个指针共享，它使用计数机制来表明资源被几个指针共享。可以通过成员函数use_count()来查看资源的所有者个数。出了可以通过new来构造，还可以通过传入auto_ptr, unique_ptr,weak_ptr来构造。当我们调用release()时，当前指针会释放资源所有权，计数减一。当计数等于0时，资源会被释放。</p>
-<h3 id="unique-ptr"><a href="#unique-ptr" class="headerlink" title="unique_ptr"></a>unique_ptr</h3><p>unique_ptr,是用于取代c++98的auto_ptr的产物,在c++98的时候还没有移动语义(move semantics)的支持,因此对于auto_ptr的控制权转移的实现没有核心元素的支持,但是还是实现了auto_ptr的移动语义,这样带来的一些问题是拷贝构造函数和复制操作重载函数不够完美,具体体现就是把auto_ptr作为函数参数,传进去的时候控制权转移,转移到函数参数,当函数返回的时候并没有一个控制权移交的过程,所以过了函数调用则原先的auto_ptr已经失效了.在c++11当中有了移动语义,使用move()把unique_ptr传入函数,这样你就知道原先的unique_ptr已经失效了.移动语义本身就说明了这样的问题,比较坑爹的是标准描述是说对于move之后使用原来的内容是未定义行为,并非抛出异常,所以还是要靠人肉遵守游戏规则.再一个,auto_ptr不支持传入deleter,所以只能支持单对象(delete object),而unique_ptr对数组类型有偏特化重载,并且还做了相应的优化,比如用[]访问相应元素等.<br>unique_ptr 是一个独享所有权的智能指针，它提供了严格意义上的所有权，包括：1、拥有它指向的对象2、无法进行复制构造，无法进行复制赋值操作。即无法使两个unique_ptr指向同一个对象。但是可以进行移动构造和移动赋值操作3、保存指向某个对象的指针，当它本身被删除释放的时候，会使用给定的删除器释放它指向的对象<br>unique_ptr 可以实现如下功能：1、为动态申请的内存提供异常安全2、讲动态申请的内存所有权传递给某函数3、从某个函数返回动态申请内存的所有权4、在容器中保存指针<br>5、auto_ptr 应该具有的功能</p>
-<h3 id="weak-ptr"><a href="#weak-ptr" class="headerlink" title="weak_ptr"></a>weak_ptr</h3><p>weak_ptr是用来解决shared_ptr相互引用时的死锁问题,如果说两个shared_ptr相互引用,那么这两个指针的引用计数永远不可能下降为0,资源永远不会释放。它是对对象的一种弱引用，不会增加对象的引用计数，和shared_ptr之间可以相互转化，shared_ptr可以直接赋值给它，它可以通过调用lock函数来获得shared_ptr。</p>
-<h2 id="简单实现shared-ptr"><a href="#简单实现shared-ptr" class="headerlink" title="简单实现shared_ptr"></a>简单实现shared_ptr</h2><h2 id="简单实现unique-ptr"><a href="#简单实现unique-ptr" class="headerlink" title="简单实现unique_ptr"></a>简单实现unique_ptr</h2><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://www.cnblogs.com/TenosDoIt/p/3456704.html" target="_blank" rel="external">http://www.cnblogs.com/TenosDoIt/p/3456704.html</a><br><a href="http://blog.csdn.net/hackbuteer1/article/details/7561235" target="_blank" rel="external">http://blog.csdn.net/hackbuteer1/article/details/7561235</a><br><a href="http://www.cnblogs.com/QG-whz/p/4777312.html" target="_blank" rel="external">http://www.cnblogs.com/QG-whz/p/4777312.html</a><br><a href="http://my.oschina.net/costaxu/blog/103119?fromerr=wvWl7sD9" target="_blank" rel="external">http://my.oschina.net/costaxu/blog/103119?fromerr=wvWl7sD9</a><br>深入理解C++11<br><a href="http://www.cnblogs.com/hujian/archive/2012/12/10/2810754.html" target="_blank" rel="external">http://www.cnblogs.com/hujian/archive/2012/12/10/2810754.html</a></p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/27/Linux下C-开发内存泄漏排查与预防/" itemprop="url">
-                  Linux下C++开发内存泄漏排查与预防
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-27T16:32:19+08:00" content="2016-04-27">
-              2016-04-27
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/27/Linux下C-开发内存泄漏排查与预防/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/27/Linux下C-开发内存泄漏排查与预防/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="内存泄漏概述"><a href="#内存泄漏概述" class="headerlink" title="内存泄漏概述"></a>内存泄漏概述</h2><h2 id="内存泄露检测与定位"><a href="#内存泄露检测与定位" class="headerlink" title="内存泄露检测与定位"></a>内存泄露检测与定位</h2><h2 id="Linux下工具valgrind"><a href="#Linux下工具valgrind" class="headerlink" title="Linux下工具valgrind"></a>Linux下工具valgrind</h2><h2 id="预防措施"><a href="#预防措施" class="headerlink" title="预防措施"></a>预防措施</h2><h3 id="良好的编程习惯"><a href="#良好的编程习惯" class="headerlink" title="良好的编程习惯"></a>良好的编程习惯</h3><h3 id="使用智能指针"><a href="#使用智能指针" class="headerlink" title="使用智能指针"></a>使用智能指针</h3>
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/25/链表是否存在环问题/" itemprop="url">
-                  链表是否存在环问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-25T21:59:29+08:00" content="2016-04-25">
-              2016-04-25
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/25/链表是否存在环问题/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/25/链表是否存在环问题/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="判断链表是否有环及其证明"><a href="#判断链表是否有环及其证明" class="headerlink" title="判断链表是否有环及其证明"></a>判断链表是否有环及其证明</h2><p>利用快慢指针，快指针每次走两步，慢指针每次走一步，如果相遇则有环。  </p>
-<h3 id="算法证明"><a href="#算法证明" class="headerlink" title="算法证明"></a>算法证明</h3><p>如下图：<br><img src="/images/14/01.png" alt="&quot;有环链表&quot;"><br>从开始节点到环的开始节点之间的距离是m，设环的长度是n，当慢指针走到环的开始位置时候，快指针这时候走到环中m%n的位置，假设他们能够相遇，并且假设是在慢指针进入环t步之后相遇的，呢么此时:<br>慢指针的位置：m + t%n<br>快指针的位置：m + (m + 2*t)%n<br>相遇表明m + t%n = m + (m + 2*t)%n，所以可以得到(m+t)%n = 0;<br>由于m是正整数，n也是正整数，而且是固定的，所以肯定存在一个t使得上式成立并且：t = n*p - m(p是走过的圈数).</p>
-<h3 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">bool hasCycle(ListNode *head) &#123;</span><br><span class="line">    if (!head || !head-&gt;next) return false; </span><br><span class="line">    ListNode * fast = head;</span><br><span class="line">    ListNode * slow = head;</span><br><span class="line">    while (fast-&gt;next &amp;&amp; fast-&gt;next-&gt;next) &#123;</span><br><span class="line">        fast = fast-&gt;next-&gt;next;</span><br><span class="line">        slow = slow-&gt;next;</span><br><span class="line">        if (fast == slow) return true;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/04/25/链表是否存在环问题/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/24/最长等差子数列长度/" itemprop="url">
-                  最长等差子序列长度
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-24T11:56:43+08:00" content="2016-04-24">
-              2016-04-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/24/最长等差子数列长度/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/24/最长等差子数列长度/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>一个无序数组，求它的最长的等差子序列的长度。</p>
-<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>首先题目并没有说得到的等差子序列要和原数组中的位置是否一致，所以要分两种情况来进行分析。</p>
-<h3 id="等差子序列要和原数组元素位置一致"><a href="#等差子序列要和原数组元素位置一致" class="headerlink" title="等差子序列要和原数组元素位置一致"></a>等差子序列要和原数组元素位置一致</h3><p>我们可以构造一个map，key是等差数列的d,而value是两个index，开始位置i和结束位置j，并且保证i小于j，然后对这个map进行扫描，对每一个d，先对后面的数组按照开始位置i进行排序，然后顺序查找，下一个的j等于上一个的i表示能够连接起来，</p>
-<h3 id="等差子序列不一定和原数组元素位置一致"><a href="#等差子序列不一定和原数组元素位置一致" class="headerlink" title="等差子序列不一定和原数组元素位置一致"></a>等差子序列不一定和原数组元素位置一致</h3><h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><p>leetcode有一道题目求最长连续子序列的长度。(1，2，3叫做连续，1，2，4不叫连续)<br>首先，你当然可以先排序，然后去遍历，但是时间复杂度O(nlgn);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">int longestConsecutive(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    sort(nums.begin(), nums.end());</span><br><span class="line">    nums.erase(unique(nums.begin(), nums.end()), nums.end());</span><br><span class="line">    int start = 0, index = 0;</span><br><span class="line">    int n = nums.size(), result = INT_MIN;</span><br><span class="line">    while (index &lt; n) &#123;</span><br><span class="line">        start = index;</span><br><span class="line">        while (index+1 &lt; n &amp;&amp; nums[index+1] == nums[index] + 1) ++index;</span><br><span class="line">        result = max(result, index-start+1);</span><br><span class="line">        ++index;</span><br><span class="line">    &#125;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>是否可以用O(n)的时间复杂度来做？这时候就要用额外的空间来存储当前数字能够到达的边界位置。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://codercareer.blogspot.com/2014/03/no-53-longest-arithmetic-sequence.html" target="_blank" rel="external">http://codercareer.blogspot.com/2014/03/no-53-longest-arithmetic-sequence.html</a><br><a href="https://leetcode.com/problems/longest-consecutive-sequence/" target="_blank" rel="external">https://leetcode.com/problems/longest-consecutive-sequence/</a></p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/21/fork的一道面试题目解析/" itemprop="url">
-                  fork的一道面试题目解析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-21T09:16:35+08:00" content="2016-04-21">
-              2016-04-21
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/04/21/fork的一道面试题目解析/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/21/fork的一道面试题目解析/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="http://coolshell.cn/articles/7965.html" target="_blank" rel="external">http://coolshell.cn/articles/7965.html</a><br><a href="http://www.nowcoder.com/questionTerminal/d1e33e8d9ed74d7b8cf778896e73f1d7?toCommentId=26017" target="_blank" rel="external">http://www.nowcoder.com/questionTerminal/d1e33e8d9ed74d7b8cf778896e73f1d7?toCommentId=26017</a><br><a href="http://www.nowcoder.com/questionTerminal/1f6cc9c0ef354f86b1727c6c030a1a19" target="_blank" rel="external">http://www.nowcoder.com/questionTerminal/1f6cc9c0ef354f86b1727c6c030a1a19</a></p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1441,7 +1406,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">64</span>
+              <span class="site-state-item-count">69</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

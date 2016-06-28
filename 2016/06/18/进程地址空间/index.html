@@ -57,16 +57,22 @@
 
 
 
-<meta name="description" content="你若盛开，蝴蝶自来。">
+<meta name="description" content="多任务操作系统中每一个进程都在自己的内存地址空间中运行，这个地址空间就是虚拟地址空间，32bit模式下是4GB大小，虚拟内存用页表方式映射到物理内存，页表有操作系统内核维护，由CPU访问，每个进程都会有自己的页表集合，4GB虚拟地址空间中高端地址的1GB分配给内核，其余的是用户空间，如下图所示：![进程地址空间][“/images/APUE/process.png”]
+
+进程地址空间中最上面的段为">
 <meta property="og:type" content="article">
 <meta property="og:title" content="进程地址空间">
 <meta property="og:url" content="http://yoursite.com/2016/06/18/进程地址空间/index.html">
 <meta property="og:site_name" content="DongMengLi">
-<meta property="og:description" content="你若盛开，蝴蝶自来。">
-<meta property="og:updated_time" content="2016-06-20T00:32:59.398Z">
+<meta property="og:description" content="多任务操作系统中每一个进程都在自己的内存地址空间中运行，这个地址空间就是虚拟地址空间，32bit模式下是4GB大小，虚拟内存用页表方式映射到物理内存，页表有操作系统内核维护，由CPU访问，每个进程都会有自己的页表集合，4GB虚拟地址空间中高端地址的1GB分配给内核，其余的是用户空间，如下图所示：![进程地址空间][“/images/APUE/process.png”]
+
+进程地址空间中最上面的段为">
+<meta property="og:updated_time" content="2016-06-28T12:25:42.214Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="进程地址空间">
-<meta name="twitter:description" content="你若盛开，蝴蝶自来。">
+<meta name="twitter:description" content="多任务操作系统中每一个进程都在自己的内存地址空间中运行，这个地址空间就是虚拟地址空间，32bit模式下是4GB大小，虚拟内存用页表方式映射到物理内存，页表有操作系统内核维护，由CPU访问，每个进程都会有自己的页表集合，4GB虚拟地址空间中高端地址的1GB分配给内核，其余的是用户空间，如下图所示：![进程地址空间][“/images/APUE/process.png”]
+
+进程地址空间中最上面的段为">
 
 
 
@@ -252,6 +258,25 @@
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -280,7 +305,14 @@
       
 
       
-        
+        <p>多任务操作系统中每一个进程都在自己的内存地址空间中运行，这个地址空间就是虚拟地址空间，32bit模式下是4GB大小，虚拟内存用页表方式映射到物理内存，页表有操作系统内核维护，由CPU访问，每个进程都会有自己的页表集合，4GB虚拟地址空间中高端地址的1GB分配给内核，其余的是用户空间，如下图所示：<br>![进程地址空间][“/images/APUE/process.png”]</p>
+<ol>
+<li>进程地址空间中最上面的段为栈，栈用于存储本地变量和函数参数。调用一个方法或函数时压入栈一个新的栈帧。当函数返回时，这个压入的栈帧被释放。  </li>
+<li>在栈下面是内存映射段。这里内核直接映射内存到文件内容。任何应用程序都可以通过mmap()系统调用(LINUX下)获得这个映射。内存映射是文件I/O中一个方便高效的方法，所以他用于加载动态库。创建一个和任何文件不想干的匿名内存映射用于替代程序中的数据也是有可能的。在LINUX中，如果你通过malloc()申请一块很大的内存块，C标准库将创建一个匿名映射而不是用内存堆。  </li>
+<li>接下来一块是堆，堆提供运行时内存分配，就像栈，而和栈不一样的是数据必须持久于分配函数。  </li>
+<li>最后，我们到达了内存中最下面的段：BSS段、数据段和代码段。BSS段和数据段在C语言中存储静态和全局变量。不同的是BSS段存放的是没有被初始化的静态变量，也就是所这些静态变量在源代码中没有被程序员设置初值。BSS内存区是匿名的：他不映射任何特定的文件。例如，static int cntActiveUsers,变量cntActiveUsers的内容存放在BSS段。另一方面，数据段持有在源代码中已经初始化的静态变量。他的内存区域不是匿名的。他映射程序二进制镜像的一部分，这部分包含在源代码中已初始化的静态变量。例如，static int cntWorkerBees = 10, 那么cntWorkerBees存放在数据段中且初始数据为10。虽然数据段映射一个文件，但是他是一个私有内存映射，这意味着内存更新不会反映到底层文件。这一定是这样的，否则分配分配到的全局变量将改变你磁盘上的二进制镜像。<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><a href="http://blog.csdn.net/bullbat/article/details/7304404" target="_blank" rel="external">http://blog.csdn.net/bullbat/article/details/7304404</a></li>
+</ol>
+
       
     </div>
     
@@ -404,7 +436,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">64</span>
+              <span class="site-state-item-count">69</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -485,7 +517,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">1.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
           </div>
         </section>

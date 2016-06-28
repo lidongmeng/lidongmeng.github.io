@@ -236,6 +236,554 @@
             
               
                 
+                <a class="post-title-link" href="/2016/06/10/APUE之文件与IO编程/" itemprop="url">
+                  APUE之文件与IO编程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-10T22:59:43+08:00" content="2016-06-10">
+              2016-06-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/APUE/" itemprop="url" rel="index">
+                    <span itemprop="name">APUE</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/10/APUE之文件与IO编程/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/10/APUE之文件与IO编程/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Linux中有两种类型的IO，一种是ANSIC提供的高级IO,叫做带缓冲的IO，另外一种是低级IO，系统调用的IO，不带缓冲，带不带缓冲取决于调用一次是否是内核的一个系统调用。</p>
+<h2 id="文件描述符"><a href="#文件描述符" class="headerlink" title="文件描述符"></a>文件描述符</h2><p>对应Linux内核来说，每一个打开的文件通过文件描述符引用，读写文件都通过该文件描述符进行操作，系统默认的3个文件0,1,2分别代表标准输入，标准输出以及标准错误。一个进程能打开的最多描述符个数是1024个(ulimit -a/-n)，一个系统打开的最多文件数目查看(cat /proc/sys/fs/file-max)，如下图所示：<br><img src="/images/APUE/c3.png" alt="&quot;c3&quot;"></p>
+<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><p>Linux中编程中的错误会记录在errno中，可以通过错误处理函数perror或者strerror来将错误打印出来，供分析，下面程序演示了两个函数的使用:<br><img src="/images/APUE/c3-2.png" alt="&quot;c3&quot;"><br>编译运行得到如下截图，第二个参数表明使用哪个函数，1表示使用perror，2表示使用strerror：<br><img src="/images/APUE/c3-1.png" alt="&quot;c3&quot;"><br>可以看出，perror的消息是固定的，而strerror可以很灵活。</p>
+<h2 id="低级IO函数"><a href="#低级IO函数" class="headerlink" title="低级IO函数"></a>低级IO函数</h2>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/06/10/APUE之文件与IO编程/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/10/高质量程序设计指南读书笔记1/" itemprop="url">
+                  高质量程序设计指南读书笔记1
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-10T21:43:40+08:00" content="2016-06-10">
+              2016-06-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/高质量程序设计指南/" itemprop="url" rel="index">
+                    <span itemprop="name">高质量程序设计指南</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/10/高质量程序设计指南读书笔记1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/10/高质量程序设计指南读书笔记1/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>朋友给推荐了这本高质量程序设计指南，在看完基本的C++书籍，再看这本书，有一种醍醐灌顶的感觉，所以做笔记来记录下！</p>
+<h2 id="Chapter8-高级数据类型"><a href="#Chapter8-高级数据类型" class="headerlink" title="Chapter8 高级数据类型"></a>Chapter8 高级数据类型</h2><p>C++对C的结构体、联合、枚举等做了改造和增强。</p>
+<h3 id="struct与class"><a href="#struct与class" class="headerlink" title="struct与class"></a>struct与class</h3><p>C++中的struct与class除了默认的成员访问权限不同(struct默认为public,class默认为private)之外，别的没有任何区别，struct中可以声明成员函数，可以有构造函数，析构函数，虚函数等等。不过使用过程中最好还是用struct定义简单的类型，class定义有具体行为的ADT。<b>以前知道struct可以有class的一切行为但是没有尝试过，所以编程序试一把</b><br><img src="/images/highCplus/structTest.png" alt="&quot;struct vs class&quot;"><br>编译运行结果如下：<br><img src="/images/highCplus/structTestResult.png" alt="&quot;struct vs class&quot;"></p>
+<h4 id="POD类型"><a href="#POD类型" class="headerlink" title="POD类型"></a>POD类型</h4>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/06/10/高质量程序设计指南读书笔记1/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/07/STL之map按照key以及value排序/" itemprop="url">
+                  STL之map按照key以及value排序
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-07T22:32:00+08:00" content="2016-06-07">
+              2016-06-07
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/07/STL之map按照key以及value排序/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/07/STL之map按照key以及value排序/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>今天刷leetcode时候遇到题目Top K Frequent Elements，第一想法是使用map来记录每个元素的出现的次数，然后按照次数进行排序，这样取前k个即可，但是这就遇到一个问题，由于map默认是按照key排序的，呢么如何按照value排序呢，查了半天，终于找到解决之法，所以记录此文以备后用。首先介绍了map的按照key排序以及自定义排序准则的方法，然后介绍按照value排序的技巧。</p>
+<h2 id="按照key排序"><a href="#按照key排序" class="headerlink" title="按照key排序"></a>按照key排序</h2><h2 id="按照value排序"><a href="#按照value排序" class="headerlink" title="按照value排序"></a>按照value排序</h2><p>迂回策略：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">unordered_map&lt;int, int&gt; mmap;</span><br><span class="line">for (int i = 0; i &lt; nums.size(); ++i) &#123;</span><br><span class="line">    mmap[nums[i]]++;</span><br><span class="line">&#125;</span><br><span class="line">vector&lt;pair&lt;int, int&gt; &gt; vec(mmap.begin(), mmap.end());</span><br></pre></td></tr></table></figure></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://blog.csdn.net/iicy266/article/details/11906189" target="_blank" rel="external">http://blog.csdn.net/iicy266/article/details/11906189</a></p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/04/miniftp项目实战之空闲断开，断点续传实现/" itemprop="url">
+                  miniftp项目实战之空闲断开，断点续传实现
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-04T09:46:30+08:00" content="2016-06-04">
+              2016-06-04
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/04/miniftp项目实战之空闲断开，断点续传实现/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/04/miniftp项目实战之空闲断开，断点续传实现/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/04/miniftp项目实战之上传下载以及限速实现/" itemprop="url">
+                  miniftp项目实战之上传下载以及限速实现
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-04T09:45:43+08:00" content="2016-06-04">
+              2016-06-04
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/04/miniftp项目实战之上传下载以及限速实现/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/04/miniftp项目实战之上传下载以及限速实现/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/06/03/minifftp项目实战之文件上传下载与限速/" itemprop="url">
                   minifftp项目实战之文件上传下载与限速
                 </a>
@@ -816,616 +1364,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/31/miniftp项目实战之文件目录操作命令实现/" itemprop="url">
-                  miniftp项目实战之文件目录操作命令实现
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-31T14:58:53+08:00" content="2016-05-31">
-              2016-05-31
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/miniftp实战/" itemprop="url" rel="index">
-                    <span itemprop="name">miniftp实战</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/31/miniftp项目实战之文件目录操作命令实现/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/31/miniftp项目实战之文件目录操作命令实现/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2><p>文件的信息最终保存在磁盘上面，而一个磁盘分为一个或者多个分区，每个分区包含一个文件系统，如下图所示：<br><img src="/images/APUE/c4-1.png" alt="&quot;c41&quot;"><br>分区的第一个部分是启动区（自举块），为开机所用，然后是超级区，它存储文件系统相关信息，包括文件系统类型，inode的数目，数据块的数目，对于每一个柱面组：<br><img src="/images/APUE/c4-2.png" alt="&quot;c42&quot;"><br>每个i-节点就是一个对应一个文件/目录的结构，这个结构它包含了一个文件的长度、创建及修改时间、权限、所属关系、磁盘中的位置等信息。可以看到每个i节点包含多个指针，指向属于该文件的各个数据块，当操作系统读取文件时候，需要收集这些指针指向的数据块，然后就可以得到文件。还能看到有两个目录块指向同一个i节点，因为每个i节点有一个连接计数（硬链接），只有当链接计数为0时候才可以删除（unlink不是delete原因）。
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/05/31/miniftp项目实战之文件目录操作命令实现/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/30/程序编译的各个过程详解-使用g/" itemprop="url">
-                  程序编译的各个过程详解--使用g++
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-30T12:54:52+08:00" content="2016-05-30">
-              2016-05-30
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/30/程序编译的各个过程详解-使用g/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/30/程序编译的各个过程详解-使用g/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>从编辑器写完程序到生成可执行文件都发生了些什么，我们经常使用IDE，会帮助我们自动构建生成，虽然省了很多麻烦，但是也使我们失去了深入了解编译过程的相关知识，所以本文详细的描述了编译的各个部分，以求深入的理解。</p>
-<h3 id="源程序"><a href="#源程序" class="headerlink" title="源程序"></a>源程序</h3><p>首先来编写一个简单的源程序：<br><img src="/images/complier/program.png" alt="&quot;程序&quot;"></p>
-<h3 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h3><p>预处理阶段是根据源文件中的预处理指令修改源文件的内容，预编译程序所完成的基本上是对源程序的”替换”工作。经过此替换后，生成一个没有宏定义、没有条件编译指令、没有特殊符号的输出文件。这个文件的含义同没有经过预处理的源文件是相同的，但内容有所不同。预处理阶段主要有以下四方面的处理：</p>
-<ol>
-<li>宏定义指令(#define M a),对于宏定义，预处理会将程序中出现M的地方全部用a来替换，而#undef则是取消对某个宏的定义，以后出现的就不再替换了；</li>
-<li>条件编译指令(#ifndef #ifdef #else #elif #endif)，在预处理时，按照不同的条件去编译程序的不同部分，从而得到不同的目标代码。使用条件编译，可方便地处理程序的调试版本和正式版本，也可使用条件编译使程序的移植更方便。
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/05/30/程序编译的各个过程详解-使用g/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/30/你真的了解sizeof吗/" itemprop="url">
-                  你真的了解sizeof吗
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-30T12:49:11+08:00" content="2016-05-30">
-              2016-05-30
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/C语言/" itemprop="url" rel="index">
-                    <span itemprop="name">C语言</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/30/你真的了解sizeof吗/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/30/你真的了解sizeof吗/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>先看下面一个题目：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">union Test &#123;</span><br><span class="line">    int a;</span><br><span class="line">    char b;</span><br><span class="line">    long long c;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">enum ETest</span><br><span class="line">&#123;</span><br><span class="line">   RED,</span><br><span class="line">   GREEN</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">void func(int a[1000]) &#123;</span><br><span class="line">    cout &lt;&lt; sizeof(a) &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void funcw(int * a) &#123;</span><br><span class="line">    cout &lt;&lt; sizeof(a) &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    int *p = NULL;</span><br><span class="line">    cout &lt;&lt; sizeof(p) &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; sizeof(*p) &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    int a[100];</span><br><span class="line">    cout &lt;&lt; sizeof (a) &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; sizeof(a[100]) &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; sizeof(&amp;a) &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; sizeof(&amp;a[0]) &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">    func(a);</span><br><span class="line">    funcw(a);</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; sizeof(Test) &lt;&lt; endl;</span><br><span class="line">    cout &lt;&lt; sizeof(ETest) &lt;&lt; endl;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>32bit的系统上面，你期待的输出各自为什么？<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/05/30/你真的了解sizeof吗/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/29/miniftp项目实战之用户登录验证/" itemprop="url">
-                  miniftp项目实战之用户登录验证
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-29T11:35:43+08:00" content="2016-05-29">
-              2016-05-29
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/miniftp项目实战/" itemprop="url" rel="index">
-                    <span itemprop="name">miniftp项目实战</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/29/miniftp项目实战之用户登录验证/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/29/miniftp项目实战之用户登录验证/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>ftp服务器的大概框架搭建完毕后，就要进行各种ftp命令的解析与应答了，首先要解析的是USER和PASS命令，用登陆者传输用户名和密码，服务器要进行验证，这个如何做呢，用户名和密码分别存在系统的哪里呢，密码肯定是密文存在，又是如何加密的，本文对linux下的用户名和密码文件详细解析并进行编程实战。</p>
-<h2 id="口令文件"><a href="#口令文件" class="headerlink" title="口令文件"></a>口令文件</h2><h3 id="口令文件格式"><a href="#口令文件格式" class="headerlink" title="口令文件格式"></a>口令文件格式</h3><p>口令文件是/etc/passwd,而且是一个ASCII文件，它的每一行包含多个字段，各个字段之间用:隔开，如下图所示：<br><img src="/images/miniftp/passwd.png" alt="&quot;口令文件内容&quot;"><br>相应的字段含义如下：<br>用户名: 密码 : uid  : gid :用户描述：家目录：登陆shell<br>其中密码都加了密，并存放在/etc/shadow文件中了。  </p>
-<h3 id="系统函数"><a href="#系统函数" class="headerlink" title="系统函数"></a>系统函数</h3>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/05/29/miniftp项目实战之用户登录验证/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/28/miniftp项目实战之ftp基本知识与应答类型/" itemprop="url">
-                  miniftp项目实战之ftp基本知识与应答类型
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-28T12:24:37+08:00" content="2016-05-28">
-              2016-05-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/miniftp项目实战/" itemprop="url" rel="index">
-                    <span itemprop="name">miniftp项目实战</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/28/miniftp项目实战之ftp基本知识与应答类型/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/28/miniftp项目实战之ftp基本知识与应答类型/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="ftp"><a href="#ftp" class="headerlink" title="ftp"></a>ftp</h2><h2 id="ftp文件类型"><a href="#ftp文件类型" class="headerlink" title="ftp文件类型"></a>ftp文件类型</h2><h2 id="应答类型"><a href="#应答类型" class="headerlink" title="应答类型"></a>应答类型</h2><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2>
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1471,7 +1409,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">64</span>
+              <span class="site-state-item-count">69</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
