@@ -57,16 +57,31 @@
 
 
 
-<meta name="description" content="你若盛开，蝴蝶自来。">
+<meta name="description" content="移动word为单位移动(n)w命令是向后移动n个word，光标指向首字母，而e是指向尾字母；b是向前移动，ge是向前移动到尾字母。w/e如果行的最后一个单词，会移动到下一行的第一个。
+行首或者行尾“$”(end)是行尾，”^”（home)是行首。
+移动到指定行直到行号，可以直接:linenum跳转到指定行。
+复制粘贴
+将光标移动到要复制的文本开始的地方，按v进入可视模式。
+将光标移动到要复制的文本">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vim常用操作">
 <meta property="og:url" content="http://yoursite.com/2016/06/27/vim常用操作/index.html">
 <meta property="og:site_name" content="DongMengLi">
-<meta property="og:description" content="你若盛开，蝴蝶自来。">
-<meta property="og:updated_time" content="2016-06-27T12:35:59.102Z">
+<meta property="og:description" content="移动word为单位移动(n)w命令是向后移动n个word，光标指向首字母，而e是指向尾字母；b是向前移动，ge是向前移动到尾字母。w/e如果行的最后一个单词，会移动到下一行的第一个。
+行首或者行尾“$”(end)是行尾，”^”（home)是行首。
+移动到指定行直到行号，可以直接:linenum跳转到指定行。
+复制粘贴
+将光标移动到要复制的文本开始的地方，按v进入可视模式。
+将光标移动到要复制的文本">
+<meta property="og:updated_time" content="2016-06-29T11:48:50.236Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vim常用操作">
-<meta name="twitter:description" content="你若盛开，蝴蝶自来。">
+<meta name="twitter:description" content="移动word为单位移动(n)w命令是向后移动n个word，光标指向首字母，而e是指向尾字母；b是向前移动，ge是向前移动到尾字母。w/e如果行的最后一个单词，会移动到下一行的第一个。
+行首或者行尾“$”(end)是行尾，”^”（home)是行首。
+移动到指定行直到行号，可以直接:linenum跳转到指定行。
+复制粘贴
+将光标移动到要复制的文本开始的地方，按v进入可视模式。
+将光标移动到要复制的文本">
 
 
 
@@ -280,7 +295,15 @@
       
 
       
-        
+        <h2 id="移动"><a href="#移动" class="headerlink" title="移动"></a>移动</h2><h3 id="word为单位移动"><a href="#word为单位移动" class="headerlink" title="word为单位移动"></a>word为单位移动</h3><p>(n)w命令是向后移动n个word，光标指向首字母，而e是指向尾字母；b是向前移动，ge是向前移动到尾字母。w/e如果行的最后一个单词，会移动到下一行的第一个。</p>
+<h3 id="行首或者行尾"><a href="#行首或者行尾" class="headerlink" title="行首或者行尾"></a>行首或者行尾</h3><p>“$”(end)是行尾，”^”（home)是行首。</p>
+<h3 id="移动到指定行"><a href="#移动到指定行" class="headerlink" title="移动到指定行"></a>移动到指定行</h3><p>直到行号，可以直接:linenum跳转到指定行。</p>
+<h2 id="复制粘贴"><a href="#复制粘贴" class="headerlink" title="复制粘贴"></a>复制粘贴</h2><ol>
+<li>将光标移动到要复制的文本开始的地方，按v进入可视模式。</li>
+<li>将光标移动到要复制的文本的结束的地方，按y复制(X剪切)。此时vim会自动将光标定位到选中文本的开始的地方，并退出可视模式。</li>
+<li>我移动光标到文本结束的地方，按p粘贴。<br>另外使用dd删除一行，在使用p也可以复制一行。或者v模式下yy复制一行。<h2 id="搜索字符串"><a href="#搜索字符串" class="headerlink" title="搜索字符串"></a>搜索字符串</h2><h3 id="普通搜索"><a href="#普通搜索" class="headerlink" title="普通搜索"></a>普通搜索</h3>命令模式下面，输入/(?)字符串,按enter即可；/ 表示从当前光标反向搜索，?表示从当前光标正向搜索。如果找到了光标定位在第一个字符串出现位置处，然后可以使用n或者N来进行下一个查找，n表示继续朝同一个方向查找，而N表示朝相反方向查找。<br>如果没有找到，底部出现字符串：未找到。<h2 id="撤销操作"><a href="#撤销操作" class="headerlink" title="撤销操作"></a>撤销操作</h2>u 撤销上一步的操作。<br>Ctrl+r恢复上一步被撤销的操作。<br>特殊版本的撤销命令：“U”（行撤销）。行撤销命令撤销所有在前一个编辑行上的操作。<br>在 vim 中使用 Ctrl-O 执行后退，使用 Ctrl-I 执行前进。<h2 id="打开多个文件"><a href="#打开多个文件" class="headerlink" title="打开多个文件"></a>打开多个文件</h2>vim a.cpp b.cpp c.cpp可以同时打开多个文件，然后利用:bn/:pn访问后一个或者前一个文件</li>
+</ol>
+
       
     </div>
     
@@ -404,7 +427,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-count">68</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -421,7 +444,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-count">42</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -461,19 +484,6 @@
         
         <div class="links-of-blogroll motion-element">
           
-            <div class="links-of-blogroll-title">Links</div>
-            <ul class="links-of-blogroll-list">
-              
-                <li class="links-of-blogroll-item">
-                  <a href="http://macshuo.com/" target="_blank">MacTalk</a>
-                </li>
-              
-                <li class="links-of-blogroll-item">
-                  <a href="http://example.com/" target="_blank">Title</a>
-                </li>
-              
-            </ul>
-          
         </div>
 
       </section>
@@ -485,7 +495,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#移动"><span class="nav-number">1.</span> <span class="nav-text">移动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#word为单位移动"><span class="nav-number">1.1.</span> <span class="nav-text">word为单位移动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#行首或者行尾"><span class="nav-number">1.2.</span> <span class="nav-text">行首或者行尾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#移动到指定行"><span class="nav-number">1.3.</span> <span class="nav-text">移动到指定行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#复制粘贴"><span class="nav-number">2.</span> <span class="nav-text">复制粘贴</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搜索字符串"><span class="nav-number">3.</span> <span class="nav-text">搜索字符串</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#普通搜索"><span class="nav-number">3.1.</span> <span class="nav-text">普通搜索</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#撤销操作"><span class="nav-number">4.</span> <span class="nav-text">撤销操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#打开多个文件"><span class="nav-number">5.</span> <span class="nav-text">打开多个文件</span></a></li></ol></div>
             
           </div>
         </section>
