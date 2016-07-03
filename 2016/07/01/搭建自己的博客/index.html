@@ -74,7 +74,7 @@
 <meta property="og:image" content="http://yoursite.com/images/blogbuild/blog7.png">
 <meta property="og:image" content="http://yoursite.com/images/blogbuild/blog8.png">
 <meta property="og:image" content="http://yoursite.com/images/blogbuild/blog9.png">
-<meta property="og:updated_time" content="2016-07-03T08:25:02.735Z">
+<meta property="og:updated_time" content="2016-07-03T08:59:09.065Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="搭建自己的博客">
 <meta name="twitter:description" content="程序员吗，喜欢折腾的一个物种，一般人没法理解这个物种，作为一个程序员拥有自己的博客，当然也是很重要的，以前可以依托CSDN，新浪或者别的平台写博客，但是总归有限制，所以想自己搭建一个属于自己的博客，本文讲解使用hexo+next主题+sublime搭建并写博客的方法，详细的叙述了搭建的整个过程，希望给想要自己折腾的宝宝们提供一个参考。
@@ -319,6 +319,7 @@
 <h2 id="创建hexo文件夹"><a href="#创建hexo文件夹" class="headerlink" title="创建hexo文件夹"></a>创建hexo文件夹</h2><p>安装完成后，在你的工作下，执行以下指令，Hexo 即会自动在目标文件夹建立网站所需要的所有文件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init blog(目标文件夹)</span><br></pre></td></tr></table></figure></p>
 <p>如下图所示：<br><img src="/images/blogbuild/blog1.png" alt="&quot;c3&quot;"></p>
 <h2 id="安装依赖包"><a href="#安装依赖包" class="headerlink" title="安装依赖包"></a>安装依赖包</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <h2 id="本地查看"><a href="#本地查看" class="headerlink" title="本地查看"></a>本地查看</h2><p>现在我们已经搭建起本地的hexo博客了，执行以下命令(在H:\hexo)，然后到浏览器输入localhost:4000看看。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo generate</span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure></p>
 <p>如下图所示：<br><img src="/images/blogbuild/blog2.png" alt="&quot;c3&quot;"></p>
 <h2 id="页面打不开"><a href="#页面打不开" class="headerlink" title="页面打不开"></a>页面打不开</h2><p>如果你的电脑没有翻-墙，可能会打不开页面。因为页面中默认使用了ajax.google.com 下的js包。因此我们要把包删掉。<br>解决办法：<br>进入你刚新建好的 blog根目录 ，进入 themes/landscape/layout/_partial，首先找到 after-footer.ejs<br>把</p>
@@ -481,7 +482,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -490,7 +491,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

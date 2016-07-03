@@ -57,16 +57,24 @@
 
 
 
-<meta name="description" content="你若盛开，蝴蝶自来。">
+<meta name="description" content="GDB是GNU开源组织发布的强大的UNIX下的程序调试工具，他可以完成所有你使用的IDE的集成的debug的所有工作，无比的强大！
+编译首先在编译的时候一定要加上-g选项，才能使用，g++ -g main.cpp -o main，这时候会把编译信息带到main中。
+启动可以通过一下方式启动：123gdb &amp;lt;program&amp;gt;gdb &amp;lt;program&amp;gt; core // 同时调试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="gdb常用操作">
 <meta property="og:url" content="http://yoursite.com/2016/06/27/gdb常用操作/index.html">
 <meta property="og:site_name" content="DongMengLi">
-<meta property="og:description" content="你若盛开，蝴蝶自来。">
-<meta property="og:updated_time" content="2016-06-27T12:36:07.883Z">
+<meta property="og:description" content="GDB是GNU开源组织发布的强大的UNIX下的程序调试工具，他可以完成所有你使用的IDE的集成的debug的所有工作，无比的强大！
+编译首先在编译的时候一定要加上-g选项，才能使用，g++ -g main.cpp -o main，这时候会把编译信息带到main中。
+启动可以通过一下方式启动：123gdb &amp;lt;program&amp;gt;gdb &amp;lt;program&amp;gt; core // 同时调试">
+<meta property="og:image" content="http://yoursite.com/images/tool/gdb2.png">
+<meta property="og:updated_time" content="2016-07-03T09:38:39.247Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="gdb常用操作">
-<meta name="twitter:description" content="你若盛开，蝴蝶自来。">
+<meta name="twitter:description" content="GDB是GNU开源组织发布的强大的UNIX下的程序调试工具，他可以完成所有你使用的IDE的集成的debug的所有工作，无比的强大！
+编译首先在编译的时候一定要加上-g选项，才能使用，g++ -g main.cpp -o main，这时候会把编译信息带到main中。
+启动可以通过一下方式启动：123gdb &amp;lt;program&amp;gt;gdb &amp;lt;program&amp;gt; core // 同时调试">
+<meta name="twitter:image" content="http://yoursite.com/images/tool/gdb2.png">
 
 
 
@@ -280,7 +288,21 @@
       
 
       
-        
+        <p>GDB是GNU开源组织发布的强大的UNIX下的程序调试工具，他可以完成所有你使用的IDE的集成的debug的所有工作，无比的强大！</p>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>首先在编译的时候一定要加上-g选项，才能使用，<code>g++ -g main.cpp -o main</code>，这时候会把编译信息带到main中。</p>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>可以通过一下方式启动：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gdb &lt;program&gt;</span><br><span class="line">gdb &lt;program&gt; core // 同时调试程序和core文件</span><br><span class="line">gdb &lt;program&gt; &lt;PID&gt; // 如果程序是服务程序，制定这个服务运行时的进程ID，gdb会自动attach上去调试它，program应该在PATH变量中要搜索的到。</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h2 id="停止点"><a href="#停止点" class="headerlink" title="停止点"></a>停止点</h2><h3 id="设置断点"><a href="#设置断点" class="headerlink" title="设置断点"></a>设置断点</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">break(b) &lt;function&gt;/class::function // 指定函数断点</span><br><span class="line">break(b) &lt;linenum&gt; // 指定行</span><br><span class="line">break(b) filename:&lt;function&gt;/filename:&lt;linenum&gt;</span><br><span class="line">break // 下一条命令停止</span><br><span class="line">break ... if &lt;condition&gt; // 特定条件break</span><br></pre></td></tr></table></figure>
+<h3 id="查看断点信息"><a href="#查看断点信息" class="headerlink" title="查看断点信息"></a>查看断点信息</h3><p>使用Info命令可以查看断点信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">infor breakpoints [n]</span><br><span class="line">infor break [n] // n是断点号</span><br></pre></td></tr></table></figure></p>
+<h3 id="观察点"><a href="#观察点" class="headerlink" title="观察点"></a>观察点</h3><p>观察点一般是观察某个表达式或者变量的值是否变化了，如果有变化，马上停下来：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">watch &lt;expr&gt;</span><br><span class="line">rwatch &lt;expr&gt; // expr被读时候停住</span><br><span class="line">awatch &lt;expr&gt; // expr的值被读或者写时候停</span><br><span class="line">infor watchpoints</span><br></pre></td></tr></table></figure></p>
+<h3 id="捕捉点"><a href="#捕捉点" class="headerlink" title="捕捉点"></a>捕捉点</h3><p>捕捉点是用来捕捉程序运行时候的一些事件:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">catch &lt;event&gt; // event发生时候停住</span><br></pre></td></tr></table></figure></p>
+<h3 id="维护停止点"><a href="#维护停止点" class="headerlink" title="维护停止点"></a>维护停止点</h3><p>可以使用delete,clear,disable, enable来维护断点。</p>
+<h4 id="删除停止点"><a href="#删除停止点" class="headerlink" title="删除停止点"></a>删除停止点</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">clear // 清除所有的</span><br><span class="line">clear &lt;function&gt;/ &lt;filename:function&gt; / &lt;filename:linenum&gt;</span><br><span class="line">delete [breakpoints] [range...] // 删除指定的断点</span><br></pre></td></tr></table></figure>
+<h4 id="enable与disable"><a href="#enable与disable" class="headerlink" title="enable与disable"></a>enable与disable</h4><p>可以使用disable使停止点暂时失效，enable来恢复。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">diable/enable [breakpoints] [range...]</span><br></pre></td></tr></table></figure></p>
+<h3 id="停止条件维护"><a href="#停止条件维护" class="headerlink" title="停止条件维护"></a>停止条件维护</h3><p>使用condition来修改断点条件，或者清除：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">condition &lt;bnum&gt; &lt;expression&gt; // 更改条件</span><br><span class="line">condition &lt;bnum&gt; // 清除</span><br></pre></td></tr></table></figure></p>
+<h2 id="单步调试"><a href="#单步调试" class="headerlink" title="单步调试"></a>单步调试</h2><p>程序停住了可以使用continue恢复程序运行或者使用step/next命令单步跟踪：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">step &lt;count&gt; // 单步跟踪，如果有函数进入函数</span><br><span class="line">next &lt;count&gt; // 不进入函数</span><br><span class="line">finish // 运行程序直到该函数运行完成</span><br></pre></td></tr></table></figure></p>
+<h2 id="多线程调试"><a href="#多线程调试" class="headerlink" title="多线程调试"></a>多线程调试</h2><p>多线程调试没有经验，不过下图提供一个参考，以备以后使用。<br><img src="/images/tool/gdb2.png" alt="&quot;c3&quot;"></p>
+
       
     </div>
     
@@ -412,7 +434,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -421,7 +443,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -472,7 +494,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#编译"><span class="nav-number">1.</span> <span class="nav-text">编译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动"><span class="nav-number">2.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#停止点"><span class="nav-number">3.</span> <span class="nav-text">停止点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#设置断点"><span class="nav-number">3.1.</span> <span class="nav-text">设置断点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看断点信息"><span class="nav-number">3.2.</span> <span class="nav-text">查看断点信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#观察点"><span class="nav-number">3.3.</span> <span class="nav-text">观察点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#捕捉点"><span class="nav-number">3.4.</span> <span class="nav-text">捕捉点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#维护停止点"><span class="nav-number">3.5.</span> <span class="nav-text">维护停止点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#删除停止点"><span class="nav-number">3.5.1.</span> <span class="nav-text">删除停止点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#enable与disable"><span class="nav-number">3.5.2.</span> <span class="nav-text">enable与disable</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#停止条件维护"><span class="nav-number">3.6.</span> <span class="nav-text">停止条件维护</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单步调试"><span class="nav-number">4.</span> <span class="nav-text">单步调试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多线程调试"><span class="nav-number">5.</span> <span class="nav-text">多线程调试</span></a></li></ol></div>
             
           </div>
         </section>
