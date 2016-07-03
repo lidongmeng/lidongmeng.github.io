@@ -74,7 +74,7 @@ STL源码结构概述SGI的空间配置器实际有两个，一个是std::alloca
 <meta property="og:image" content="http://yoursite.com/images/stl/stl_alloc_8.png">
 <meta property="og:image" content="http://yoursite.com/images/stl/stl_alloc_7.png">
 <meta property="og:image" content="http://yoursite.com/images/stl/stl_alloc_9.png">
-<meta property="og:updated_time" content="2016-07-03T14:34:57.198Z">
+<meta property="og:updated_time" content="2016-07-03T14:41:07.702Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="STL源码学习之内存配置">
 <meta name="twitter:description" content="STL中所有容器的内存分配都是由空间配置器完成的，之所以叫空间配置器而不叫做内存配置器是因为空间并不一定是内存，空间可以是磁盘或者其它辅助的存储介质。
@@ -332,7 +332,10 @@ STL源码结构概述SGI的空间配置器实际有两个，一个是std::alloca
 <li>如果申请的内存空间大于128bytes, 则交由第一个分配器处理；</li>
 <li>分配器首先将申请内存的大小上调至8的倍数n，并根据n找出其对应的空闲链表地址__my_free_list；</li>
 <li>如果该空闲链表中有可用的空闲块，则将此空闲块返回并更新__my_free_list；</li>
-<li>如果该空闲链表中有可用的空闲块，__my_free_list中没有空闲块可用了，分配器会调用refill函数进行处理，准备从内存池里面拿取内存，然后填充freelist.  <h3 id="内存池操作"><a href="#内存池操作" class="headerlink" title="内存池操作"></a>内存池操作</h3>系统用三个指针s_start_free, s_end_free, s_heap_size来维护内存池。它们分别指向整个内存池的起始地址，结束地址和可用空间大小。上面说refill会来内存池里面拿取内存填充freelist，默认是20个，具体操作有五个分支：  </li>
+<li>如果该空闲链表中有可用的空闲块，__my_free_list中没有空闲块可用了，分配器会调用refill函数进行处理，准备从内存池里面拿取内存，然后填充freelist.</li>
+</ol>
+<h3 id="内存池操作"><a href="#内存池操作" class="headerlink" title="内存池操作"></a>内存池操作</h3><p>系统用三个指针s_start_free, s_end_free, s_heap_size来维护内存池。它们分别指向整个内存池的起始地址，结束地址和可用空间大小。上面说refill会来内存池里面拿取内存填充freelist，默认是20个，具体操作有五个分支：  </p>
+<ol>
 <li>第一个分支：看看内存池内的容量够不够，够的话直接拿走就好<br><img src="/images/stl/stl_alloc_2.png" alt="&quot;c3&quot;">  </li>
 <li>第二个分支：内存池不够20个块的容量，但是大于等于1个块的长度，就把剩下的都给出去了。此时，内存池是空的。<br><img src="/images/stl/stl_alloc_3.png" alt="&quot;c3&quot;"> </li>
 <li>第三个分支：如果内存池连1个对应的块都不能提供了，比如需要32字节，但只有8字节了，这时候最好的做法是把这8个字节链接到相应的free list利用上。不出意料，此时内存池也是空的。<br><img src="/images/stl/stl_alloc_4.png" alt="&quot;c3&quot;"> </li>
