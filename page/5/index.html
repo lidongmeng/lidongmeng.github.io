@@ -1210,10 +1210,15 @@
 
       
         
-          
-            <h2 id="STL源码结构概述"><a href="#STL源码结构概述" class="headerlink" title="STL源码结构概述"></a>STL源码结构概述</h2><h2 id="一级内存配置"><a href="#一级内存配置" class="headerlink" title="一级内存配置"></a>一级内存配置</h2><h2 id="次级内存配置"><a href="#次级内存配置" class="headerlink" title="次级内存配置"></a>次级内存配置</h2><h3 id="内存池"><a href="#内存池" class="headerlink" title="内存池"></a>内存池</h3><h2 id="内存处理工具"><a href="#内存处理工具" class="headerlink" title="内存处理工具"></a>内存处理工具</h2><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>STL源码解析  </p>
-
-          
+          <p>STL中所有容器的内存分配都是由空间配置器完成的，之所以叫空间配置器而不叫做内存配置器是因为空间并不一定是内存，空间可以是磁盘或者其它辅助的存储介质。</p>
+<h2 id="STL源码结构概述"><a href="#STL源码结构概述" class="headerlink" title="STL源码结构概述"></a>STL源码结构概述</h2><p>SGI的空间配置器实际有两个，一个是std::allocator，只是对::operator new和::operator delete简单的封装，没有考虑效率方面的细节与优化，所以就没用它；另外一个是std::alloc，它将对象内存的分配与对象的构建分开对待，各自为一个模块。 </p>
+<h2 id="对象构造与析构"><a href="#对象构造与析构" class="headerlink" title="对象构造与析构"></a>对象构造与析构</h2><p>对象构造主要是头文件stl_construct.h中，定义了全局的construct和destory函数用于对象的构造和析构。</p>
+<h3 id="对象构造"><a href="#对象构造" class="headerlink" title="对象构造"></a>对象构造</h3>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/05/08/STL源码学习之内存配置/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
