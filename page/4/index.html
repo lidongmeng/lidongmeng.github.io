@@ -236,744 +236,6 @@
             
               
                 
-                <a class="post-title-link" href="/2016/06/02/Linux网络编程之fcntl/" itemprop="url">
-                  Linux网络编程之fcntl
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-02T15:39:54+08:00" content="2016-06-02">
-              2016-06-02
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/网络编程/" itemprop="url" rel="index">
-                    <span itemprop="name">网络编程</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/02/Linux网络编程之fcntl/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/02/Linux网络编程之fcntl/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Linux下总是看到这个fcntl函数，似乎用法还是蛮多的，可以在网络编程中设置非阻塞模式，信号驱动I/O以及SIGURG时候设置属主等，在文件中可以复制文件描述符，改变<br><a href="http://blog.csdn.net/ctthuangcheng/article/details/9289277" target="_blank" rel="external">http://blog.csdn.net/ctthuangcheng/article/details/9289277</a><br><a href="http://blog.csdn.net/anonymalias/article/details/9197641" target="_blank" rel="external">http://blog.csdn.net/anonymalias/article/details/9197641</a><br><a href="http://blog.csdn.net/bailyzheng/article/details/7489656" target="_blank" rel="external">http://blog.csdn.net/bailyzheng/article/details/7489656</a><br><a href="http://blog.sina.com.cn/s/blog_4b226b9201011974.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_4b226b9201011974.html</a></p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/02/网络编程中的读写函数/" itemprop="url">
-                  网络编程中的读写函数
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-02T10:55:12+08:00" content="2016-06-02">
-              2016-06-02
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/网络编程/" itemprop="url" rel="index">
-                    <span itemprop="name">网络编程</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/02/网络编程中的读写函数/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/02/网络编程中的读写函数/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>网络编程中当连接建立好之后就是数据的传输了，系统提供了很多种读写的方式，本文对这些函数做一个大概的总结。</p>
-<h2 id="普通读写的流程"><a href="#普通读写的流程" class="headerlink" title="普通读写的流程"></a>普通读写的流程</h2><p>网络应用发送数据到对端接受到数据一般会经历下面的步骤：</p>
-<ol>
-<li>系统调用read()函数产生一个上下文切换，从user mode切换到kernel mode，然后DMA执行拷培，把文件从硬盘拷培到kernel buffer里面；</li>
-<li>数据从kernel buffer拷培到user buffer，然后系统调用read()返回，这时产生从kernal mode到user mode的切换；</li>
-<li>然后要发送数据了，通过调用write系统调用，从user mode切换到kernel mode，然后把步骤2中user mode的数据读到kernel buffer中，这个kernel buffer是和socket相关联的；</li>
-<li>系统调用write返回，产生一个切换，从kernel mode切换到user mode，然后DMA从kernel buffer拷培数据到协议栈。<br>所以从上面可以看到，从硬盘读取数据到最终发送到网络上面总共需要四次上下文切换，然后有4次拷培操作。
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/06/02/网络编程中的读写函数/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/01/TCP带外数据/" itemprop="url">
-                  TCP带外数据
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-01T13:30:52+08:00" content="2016-06-01">
-              2016-06-01
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/网络编程/" itemprop="url" rel="index">
-                    <span itemprop="name">网络编程</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/01/TCP带外数据/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/01/TCP带外数据/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>带外数据，也成为经加速的数据，是一个连接的某一端发生了重要的事情，而且希望迅速通知对端，迅速是指虽然传过去很多数据，但是需要先处理这个紧急数据，可以看做它的优先级别比较高。ftp中的ABOR命令使用带外数据来中断文件传输，telnet和rlogin会将中止字符作为紧急数据传到对端，允许对端丢弃未处理的输入，并且丢弃未发送的输出。  </p>
-<h2 id="TCP带外数据"><a href="#TCP带外数据" class="headerlink" title="TCP带外数据"></a>TCP带外数据</h2><p>TCP协议并没有真正的带外数据，不过提供了紧急模式，TCP首部的URG标志位以及紧急指针偏移量两个变量。但是OOB字节的发送与否取决于发送缓冲区中先于它的字节数，window窗口大小以及TCP准备发送给对端的分节大小。下面举一个例子：<br>1、 发送方：发送进程已经在一个TCP套接字写入N字节数据，这些数据在套接字的发送缓冲区中，等待发送到对端，这时候，以MSG_OOB标志写入一个字节的带外数据，则该数据放在N字节的后面，并把TCP紧急指针设置为再下一个可用为值，并且将带外字节标记为OOB，下一次发送时候TCP首部会设置URG和偏移量，但是OOB呢个字节不一定发送出去（阻塞等情况，所以即使流量控制使数据无法发送，但是紧急通知照样可以发送到对端）。<br>2、 接收方：有新的紧急指针到达时候，接受进程的内核给套接字的属主进程发送SIGURG信号（所以接受进程要通过fcntl函数设置属主关系，而且设置信号处理函数），然后如果接受进程阻塞在select调用中，等待这个套接字的异常条件，select调用返回。一旦紧急通知到达，不论实际数据是否到达，都要通知，如果没到达，recv函数会返回EWOULDBLOCK，如果有多个OOB字节同时到达，则舍弃前面的，只保存最后一个，因为<b>OOB字节不是放在套接字的缓冲区，而是放在该连接的一个独立的单字节的带外缓冲区，而且接收字节从这个缓冲区读取该字节的唯一方法是通过指定MSG_OOB标志调用recv,recvfrom或者recvmsg函数</b>,当然了如果开启了SO_OOBINLINE套接字选项，这个实际数据就会在普通缓冲区中，需要检查带外标记以获得合适处理这个数据字节。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/06/01/TCP带外数据/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/31/miniftp项目实战之父子进程通信-Unix域套接字/" itemprop="url">
-                  miniftp项目实战之父子进程通信-Unix域套接字
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-31T14:59:16+08:00" content="2016-05-31">
-              2016-05-31
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/miniftp项目实战/" itemprop="url" rel="index">
-                    <span itemprop="name">miniftp项目实战</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/31/miniftp项目实战之父子进程通信-Unix域套接字/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/31/miniftp项目实战之父子进程通信-Unix域套接字/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>UNIX域套接字可以用在同一台计算机上运行的进程之间的通信，虽然普通的socket也可以做这一工作，但是使用UNIX域套接字，仅仅只是复制数据，并不执行协议处理，不需要添加或者删除网络报头，无需计算校验和，序列号等封包解包的过程。域套接字存在至少有三个理由：<br>1、Unix域套接字由于不需要封包解包的繁杂过程，所以比普通套接字快出一倍；<br>2、Unix域套接字可以用来传递描述符；<br>3、Unix域套接字可以用于将客户的凭证（用户ID和组ID)提供给服务器，提供额外的安全检查措施。</p>
-<h2 id="UNIX域套接字地址结构"><a href="#UNIX域套接字地址结构" class="headerlink" title="UNIX域套接字地址结构"></a>UNIX域套接字地址结构</h2><h3 id="无名域套接字"><a href="#无名域套接字" class="headerlink" title="无名域套接字"></a>无名域套接字</h3><p>可以使用面向网络的域套接字接口或者socketpair建立一堆无命名的，相互连接的域套接字。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int socketpair(int domain, int type, int protocol, int sockfd[2]);</span><br><span class="line">返回值：若成功则返回0，出错则返回-1</span><br></pre></td></tr></table></figure></p>
-<p>这样一对域套接字相当于一个全双工的管道，两端对读写都开放.socketpair创建的这两个描述符，不属于任何的实际文件系统，而是网络文件系统，虚拟的．同时内核会将这两个描述符彼此设为自己的peer即对端（这里即解决了如何标识读写端，可以想象，两个描述符互为读写缓冲区，即解决了这个问题）．然后应用相应socket家族里的read/write函数执行读写操作．<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/05/31/miniftp项目实战之父子进程通信-Unix域套接字/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/31/miniftp项目实战之文件目录操作命令实现/" itemprop="url">
-                  miniftp项目实战之文件目录操作命令实现
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-31T14:58:53+08:00" content="2016-05-31">
-              2016-05-31
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/miniftp项目实战/" itemprop="url" rel="index">
-                    <span itemprop="name">miniftp项目实战</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/31/miniftp项目实战之文件目录操作命令实现/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/31/miniftp项目实战之文件目录操作命令实现/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2><p>文件的信息最终保存在磁盘上面，而一个磁盘分为一个或者多个分区，每个分区包含一个文件系统，如下图所示：<br><img src="/images/APUE/c4-1.png" alt="&quot;c41&quot;"><br>分区的第一个部分是启动区（自举块），为开机所用，然后是超级区，它存储文件系统相关信息，包括文件系统类型，inode的数目，数据块的数目，对于每一个柱面组：<br><img src="/images/APUE/c4-2.png" alt="&quot;c42&quot;"><br>每个i-节点就是一个对应一个文件/目录的结构，这个结构它包含了一个文件的长度、创建及修改时间、权限、所属关系、磁盘中的位置等信息。可以看到每个i节点包含多个指针，指向属于该文件的各个数据块，当操作系统读取文件时候，需要收集这些指针指向的数据块，然后就可以得到文件。还能看到有两个目录块指向同一个i节点，因为每个i节点有一个连接计数（硬链接），只有当链接计数为0时候才可以删除（unlink不是delete原因）。
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/05/31/miniftp项目实战之文件目录操作命令实现/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/30/程序编译的各个过程详解-使用g/" itemprop="url">
-                  程序编译的各个过程详解--使用g++
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-30T12:54:52+08:00" content="2016-05-30">
-              2016-05-30
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/30/程序编译的各个过程详解-使用g/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/30/程序编译的各个过程详解-使用g/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>从编辑器写完程序到生成可执行文件都发生了些什么，我们经常使用IDE，会帮助我们自动构建生成，虽然省了很多麻烦，但是也使我们失去了深入了解编译过程的相关知识，所以本文详细的描述了编译的各个部分，以求深入的理解。</p>
-<h3 id="源程序"><a href="#源程序" class="headerlink" title="源程序"></a>源程序</h3><p>首先来编写一个简单的源程序：<br><img src="/images/complier/program.png" alt="&quot;程序&quot;"></p>
-<h3 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h3><p>预处理阶段是根据源文件中的预处理指令修改源文件的内容，预编译程序所完成的基本上是对源程序的”替换”工作。经过此替换后，生成一个没有宏定义、没有条件编译指令、没有特殊符号的输出文件。这个文件的含义同没有经过预处理的源文件是相同的，但内容有所不同。预处理阶段主要有以下四方面的处理：</p>
-<ol>
-<li>宏定义指令(#define M a),对于宏定义，预处理会将程序中出现M的地方全部用a来替换，而#undef则是取消对某个宏的定义，以后出现的就不再替换了；</li>
-<li>条件编译指令(#ifndef #ifdef #else #elif #endif)，在预处理时，按照不同的条件去编译程序的不同部分，从而得到不同的目标代码。使用条件编译，可方便地处理程序的调试版本和正式版本，也可使用条件编译使程序的移植更方便。
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/05/30/程序编译的各个过程详解-使用g/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2016/05/30/你真的了解sizeof吗/" itemprop="url">
                   你真的了解sizeof吗
                 </a>
@@ -1445,11 +707,733 @@
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/25/二分搜索总结/" itemprop="url">
+                  二分搜索总结
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-25T11:55:41+08:00" content="2016-05-25">
+              2016-05-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/25/二分搜索总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/25/二分搜索总结/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="二分搜索"><a href="#二分搜索" class="headerlink" title="二分搜索"></a>二分搜索</h2><h2 id="循环不变量"><a href="#循环不变量" class="headerlink" title="循环不变量"></a>循环不变量</h2><p>什么是循环不变量，即在循环中保持不变的量，二分搜索中，这个量是由上下界和目标值构成的不等式。循环不变量的意义在于，只要你维护这个循环不变量，那么最终循环结束，这个量还是成立的。<br>下面利用二分搜索查找数组中是否有target来阐述循环不变量，有三个过程：</p>
+<ol>
+<li>初始化，循环初次执行时候不变式为真；</li>
+<li>保持。如果某次迭代开始时候以及循环体执行时候，不变式为真，呢么循环体结束时候也为真；</li>
+<li>终止，循环能够终止，并且可以得到期望结果。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">1. &#123;mustbe(0, n-1)&#125;</span><br><span class="line">2. l = 0; u = n-1;</span><br><span class="line">3. &#123;mustbe(0, n-1)&#125;</span><br><span class="line">4. loop</span><br><span class="line">5.      &#123;mustbe(0, n-1)&#125;</span><br><span class="line">6.      if l &gt; u</span><br><span class="line">7.          &#123;l &gt; u &amp;&amp; mustbe(l, u)&#125;</span><br><span class="line">8.          &#123;t is not in the array&#125;</span><br><span class="line">9.          p = -1; break;</span><br><span class="line">10.     &#123;mustbe(l, u) &amp;&amp; l &lt;= u&#125;</span><br><span class="line">11.     m = l + (u - l) / 2;</span><br><span class="line">12.     &#123;mustbe(l, u) &amp;&amp; l &lt;= m &lt;= u&#125;</span><br><span class="line">13.     case</span><br><span class="line">14.         x[m] &lt; t:</span><br><span class="line">15.                 &#123;mustbe(l, u) &amp;&amp; cantbe(0, m)&#125;</span><br><span class="line">16.                 &#123;mustbe(m+1, u)&#125;</span><br><span class="line">17.                 l = m+1</span><br><span class="line">18.                 &#123;mustbe(l, u)&#125;</span><br><span class="line">19.         x[m] == t:</span><br><span class="line">20.                 &#123;x[m] == t&#125;</span><br><span class="line">21.                 p = m; break;</span><br><span class="line">22.         x[m] &gt; t:</span><br><span class="line">23.                 &#123;mustbe(l, u) &amp;&amp; cantbe(m, u)&#125;</span><br><span class="line">24.                 &#123;mustbe(l, m-1)&#125;</span><br><span class="line">25.                 u = m-1</span><br><span class="line">26.                 &#123;mustbe(l, u)&#125;</span><br><span class="line">27.     &#123;mustbe(l, u)&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>每执行一个操作可以看出循环不变量都为真，所以一次迭代结束后，循环不变量仍旧为真，呢么就看循环是否会结束，可以看出，每一轮迭代m总是在l,u之间，但是通过case的两个不等条件都删除了一个值，所以范围内数字每次迭代至少减少1，所以最后肯定区间交集问为空l&gt;u会终止运行。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/05/25/二分搜索总结/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/24/一日一命令之Linux命令kill/" itemprop="url">
+                  一日一命令之Linux命令kill
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-24T13:46:38+08:00" content="2016-05-24">
+              2016-05-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux基础/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux基础</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/24/一日一命令之Linux命令kill/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/24/一日一命令之Linux命令kill/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="基本命令介绍"><a href="#基本命令介绍" class="headerlink" title="基本命令介绍"></a>基本命令介绍</h2><p>今天学习kill命令，Linux下kill命令是向某个特定进程或者进程组发送指定信号从而结束改进程或者进程组，可以通过man kill查看，如下：<br><img src="/images/LinuxCommand/kill-1.png" alt="&quot;kill&quot;"><br>有两个选项-s是指定要发送的具体信号，比方说kill -7 pid，是向pid进程发送7(BUS)信号，如果没有指定，则默认发送的是SIGTERM信号给给定的进程或者进程组，如果进程没有设置捕捉该信号的逻辑，则终止进程；另外一个选项是-l是列出对应数字的信号名称，比方说kill -l 7列出的是BUS，当然这个可以通过man 7 signal查看。<br><img src="/images/LinuxCommand/kill-2.png" alt="&quot;singal&quot;">   </p>
+<h2 id="程序举例"><a href="#程序举例" class="headerlink" title="程序举例"></a>程序举例</h2><p>下面实现一个处理了SIGTERM的程序，然后运行，在终端输入kill pid，然后观察输出，在终端输入kill -9 pid再查看输出。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/05/24/一日一命令之Linux命令kill/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/24/析构函数竟然可以为纯虚函数！爆炸！！/" itemprop="url">
+                  析构函数竟然可以为纯虚函数！爆炸！！
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-24T08:53:58+08:00" content="2016-05-24">
+              2016-05-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/24/析构函数竟然可以为纯虚函数！爆炸！！/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/24/析构函数竟然可以为纯虚函数！爆炸！！/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>析构函数可以为纯虚函数吗？</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>应该是可以的，但是析构函数如果为纯虚函数，你就一定要去实现，因为它的子类的析构顺序是先析构父类再析构自身，如果父类没有实现析构函数，那么它的子类没有办法完成析构。<br>一般来说，纯虚函数都是只声明一个函数而不去实现，留给子类去实现，但是析构函数不一样，因为它和子类的析构息息相关。<br>父类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class HomeElectricDevice</span><br><span class="line">&#123;</span><br><span class="line">    public:</span><br><span class="line">        virtual ~HomeElectricDevice() = 0;</span><br><span class="line">    private:</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>子类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class ElectricFan : public HomeElectricDevice</span><br><span class="line">&#123;</span><br><span class="line">    public:</span><br><span class="line">        ElectricFan() &#123;&#125;</span><br><span class="line">        virtual ~ElectricFan() &#123;&#125;</span><br><span class="line">    private:</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/05/24/析构函数竟然可以为纯虚函数！爆炸！！/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/22/线程池的设计与应用/" itemprop="url">
+                  线程池的设计与应用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-22T17:20:59+08:00" content="2016-05-22">
+              2016-05-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/22/线程池的设计与应用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/22/线程池的设计与应用/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>线程池，就是拥有若干个线程，线程的个数并不是越多越好，太多了会增加系统的开销，太少了会降低并发量，呢么设置多少个线程合适呢？另外是不是所有的任务放到线程池里面都合适呢？这些都要根据任务的类型来进行判断：<br>1、 计算密集型任务：这个任务是占用cpu的，很少被外界事件打断，这时要设置线程个数=CPU个数，如果线程个数大于CPU个数的话，由于CPU个数不足，并发的数目是一定的，所以需要有少量的CPU个数调度多个线程，这涉及线程与线程之间的切换开销，会降低效率。<br>2、 IO密集型任务：这个时候线程个数要大于CPU个数，因为任务运行时候可能需要等待IO，可能将这个任务挂起。<br>线程池本质实际也是生产者消费者模型的应用，生产者向任务队列中添加任务，一旦队列有任务到来，有闲置线程就让它执行任务，没有就等待直到新的空闲线程到来，用互斥锁和条件变量可以来控制。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/05/22/线程池的设计与应用/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/20/Leetcode-Count-of-Smaller-Numbers-After-Self/" itemprop="url">
+                  Leetcode--Count of Smaller Numbers After Self
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-20T15:02:17+08:00" content="2016-05-20">
+              2016-05-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/20/Leetcode-Count-of-Smaller-Numbers-After-Self/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/20/Leetcode-Count-of-Smaller-Numbers-After-Self/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>一个无序数组，查找每个元素后面有几个元素比它小，即统计每一个位置i，使得i小于j但是nums[i] &gt; nums[j]的个数。</p>
+<h2 id="naive-解法"><a href="#naive-解法" class="headerlink" title="naive 解法"></a>naive 解法</h2><p>O(n2)轻松搞定，遍历每一个数，然后统计后面的数字小于该元素的数字的个数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;int&gt; countSmaller(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    vector&lt;int&gt; result;</span><br><span class="line">    int n = nums.size();</span><br><span class="line">    for (int i = 0; i &lt; n; ++i) &#123;</span><br><span class="line">        int cnt = 0;</span><br><span class="line">        for (int j = i + 1; j &lt; n; ++j) cnt += (nums[j] &lt; nums[i]) ? 1 : 0;</span><br><span class="line">        result.push_back(cnt);</span><br><span class="line">    &#125;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当然这种方式肯定不是最优解了，肯定会超时的。</p>
+<h2 id="进一步思考"><a href="#进一步思考" class="headerlink" title="进一步思考"></a>进一步思考</h2>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/05/20/Leetcode-Count-of-Smaller-Numbers-After-Self/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/17/Maximum-Gap-无序数组的最大间隔/" itemprop="url">
+                   Maximum Gap--无序数组的最大间隔
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-17T17:02:41+08:00" content="2016-05-17">
+              2016-05-17
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index">
+                    <span itemprop="name">leetcode</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/17/Maximum-Gap-无序数组的最大间隔/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/17/Maximum-Gap-无序数组的最大间隔/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>一个无序数组，求它的有序模式下的相邻数字之间的最大差。</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>首先看到题目，第一想法肯定好简单，排个序，然后相邻相减即可，当然这样的复杂度是排序的复杂度o(nlogn)，但是题目中要求使用线性复杂度。呢么就只能在排序的基础上面进行优化，而线性时间的排序只有三种计数排序(count sort)，基数排序(radix sort)以及桶排序(bucket sort),计数排序这里显然不太合适，本文讲述基数排序和桶排序两种做法。</p>
+<h2 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h2><p>桶排序是说将数字分到n个不同的桶中，然后对每个桶进行排序，具体见专门讲桶排序的呢篇文章吧.<br>这里由于要求得是最大间隔，所以我们可以将桶的个数分为n-1个，每个桶里面存放[min+(k-1)*gap, min+k*gap)区间的数，最小的数和最大的数都不放到桶里，这样就有n-2个数字放到n-1个桶里，每个桶里面的数字的最大间隔不大于gap，由于只有n-2个数字，所以得到的桶肯定有一个是空的，呢么最大间隔产生肯定在不同桶之间，可以不断扫描求得即可。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/05/17/Maximum-Gap-无序数组的最大间隔/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1490,7 +1474,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">71</span>
+              <span class="site-state-item-count">54</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1498,7 +1482,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1507,7 +1491,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
