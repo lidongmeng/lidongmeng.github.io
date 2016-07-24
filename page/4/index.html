@@ -236,6 +236,374 @@
             
               
                 
+                <a class="post-title-link" href="/2016/06/02/Linux网络编程之fcntl/" itemprop="url">
+                  Linux网络编程之fcntl
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-02T15:39:54+08:00" content="2016-06-02">
+              2016-06-02
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">网络编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/02/Linux网络编程之fcntl/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/02/Linux网络编程之fcntl/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Linux下总是看到这个fcntl函数，似乎用法还是蛮多的，可以在网络编程中设置非阻塞模式，信号驱动I/O以及SIGURG时候设置属主等，在文件中可以复制文件描述符，改变<br><a href="http://blog.csdn.net/ctthuangcheng/article/details/9289277" target="_blank" rel="external">http://blog.csdn.net/ctthuangcheng/article/details/9289277</a><br><a href="http://blog.csdn.net/anonymalias/article/details/9197641" target="_blank" rel="external">http://blog.csdn.net/anonymalias/article/details/9197641</a><br><a href="http://blog.csdn.net/bailyzheng/article/details/7489656" target="_blank" rel="external">http://blog.csdn.net/bailyzheng/article/details/7489656</a><br><a href="http://blog.sina.com.cn/s/blog_4b226b9201011974.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_4b226b9201011974.html</a></p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/02/网络编程中的读写函数/" itemprop="url">
+                  网络编程中的读写函数
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-02T10:55:12+08:00" content="2016-06-02">
+              2016-06-02
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">网络编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/02/网络编程中的读写函数/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/02/网络编程中的读写函数/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>网络编程中当连接建立好之后就是数据的传输了，系统提供了很多种读写的方式，本文对这些函数做一个大概的总结。</p>
+<h2 id="普通读写的流程"><a href="#普通读写的流程" class="headerlink" title="普通读写的流程"></a>普通读写的流程</h2><p>网络应用发送数据到对端接受到数据一般会经历下面的步骤：</p>
+<ol>
+<li>系统调用read()函数产生一个上下文切换，从user mode切换到kernel mode，然后DMA执行拷培，把文件从硬盘拷培到kernel buffer里面；</li>
+<li>数据从kernel buffer拷培到user buffer，然后系统调用read()返回，这时产生从kernal mode到user mode的切换；</li>
+<li>然后要发送数据了，通过调用write系统调用，从user mode切换到kernel mode，然后把步骤2中user mode的数据读到kernel buffer中，这个kernel buffer是和socket相关联的；</li>
+<li>系统调用write返回，产生一个切换，从kernel mode切换到user mode，然后DMA从kernel buffer拷培数据到协议栈。<br>所以从上面可以看到，从硬盘读取数据到最终发送到网络上面总共需要四次上下文切换，然后有4次拷培操作。
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/06/02/网络编程中的读写函数/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/01/TCP带外数据/" itemprop="url">
+                  TCP带外数据
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-01T13:30:52+08:00" content="2016-06-01">
+              2016-06-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/网络编程/" itemprop="url" rel="index">
+                    <span itemprop="name">网络编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/01/TCP带外数据/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/01/TCP带外数据/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>带外数据，也成为经加速的数据，是一个连接的某一端发生了重要的事情，而且希望迅速通知对端，迅速是指虽然传过去很多数据，但是需要先处理这个紧急数据，可以看做它的优先级别比较高。ftp中的ABOR命令使用带外数据来中断文件传输，telnet和rlogin会将中止字符作为紧急数据传到对端，允许对端丢弃未处理的输入，并且丢弃未发送的输出。  </p>
+<h2 id="TCP带外数据"><a href="#TCP带外数据" class="headerlink" title="TCP带外数据"></a>TCP带外数据</h2><p>TCP协议并没有真正的带外数据，不过提供了紧急模式，TCP首部的URG标志位以及紧急指针偏移量两个变量。但是OOB字节的发送与否取决于发送缓冲区中先于它的字节数，window窗口大小以及TCP准备发送给对端的分节大小。下面举一个例子：<br>1、 发送方：发送进程已经在一个TCP套接字写入N字节数据，这些数据在套接字的发送缓冲区中，等待发送到对端，这时候，以MSG_OOB标志写入一个字节的带外数据，则该数据放在N字节的后面，并把TCP紧急指针设置为再下一个可用为值，并且将带外字节标记为OOB，下一次发送时候TCP首部会设置URG和偏移量，但是OOB呢个字节不一定发送出去（阻塞等情况，所以即使流量控制使数据无法发送，但是紧急通知照样可以发送到对端）。<br>2、 接收方：有新的紧急指针到达时候，接受进程的内核给套接字的属主进程发送SIGURG信号（所以接受进程要通过fcntl函数设置属主关系，而且设置信号处理函数），然后如果接受进程阻塞在select调用中，等待这个套接字的异常条件，select调用返回。一旦紧急通知到达，不论实际数据是否到达，都要通知，如果没到达，recv函数会返回EWOULDBLOCK，如果有多个OOB字节同时到达，则舍弃前面的，只保存最后一个，因为<b>OOB字节不是放在套接字的缓冲区，而是放在该连接的一个独立的单字节的带外缓冲区，而且接收字节从这个缓冲区读取该字节的唯一方法是通过指定MSG_OOB标志调用recv,recvfrom或者recvmsg函数</b>,当然了如果开启了SO_OOBINLINE套接字选项，这个实际数据就会在普通缓冲区中，需要检查带外标记以获得合适处理这个数据字节。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/06/01/TCP带外数据/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/05/31/miniftp项目实战之父子进程通信-Unix域套接字/" itemprop="url">
                   miniftp项目实战之父子进程通信-Unix域套接字
                 </a>
@@ -304,24 +672,14 @@
 
       
         
-          
-            <p>UNIX域套接字可以用在同一台计算机上运行的进程之间的通信，虽然普通的socket也可以做这一工作，但是使用UNIX域套接字，仅仅只是复制数据，并不执行协议处理，不需要添加或者删除网络报头，无需计算校验和，序列号等封包解包的过程。域套接字存在至少有三个理由：<br>1、Unix域套接字由于不需要封包解包的繁杂过程，所以比普通套接字快出一倍；<br>2、Unix域套接字可以用来传递描述符；<br>3、Unix域套接字可以用于将客户的凭证（用户ID和组ID)提供给服务器，提供额外的安全检查措施。</p>
+          <p>UNIX域套接字可以用在同一台计算机上运行的进程之间的通信，虽然普通的socket也可以做这一工作，但是使用UNIX域套接字，仅仅只是复制数据，并不执行协议处理，不需要添加或者删除网络报头，无需计算校验和，序列号等封包解包的过程。域套接字存在至少有三个理由：<br>1、Unix域套接字由于不需要封包解包的繁杂过程，所以比普通套接字快出一倍；<br>2、Unix域套接字可以用来传递描述符；<br>3、Unix域套接字可以用于将客户的凭证（用户ID和组ID)提供给服务器，提供额外的安全检查措施。</p>
 <h2 id="UNIX域套接字地址结构"><a href="#UNIX域套接字地址结构" class="headerlink" title="UNIX域套接字地址结构"></a>UNIX域套接字地址结构</h2><h3 id="无名域套接字"><a href="#无名域套接字" class="headerlink" title="无名域套接字"></a>无名域套接字</h3><p>可以使用面向网络的域套接字接口或者socketpair建立一堆无命名的，相互连接的域套接字。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int socketpair(int domain, int type, int protocol, int sockfd[2]);</span><br><span class="line">返回值：若成功则返回0，出错则返回-1</span><br></pre></td></tr></table></figure></p>
-<p>这样一对域套接字相当于一个全双工的管道，两端对读写都开放.socketpair创建的这两个描述符，不属于任何的实际文件系统，而是网络文件系统，虚拟的．同时内核会将这两个描述符彼此设为自己的peer即对端（这里即解决了如何标识读写端，可以想象，两个描述符互为读写缓冲区，即解决了这个问题）．然后应用相应socket家族里的read/write函数执行读写操作．</p>
-<h4 id="socketpair实例"><a href="#socketpair实例" class="headerlink" title="socketpair实例"></a>socketpair实例</h4><h5 id="单进程"><a href="#单进程" class="headerlink" title="单进程"></a>单进程</h5><p>首先来验证一下这个返回的fd，对于同一个进程，也可以使用fd来进行读写，比方向fd[0]写入数据，然后从fd[1]读取数据，这时候只能从fd[1]读取数据，反之，从fd[1]中写入数据，则必须从fd[0]读取数据，但是如果没有写入数据却去读取操作，则会阻塞。具体程序如下图：<br><img src="/images/miniftp/uds-1.png" alt="&quot;uds-1&quot;"><br>运行结果：<br><img src="/images/miniftp/uds-11.png" alt="&quot;uds-11&quot;"><br>可以看出，从fd[0]写入的数据可以从fd[1]读取到，但是从fd[0]读取数据却一直阻塞在呢里是因为，没有数据向fd[1]写入。</p>
-<h5 id="父子进程"><a href="#父子进程" class="headerlink" title="父子进程"></a>父子进程</h5><p>然后来试验一下父子进程通过socketpair建立的域套接字通信，程序如下：<br><img src="/images/miniftp/uds-2.png" alt="&quot;uds-2&quot;"><br>运行结果：<br><img src="/images/miniftp/uds-21.png" alt="&quot;uds-21&quot;"><br>可以看出父进程读取错误，因为已经关闭了fd[0],所以从该套接字读取会出现错误，我尝试这把fd[0]不关闭再次运行，可以看到：<br><img src="/images/miniftp/uds-22.png" alt="&quot;uds-22&quot;"><br>可以看到，子进程无法读取到fd[1]里面数据，被父进程读取了。所以父子进程通过域套接字进行通信的时候要都关闭一端的描述符，不然就会出现写入的数据被自己读取走竞争！！</p>
-<h3 id="有名域套接字"><a href="#有名域套接字" class="headerlink" title="有名域套接字"></a>有名域套接字</h3><p>虽然socketpair可以创建相互连接的套接字，但是每一个套接字都没有名字，也就是说无关进程无法使用它们，我们可以通过下面域套接字地址结构绑定域套接字，系统用地址结构中的path创建一个类型为S_IFSOCK的文件，该文件用于向客户进程告知套接字的名字，该文件不能打开，也不能用于通信，如果绑定时候文件已经存在，则bind会失败，关闭套接字时候，<b>系统不会自动删除该文件，所以终止前必须手动对文件进行解除连接操作。</b><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">struct sockaddr_un &#123;</span><br><span class="line">    sa_family    sun_family;    /* AF_UNIX */</span><br><span class="line">    char         sun_path[108];    /* pathname */</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<h4 id="有名套接字编程实例"><a href="#有名套接字编程实例" class="headerlink" title="有名套接字编程实例"></a>有名套接字编程实例</h4><p>服务器绑定一个特定的之前不存在的path，然后bind-listen等待客户端连接，客户端，用服务器端的path填充自己的sockaddr_un结构，然后连接，发送消息。<br>server端：<br><img src="/images/miniftp/uds-31.png" alt="&quot;uds-31&quot;"><br>client端：<br><img src="/images/miniftp/uds-3.png" alt="&quot;uds-3&quot;"><br>运行结果：<br><img src="/images/miniftp/uds-32.png" alt="&quot;uds-32&quot;"><br>使用ls -al命令查看，可以看到产生的sock文件：<br><img src="/images/miniftp/uds-33.png" alt="&quot;uds-33&quot;"> </p>
-<h2 id="传递文件描述符"><a href="#传递文件描述符" class="headerlink" title="传递文件描述符"></a>传递文件描述符</h2><p>我们经常会有一个进程向另一个进程传递文件描述符的需求，可能因为一个进程有文件系统权限，而另外一个没有(ftp服务器nobody进程)；也可能因为服务器讲一个连接的文件描述符传递给另外一个已经启动的协助进程等情况，一个进程向另一个进程传递文件描述符使得使用文件描述符的进程对打开文件或者设备的所有细节都是透明的！<br>从一个进程向另一个进程传递文件描述符可以有两种方法，一种是通过fork来进行父子进程的文件描述符传递，另外就是靠UNIX域套接字。<br>传递描述符并不是传递一个Int型的描述符编号，而是在接受进程中创建一个新的描述符，并且在内核的文件表中，它与发送进程指向相同的项，如下图所示:<br><img src="/images/miniftp/fd.png" alt="&quot;传递文件描述符&quot;"><br>另外，一个描述符在传递过程中，(sendmsg到recvmsg过程中)，内核标记其为”in flight”，这段时间即使发送方试图关闭该描述符，内核仍会为接受进程保持打开状态。<br>域套接字是通过下面两个函数来传递文件描述符的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">ssize_t sendmsg(int sockfd, const struct msghdr *msg, int flags);</span><br><span class="line">ssize_t recvmsg(int sockfd, struct msghdr *msg, int flags);</span><br></pre></td></tr></table></figure></p>
-<p>它不仅可以传输一般数据，还可以传输额外的数据（文件描述符），第二项结构体：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">struct msghdr &#123;</span><br><span class="line">    void         *msg_name;       /* optional address */</span><br><span class="line">    socklen_t     msg_namelen;    /* size of address */</span><br><span class="line">    struct iovec *msg_iov;        /* scatter/gather array */</span><br><span class="line">    size_t        msg_iovlen;     /* # elements in msg_iov */</span><br><span class="line">    void         *msg_control;    /* ancillary data, see below */</span><br><span class="line">    size_t        msg_controllen; /* ancillary data buffer len */</span><br><span class="line">    int           msg_flags;      /* flags on received message */</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>各项参数的意义如下：<br>1、msg_name ：即对等方的地址指针，不关心时设为NULL即可；<br>2、msg_namelen：地址长度，不关心时设置为0即可；<br>3、msg_iov：是结构体iovec 的指针。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">struct iovec &#123;</span><br><span class="line">           void  *iov_base;    /* Starting address */</span><br><span class="line">           size_t iov_len;     /* Number of bytes to transfer */</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>成员iov_base 可以认为是传输正常数据时的buf，iov_len 是buf 的大小。<br>4、msg_iovlen：当有n个iovec 结构体时，此值为n；<br>5、msg_control：是一个指向cmsghdr 结构体的指针<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct cmsghdr &#123;</span><br><span class="line">     socklen_t cmsg_len;    /* data byte count, including header */</span><br><span class="line">     int       cmsg_level;  /* originating protocol */</span><br><span class="line">     int       cmsg_type;   /* protocol-specific type */</span><br><span class="line">     /* followed by unsigned char cmsg_data[]; */</span><br><span class="line"> &#125;;</span><br></pre></td></tr></table></figure></p>
-<p>在传递描述符时候，要将csmghdr结构体中的cmsg_len设置为cmsghdr结构体长度加1（描述符长度），cmsg_level设置为SOL_SOCKET,cmsg_type设置为SCM_RIGHTS,表明传送访问权。随后跟上描述符。<br>6、msg_controllen ：参见下图，即cmsghdr 结构体可能不止一个；<br>7、flags ： 一般设置为0即可；<br>另外，为了对齐，可能填充一些字节，跟系统相关，可以通过下面的宏获得：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">struct cmsghdr *CMSG_FIRSTHDR(struct msghdr *msgh);</span><br><span class="line">struct cmsghdr *CMSG_NXTHDR(struct msghdr *msgh, struct cmsghdr *cmsg);</span><br><span class="line">size_t CMSG_ALIGN(size_t length);</span><br><span class="line">size_t CMSG_SPACE(size_t length);</span><br><span class="line">size_t CMSG_LEN(size_t length);</span><br><span class="line">unsigned char *CMSG_DATA(struct cmsghdr *cmsg);</span><br></pre></td></tr></table></figure></p>
-<h3 id="父子进程文件传递描述符"><a href="#父子进程文件传递描述符" class="headerlink" title="父子进程文件传递描述符"></a>父子进程文件传递描述符</h3><p>父进程建立域套接字，子进程打开文件描述符，然后传递给父进程。<br><img src="/images/miniftp/uds-421.png" alt="&quot;uds-421&quot;"><br>发送描述符和接受描述的函数封装，基本就是填充cmsghdr结构体中数据。<br><img src="/images/miniftp/uds-41.png" alt="&quot;uds-41&quot;"><br>运行可以发现父进程可以打开文件。<br><img src="/images/miniftp/uds-42.png" alt="&quot;uds-42&quot;"> </p>
-<h2 id="接受发送者凭证"><a href="#接受发送者凭证" class="headerlink" title="接受发送者凭证"></a>接受发送者凭证</h2><p>通过UNIX域套接字作为辅助数据传递的另一种数据是用户凭证，发送进程在调用sendmsg时候要有一个cmsgcred结构作为辅助数据来传递凭证。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://blog.csdn.net/jnu_simba/article/details/9079627" target="_blank" rel="external">http://blog.csdn.net/jnu_simba/article/details/9079627</a><br><a href="https://bbs.sjtu.edu.cn/bbstcon,board,GNULinux,reid,1345013026.html" target="_blank" rel="external">https://bbs.sjtu.edu.cn/bbstcon,board,GNULinux,reid,1345013026.html</a><br><a href="https://yq.aliyun.com/articles/41469" target="_blank" rel="external">https://yq.aliyun.com/articles/41469</a><br><a href="http://liulixiaoyao.blog.51cto.com/1361095/533469/" target="_blank" rel="external">http://liulixiaoyao.blog.51cto.com/1361095/533469/</a></p>
-
-          
+<p>这样一对域套接字相当于一个全双工的管道，两端对读写都开放.socketpair创建的这两个描述符，不属于任何的实际文件系统，而是网络文件系统，虚拟的．同时内核会将这两个描述符彼此设为自己的peer即对端（这里即解决了如何标识读写端，可以想象，两个描述符互为读写缓冲区，即解决了这个问题）．然后应用相应socket家族里的read/write函数执行读写操作．<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/05/31/miniftp项目实战之父子进程通信-Unix域套接字/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -929,24 +1287,14 @@
 
       
         
-          
-            <h2 id="ftp"><a href="#ftp" class="headerlink" title="ftp"></a>ftp</h2><p>FTP(File Transfer Protocol)，工作在TCP/IP协议族的应用层，其传输层使用的协议是TCP协议，基于客户/服务器模式工作。</p>
-<h2 id="ftp文件类型"><a href="#ftp文件类型" class="headerlink" title="ftp文件类型"></a>ftp文件类型</h2><p>FTP一般支持ASCII文件(默认文件格式)，EBCDIC文件格式(用8bit代码代表一个字符)，图像文件或者是二进制文件，发送的是连续的比特流，用于传输二进制文件。</p>
-<h2 id="ftp工作原理"><a href="#ftp工作原理" class="headerlink" title="ftp工作原理"></a>ftp工作原理</h2><p><img src="/images/miniftp/1-1.png" alt="&quot;c41&quot;"><br>FTP是CS的工作模式，客户端TCP协议层根据用户命令给出的服务器IP地址，向服务器提供FTP服务的21端口（该端口是TCP协议层用来传输FTP命令的端口）发出主动建立连接的请求。服务器收到请求后，通过3次握手，就在进行FTP命令处理的用户协议解释器进程和服务器协议解释器进程之间建立了一条TCP连接。以后所有用户输入的FTP命令和服务器的应答都由该连接进行传输，因此把它叫做控制连接。当客户通过交互式的用户界面，向FTP服务器发出要下载服务器上某一文件的命令时，该命令被送到用户协议解释器。服务器解释命令然后与客户端建立一条数据通道进行数据传输，数据通道建立有两种方式，PORT和PASV方式，数据传输完毕后关闭数据通道，如此反复进行。</p>
-<h2 id="ftp命令"><a href="#ftp命令" class="headerlink" title="ftp命令"></a>ftp命令</h2><p>FTP命令主要访问控制命令（USER, PASS, CWD, CDUP, QUIT), 传输参数命令（PORT, PASV, TYPE，MODE，STRU），服务命令（RETR,STOR,APPE,LIST,NLIST,REST,ABOR,PWD,MKD,RMD,SYST,FEAT,SIZE,STAT,NOOP）等命令。</p>
-<h2 id="ftp响应"><a href="#ftp响应" class="headerlink" title="ftp响应"></a>ftp响应</h2><p>服务器通过控制连接发送给客户的FTP应答，由ASCII码形式的3位数字和一行文本提示信息<br>组成，它们之间用一个空格分割。应答信息的每行文本以回车CR和换行LF对结尾。如果需要产生一条多行的应答，第一行在3位数字应答代码之后包含一个连字符“－”，而不是空格符；最后一行包含相同的 3 位数字应答代码，后跟一个空格符。<br>ftp应答的数字的意义：如下：<br>第一位表示：<br><img src="/images/miniftp/1-2.png" alt="&quot;c41&quot;"><br>第二位表示：<br><img src="/images/miniftp/1-3.png" alt="&quot;c41&quot;"><br>第三位为第二位数字更详细的说明。</p>
-<h2 id="数据传输方式"><a href="#数据传输方式" class="headerlink" title="数据传输方式"></a>数据传输方式</h2><p>工作原理中提到数据通道的建立有两种方式，一种是PORT模式，一种是PASV模式，两种模式究竟有什么区别，为什么要有两种工作模式呢？  </p>
-<h3 id="PORT主动模式"><a href="#PORT主动模式" class="headerlink" title="PORT主动模式"></a>PORT主动模式</h3><p>PORT主动模式是由服务器向客户端发起连接而建立数据连接通道，如下图所示：<br><img src="/images/miniftp/1-4.png" alt="&quot;c41&quot;"><br>创建数据连接之前，要商定工作模式，如果是PORT模式，客户端会上服务器端发送PORT命令，这是通过控制连接通道完成的，向服务器的21端口传送一个PORT命令，并且告知客户端的一个端口号BB，因为这个信息服务器端才知道要连接客户端的哪个端口号，服务器端得到了这个信息，最后就向BB端口号发起了一个请求，建立了一个数据连接通道，数据连接通道一旦建立完毕，就可以进行数据的传输了，包含目录列表、文件的传输，一旦数据传输完毕，数据连接通道就会关闭掉，它是临时的。<br>具体的流程如下：<br><img src="/images/miniftp/1-5.png" alt="&quot;c41&quot;"><br>具体的描述如下：<br><img src="/images/miniftp/1-6.png" alt="&quot;c41&quot;"></p>
-<h3 id="PASV被动模式"><a href="#PASV被动模式" class="headerlink" title="PASV被动模式"></a>PASV被动模式</h3><p>PASV被动模式是由客户端向服务器发起连接而建立数据连接通道，和PORT一样，传输之前先商定传输模式，如果是PASV模式，服务器要向客户端回传端口号和地址供客户端建立数据连接通道：<br><img src="/images/miniftp/1-7.png" alt="&quot;c41&quot;"><br>具体的流程如下：<br><img src="/images/miniftp/1-8.png" alt="&quot;c41&quot;"><br>具体的描述如下：<br><img src="/images/miniftp/1-9.png" alt="&quot;c41&quot;"></p>
-<h3 id="两种工作模式的原因"><a href="#两种工作模式的原因" class="headerlink" title="两种工作模式的原因"></a>两种工作模式的原因</h3><h4 id="NAT"><a href="#NAT" class="headerlink" title="NAT"></a>NAT</h4><p>NAT之前学过，但是一直没能知道使用地方，这里碰到了算是个复习回顾，NAT全称是Network Address Translation，通过NAT可以将内网的私有IP地址转换为公网的IP地址，从而解决公网地址不足的问题，具体操作如下图所示：<br><img src="/images/miniftp/1-10.png" alt="&quot;c41&quot;"><br>其地址映射关系可以如下：192.168.1.100:5678【内网IP】 -&gt; 120.35.3.193:5678【NAT转换IP】 -&gt; 50.118.99.200:80【外网IP】<br>从而就建立了一个连接，而连接的建立是通过NAT服务器进行地址转换完成的。  </p>
-<h4 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h4><p>使用了NAT后就会产生问题，因为PORT和PASV都会发送ip地址和端口号给对方，如果发送ip地址给对端的一方是在NAT后端的话，呢么这个地址经过NAT转换就无法被对端连接了，这就产生了数据通道无法建立的问题了。<br>比方如果服务器在NAT的后端，如果使用PASV模式，服务器向客户端回传地址和端口号，客户端通过ip地址和端口号连接服务器，但是NATNAT并没有这个端口导致客户端无法正常连接了，则如下图所示：<br><img src="/images/miniftp/1-11.png" alt="&quot;c41&quot;"><br>但是如果这时候使用PORT传输模式就可以正常建立连接：<br><img src="/images/miniftp/1-12.png" alt="&quot;c41&quot;"></p>
-<h2 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h2><p>Linux下的vsftpd是一个经典的对照模型，可以参考它的实现，安装后，链接一个客户端，看到回生成两个进程：<br><img src="/images/miniftp/1-13.png" alt="&quot;c41&quot;"></p>
-<h3 id="多进程还是多线程"><a href="#多进程还是多线程" class="headerlink" title="多进程还是多线程"></a>多进程还是多线程</h3><p>当成功连接一个客户端时，可以看到创建了两个进程： nobody进程和普通用户进程；可见该FTP服务器是采用多进程的方式来实现的，为什么不用多线程的方式呢？对于FTP服务器来讲，多线程的方式是绝对不可取的，因为如果是多线程的，多线程共享同一个目录空间，如果C用户将目录更改到C，B用户的工作目录也会改变到C，是不可取的，而多进程是相互独立的，之间不会有影响。<br><img src="/images/miniftp/1-14.png" alt="&quot;c41&quot;"></p>
-<h3 id="为什么是两个进程"><a href="#为什么是两个进程" class="headerlink" title="为什么是两个进程"></a>为什么是两个进程</h3><p>为什么要产生两个进程，nobody进程是干什么用的呢？首先看下图：<br><img src="/images/miniftp/1-15.png" alt="&quot;c41&quot;"><br>从中可以发现，服务进程是直接跟客户端进行通讯，而nobody进程并没有，它仅仅是跟服务进程通信，来协助服务进程来建立数据连接通道，以及需要一些特珠权限的控制，比如服务进程建立了连接之后，假设是PORT模式，由于是服务器端主动连接客户端，服务器端需要绑定20端口来连接客户端，而服务进程是没有权限来绑定20端口的，也就意味着没办法正常建立数据连接通道，所以需要加入nobody进程。而nobody和服务进程是采用内部通信的协议，这个协议对外是不可见的，完全可以由我们自己来定义，所以可以用UNIX域协议来进行通讯，而不用TCP/IP协议了。<br><img src="/images/miniftp/1-16.png" alt="&quot;c41&quot;"></p>
-<h3 id="技术方案"><a href="#技术方案" class="headerlink" title="技术方案"></a>技术方案</h3><p>理清了这些基本知识后，就可以明确技术方案了，miniftp采用多进程的方式，主进程以root权限启动，监听着21端口，等待客户端连接，客户端连接到来，建立两个进程，一个是nobody进程，一个是服务进程。nobody进程具有root的部分权限，主要是建立数据连接时候使用，建立数据连接的套接字，然后传递描述符给服务进程（通过Unix域套接字通信方式），服务进程负责控制连接和数据传输的具体任务。<br>另外服务器还得是可配置的，要能控制同一ip地址的最大连接数目，并且能够实现文件操作的基本功能（增删查改等），还要支持上传下载，断点续传等功能。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>TCPIP详解<br><a href="http://www.cnblogs.com/webor2006/p/4312539.html" target="_blank" rel="external">http://www.cnblogs.com/webor2006/p/4312539.html</a></p>
-
-          
+          <h2 id="ftp"><a href="#ftp" class="headerlink" title="ftp"></a>ftp</h2><p>FTP(File Transfer Protocol)，工作在TCP/IP协议族的应用层，其传输层使用的协议是TCP协议，基于客户/服务器模式工作，设计的目标是屏蔽不同主机不同文件系统的文件差异，以实现不同系统的文件的高效传输。</p>
+<h2 id="ftp文件类型"><a href="#ftp文件类型" class="headerlink" title="ftp文件类型"></a>ftp文件类型</h2><p>FTP一般支持ASCII文件(默认文件格式，8bit表示一个字符，最高位为0)，EBCDIC文件格式(用8bit代码代表一个字符)，图像文件或者是二进制文件，发送的是连续的比特流，用于传输二进制文件。</p>
+<h2 id="ftp工作原理"><a href="#ftp工作原理" class="headerlink" title="ftp工作原理"></a>ftp工作原理</h2><p><img src="/images/miniftp/1-1.png" alt="&quot;c41&quot;"><br>FTP是CS的工作模式，客户端TCP协议层根据用户命令给出的服务器IP地址，向服务器提供FTP服务的21端口（该端口是TCP协议层用来传输FTP命令的端口）发出主动建立连接的请求。服务器收到请求后，通过3次握手，就在进行FTP命令处理的用户协议解释器进程和服务器协议解释器进程之间建立了一条TCP连接。以后所有用户输入的FTP命令和服务器的应答都由该连接进行传输，因此把它叫做控制连接。当客户通过交互式的用户界面，向FTP服务器发出要下载服务器上某一文件的命令时，该命令被送到用户协议解释器。服务器解释命令然后与客户端建立一条数据通道进行数据传输，数据通道建立有两种方式，PORT和PASV方式，数据传输完毕后关闭数据通道，如此反复进行。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/05/28/miniftp项目实战之ftp基本知识与应答类型/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1062,368 +1410,12 @@
 
       
         
-          
-            <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>配置文件模块是说要能够配置Miniftp中的比方说端口号，地址，传输模式，最大连接数目，超时时间，上传下载速率等，以便可以灵活改变。</p>
+          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>配置文件模块是说要能够配置Miniftp中的比方说端口号，地址，传输模式，最大连接数目，超时时间，上传下载速率等，以便可以灵活改变。</p>
 <h2 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h2><p>有三种类型的配置选项，一个是开关型的（PORT还是PASVMoshi )，一个是数值型的（端口号，连接数目，上传下载速率等），另外一个是字符串型的（ip地址),可以通过结构体来从存储然后遍历文件最后进行填充。</p>
 <h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p><img src="/images/miniftp/2-1.png" alt="&quot;c41&quot;"></p>
-<h3 id="文件读取"><a href="#文件读取" class="headerlink" title="文件读取"></a>文件读取</h3><p>设计了两个函数，一个函数用来文件load一个用来parse:<br><img src="/images/miniftp/2-2.png" alt="&quot;c41&quot;"><br>以只读方式打开文件，然后每次读取一行数据进行解析：<br><img src="/images/miniftp/2-3.png" alt="&quot;c41&quot;"></p>
-<h3 id="解析参数"><a href="#解析参数" class="headerlink" title="解析参数"></a>解析参数</h3><h4 id="数据类型设计"><a href="#数据类型设计" class="headerlink" title="数据类型设计"></a>数据类型设计</h4><p>上面说过分为三种类型的数据，可以用一个结构体进行统一管理。<br>开关型的：<br><img src="/images/miniftp/2-4.png" alt="&quot;c41&quot;"><br>整数型的：<br><img src="/images/miniftp/2-5.png" alt="&quot;c41&quot;"><br>字符串型的：<br><img src="/images/miniftp/2-6.png" alt="&quot;c41&quot;"></p>
-<h4 id="具体解析过程"><a href="#具体解析过程" class="headerlink" title="具体解析过程"></a>具体解析过程</h4><p>读取一行后去掉行首行尾的空格后，并拆解为名字和数值两部分，然后根据名字进行上面三种类型的依次遍历匹配，如果找到相应的字符串，设置值，退出：<br><img src="/images/miniftp/2-7.png" alt="&quot;c41&quot;"><br><img src="/images/miniftp/2-8.png" alt="&quot;c41&quot;"><br><img src="/images/miniftp/2-9.png" alt="&quot;c41&quot;"></p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://www.cnblogs.com/webor2006/p/4509729.html" target="_blank" rel="external">http://www.cnblogs.com/webor2006/p/4509729.html</a></p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/27/Linux下不同精度定时器的实现/" itemprop="url">
-                  Linux下不同精度定时器的实现
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-27T10:55:22+08:00" content="2016-05-27">
-              2016-05-27
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/27/Linux下不同精度定时器的实现/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/27/Linux下不同精度定时器的实现/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="alarm函数"><a href="#alarm函数" class="headerlink" title="alarm函数"></a>alarm函数</h2><h2 id="sleep函数"><a href="#sleep函数" class="headerlink" title="sleep函数"></a>sleep函数</h2><h2 id="settimer函数"><a href="#settimer函数" class="headerlink" title="settimer函数"></a>settimer函数</h2><h2 id="select控制"><a href="#select控制" class="headerlink" title="select控制"></a>select控制</h2><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://blog.csdn.net/hk_5788/article/details/51242372" target="_blank" rel="external">http://blog.csdn.net/hk_5788/article/details/51242372</a><br><a href="http://www.linuxidc.com/Linux/2011-05/36581.htm" target="_blank" rel="external">http://www.linuxidc.com/Linux/2011-05/36581.htm</a><br><a href="https://www.zhihu.com/question/32251997" target="_blank" rel="external">https://www.zhihu.com/question/32251997</a></p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/25/二分搜索总结/" itemprop="url">
-                  二分搜索总结
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-25T11:55:41+08:00" content="2016-05-25">
-              2016-05-25
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">leetcode</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/25/二分搜索总结/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/25/二分搜索总结/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="二分搜索"><a href="#二分搜索" class="headerlink" title="二分搜索"></a>二分搜索</h2><h2 id="循环不变量"><a href="#循环不变量" class="headerlink" title="循环不变量"></a>循环不变量</h2><p>什么是循环不变量，即在循环中保持不变的量，二分搜索中，这个量是由上下界和目标值构成的不等式。循环不变量的意义在于，只要你维护这个循环不变量，那么最终循环结束，这个量还是成立的。<br>下面利用二分搜索查找数组中是否有target来阐述循环不变量，有三个过程：</p>
-<ol>
-<li>初始化，循环初次执行时候不变式为真；</li>
-<li>保持。如果某次迭代开始时候以及循环体执行时候，不变式为真，呢么循环体结束时候也为真；</li>
-<li>终止，循环能够终止，并且可以得到期望结果。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">1. &#123;mustbe(0, n-1)&#125;</span><br><span class="line">2. l = 0; u = n-1;</span><br><span class="line">3. &#123;mustbe(0, n-1)&#125;</span><br><span class="line">4. loop</span><br><span class="line">5.      &#123;mustbe(0, n-1)&#125;</span><br><span class="line">6.      if l &gt; u</span><br><span class="line">7.          &#123;l &gt; u &amp;&amp; mustbe(l, u)&#125;</span><br><span class="line">8.          &#123;t is not in the array&#125;</span><br><span class="line">9.          p = -1; break;</span><br><span class="line">10.     &#123;mustbe(l, u) &amp;&amp; l &lt;= u&#125;</span><br><span class="line">11.     m = l + (u - l) / 2;</span><br><span class="line">12.     &#123;mustbe(l, u) &amp;&amp; l &lt;= m &lt;= u&#125;</span><br><span class="line">13.     case</span><br><span class="line">14.         x[m] &lt; t:</span><br><span class="line">15.                 &#123;mustbe(l, u) &amp;&amp; cantbe(0, m)&#125;</span><br><span class="line">16.                 &#123;mustbe(m+1, u)&#125;</span><br><span class="line">17.                 l = m+1</span><br><span class="line">18.                 &#123;mustbe(l, u)&#125;</span><br><span class="line">19.         x[m] == t:</span><br><span class="line">20.                 &#123;x[m] == t&#125;</span><br><span class="line">21.                 p = m; break;</span><br><span class="line">22.         x[m] &gt; t:</span><br><span class="line">23.                 &#123;mustbe(l, u) &amp;&amp; cantbe(m, u)&#125;</span><br><span class="line">24.                 &#123;mustbe(l, m-1)&#125;</span><br><span class="line">25.                 u = m-1</span><br><span class="line">26.                 &#123;mustbe(l, u)&#125;</span><br><span class="line">27.     &#123;mustbe(l, u)&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>每执行一个操作可以看出循环不变量都为真，所以一次迭代结束后，循环不变量仍旧为真，呢么就看循环是否会结束，可以看出，每一轮迭代m总是在l,u之间，但是通过case的两个不等条件都删除了一个值，所以范围内数字每次迭代至少减少1，所以最后肯定区间交集问为空l&gt;u会终止运行。</p>
-<h2 id="leetcode上面二分题目"><a href="#leetcode上面二分题目" class="headerlink" title="leetcode上面二分题目"></a>leetcode上面二分题目</h2><p>诚然利用上面的循环不变量分析得到结果可以准确无误，但是分析过程中我们总会出现l,r值初始值选取，循环中加1还是减1，何时停止，以及最后返回多少的四大疑问，下面介绍一个模板，可以解决这些疑惑。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">if (数组为空) 返回；</span><br><span class="line">start = 0, end = len - 1;</span><br><span class="line">while (start + 1 &lt; end) &#123;</span><br><span class="line">    int mid = start + (end - start) / 2;</span><br><span class="line">    if (nums[mid] &lt; target) &#123;</span><br><span class="line">        start = mid;</span><br><span class="line">    &#125; else if (nums[mid] &gt; target) &#123;</span><br><span class="line">        end = mid;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        start / end = mid; // 视情况而定</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">最后最多剩下两项而且结果肯定在这两项以内（或者不存在另算一类），根据题意先判断start或者end（第一项还是最后一项，第一项就从start开始，最后一项就从end开始),都不满足则不存在。</span><br></pre></td></tr></table></figure></p>
-<p>上面这个模板，我们不用谨慎的去想哪个需要加1哪个需要减1，以及最后返回谁，因为最后逼近时候结果要摸不存在，要摸肯定在这两项中，比较简单。</p>
-<h4 id="Search-for-a-Range"><a href="#Search-for-a-Range" class="headerlink" title="Search for a Range"></a>Search for a Range</h4><p>题目：找到数组中等于target的起始位置，没有包含则返回[-1,-1]。<br>题目分析：分别找到第一个位置和最后一个位置.<br>找第一个位置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">int findFirst(vector&lt;int&gt; &amp; nums, int target) &#123;</span><br><span class="line">    if (nums.empty()) return -1;  // 空的判断</span><br><span class="line">    int start = 0, end = nums.size() - 1; // 初值</span><br><span class="line">    while (start + 1 &lt; end) &#123; // 结束条件</span><br><span class="line">        int mid = start + (end - start) / 2;</span><br><span class="line">        if (nums[mid] &lt; target) &#123;</span><br><span class="line">            start = mid;</span><br><span class="line">        &#125; else if (nums[mid] &gt;= target) &#123; // 找第一个所以等于时候end设置为mid</span><br><span class="line">            end = mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    if (nums[start] == target) &#123; // 找第一个从start开始判断</span><br><span class="line">        return start;</span><br><span class="line">    &#125; else if (nums[end] == target) &#123;</span><br><span class="line">        return end;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return -1;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>找最后一个位置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">int findLast(vector&lt;int&gt; &amp; nums, int target) &#123;</span><br><span class="line">    if (nums.empty()) return -1;  // 空的判断</span><br><span class="line">    int start = 0, end = nums.size() - 1;  // 初值设置</span><br><span class="line">    while (start + 1 &lt; end) &#123; // 循环结束条件</span><br><span class="line">        int mid = start + (end - start) / 2;</span><br><span class="line">        if (nums[mid] &lt;= target) &#123; // 由于找最后一个，等于时候start往后移动</span><br><span class="line">            start = mid;</span><br><span class="line">        &#125; else if (nums[mid] &gt; target) &#123;</span><br><span class="line">            end = mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    if (nums[end] == target) &#123; // 最后一个先查看是否满足</span><br><span class="line">        return end;</span><br><span class="line">    &#125; else if (nums[start] == target) &#123;</span><br><span class="line">        return start;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return -1;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>所以最后可以将两个值加入vector即可。</p>
-<h3 id="Search-Insert-Position"><a href="#Search-Insert-Position" class="headerlink" title="Search Insert Position"></a>Search Insert Position</h3><p>找到应该插入的位置，如果数组中有这个数字，插入到第一次出现的该数字的位置上。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">int searchInsert(vector&lt;int&gt;&amp; nums, int target) &#123;</span><br><span class="line">    if (nums.empty()) return 0;</span><br><span class="line">    int start = 0, end = nums.size() - 1;</span><br><span class="line">    while (start + 1 &lt; end) &#123;</span><br><span class="line">        int mid = start + (end - start) / 2;</span><br><span class="line">        if (nums[mid] &lt; target) &#123;</span><br><span class="line">            start = mid;</span><br><span class="line">        &#125; else if (nums[end] &gt;= target) &#123;</span><br><span class="line">            end = mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    if (nums[start] &gt;= target) return start; // 查看第一个位置是否满足</span><br><span class="line">    else if (nums[end] &gt;= target) return end; // 最后一个位置是否满足</span><br><span class="line">    else    return nums.size(); // 都不满足肯定比任何一个都大</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="First-Bad-Version"><a href="#First-Bad-Version" class="headerlink" title="First Bad Version"></a>First Bad Version</h3><p>找到第一个坏版本，从这个版本往后的都为坏的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">int firstBadVersion(int n) &#123;</span><br><span class="line">    if (n &lt;= 0) return n;  // empty判断</span><br><span class="line">    int start = 1, end = n;</span><br><span class="line">    while (start + 1 &lt; end) &#123; // 结束条件</span><br><span class="line">        int mid = start + (end - start) / 2;</span><br><span class="line">        if (isBadVersion(mid)) &#123;</span><br><span class="line">            end = mid;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            start = mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    if (isBadVersion(start)) &#123; // 因为找第一个先从start开始判断是否满足</span><br><span class="line">        return start;</span><br><span class="line">    &#125; else if (isBadVersion(end)) &#123;</span><br><span class="line">        return end;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return n;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/24/一日一命令之Linux命令kill/" itemprop="url">
-                  一日一命令之Linux命令kill
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-24T13:46:38+08:00" content="2016-05-24">
-              2016-05-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux基础/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux基础</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/24/一日一命令之Linux命令kill/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/24/一日一命令之Linux命令kill/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="基本命令介绍"><a href="#基本命令介绍" class="headerlink" title="基本命令介绍"></a>基本命令介绍</h2><p>今天学习kill命令，Linux下kill命令是向某个特定进程或者进程组发送指定信号从而结束改进程或者进程组，可以通过man kill查看，如下：<br><img src="/images/LinuxCommand/kill-1.png" alt="&quot;kill&quot;"><br>有两个选项-s是指定要发送的具体信号，比方说kill -7 pid，是向pid进程发送7(BUS)信号，如果没有指定，则默认发送的是SIGTERM信号给给定的进程或者进程组，如果进程没有设置捕捉该信号的逻辑，则终止进程；另外一个选项是-l是列出对应数字的信号名称，比方说kill -l 7列出的是BUS，当然这个可以通过man 7 signal查看。<br><img src="/images/LinuxCommand/kill-2.png" alt="&quot;singal&quot;">   </p>
-<h2 id="程序举例"><a href="#程序举例" class="headerlink" title="程序举例"></a>程序举例</h2><p>下面实现一个处理了SIGTERM的程序，然后运行，在终端输入kill pid，然后观察输出，在终端输入kill -9 pid再查看输出。<br>
+<h3 id="文件读取"><a href="#文件读取" class="headerlink" title="文件读取"></a>文件读取</h3><p>设计了两个函数，一个函数用来文件load一个用来parse:<br><img src="/images/miniftp/2-2.png" alt="&quot;c41&quot;"><br>以只读方式打开文件，然后每次读取一行数据进行解析：<br><img src="/images/miniftp/2-3.png" alt="&quot;c41&quot;"><br>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2016/05/24/一日一命令之Linux命令kill/#more" rel="contents">
+            <a class="btn" href="/2016/05/28/miniftp项目实战之配置项模块实现/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1457,7 +1449,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1498,7 +1490,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

@@ -67,7 +67,7 @@
 <meta property="og:description" content="题目描述一个无序数组，求它的最长的等差子序列的长度。
 题目分析首先题目并没有说得到的等差子序列要和原数组中的位置是否一致，所以要分两种情况来进行分析。
 等差子序列要和原数组元素位置一致我们可以构造一个map，key是等差数列的d,而value是两个index，开始位置i和结束位置j，并且保证i小于j，然后对这个map进行扫描，对每一个d，先对后面的数组按照开始位置i进行排序，然后顺序查找，下一个的">
-<meta property="og:updated_time" content="2016-04-24T12:18:26.763Z">
+<meta property="og:updated_time" content="2016-07-24T04:35:34.754Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="最长等差子序列长度">
 <meta name="twitter:description" content="题目描述一个无序数组，求它的最长的等差子序列的长度。
@@ -308,7 +308,8 @@
         <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>一个无序数组，求它的最长的等差子序列的长度。</p>
 <h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>首先题目并没有说得到的等差子序列要和原数组中的位置是否一致，所以要分两种情况来进行分析。</p>
 <h3 id="等差子序列要和原数组元素位置一致"><a href="#等差子序列要和原数组元素位置一致" class="headerlink" title="等差子序列要和原数组元素位置一致"></a>等差子序列要和原数组元素位置一致</h3><p>我们可以构造一个map，key是等差数列的d,而value是两个index，开始位置i和结束位置j，并且保证i小于j，然后对这个map进行扫描，对每一个d，先对后面的数组按照开始位置i进行排序，然后顺序查找，下一个的j等于上一个的i表示能够连接起来，</p>
-<h3 id="等差子序列不一定和原数组元素位置一致"><a href="#等差子序列不一定和原数组元素位置一致" class="headerlink" title="等差子序列不一定和原数组元素位置一致"></a>等差子序列不一定和原数组元素位置一致</h3><h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><p>leetcode有一道题目求最长连续子序列的长度。(1，2，3叫做连续，1，2，4不叫连续)<br>首先，你当然可以先排序，然后去遍历，但是时间复杂度O(nlgn);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">int longestConsecutive(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    sort(nums.begin(), nums.end());</span><br><span class="line">    nums.erase(unique(nums.begin(), nums.end()), nums.end());</span><br><span class="line">    int start = 0, index = 0;</span><br><span class="line">    int n = nums.size(), result = INT_MIN;</span><br><span class="line">    while (index &lt; n) &#123;</span><br><span class="line">        start = index;</span><br><span class="line">        while (index+1 &lt; n &amp;&amp; nums[index+1] == nums[index] + 1) ++index;</span><br><span class="line">        result = max(result, index-start+1);</span><br><span class="line">        ++index;</span><br><span class="line">    &#125;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="等差子序列不一定和原数组元素位置一致"><a href="#等差子序列不一定和原数组元素位置一致" class="headerlink" title="等差子序列不一定和原数组元素位置一致"></a>等差子序列不一定和原数组元素位置一致</h3><a id="more"></a>
+<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><p>leetcode有一道题目求最长连续子序列的长度。(1，2，3叫做连续，1，2，4不叫连续)<br>首先，你当然可以先排序，然后去遍历，但是时间复杂度O(nlgn);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">int longestConsecutive(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    sort(nums.begin(), nums.end());</span><br><span class="line">    nums.erase(unique(nums.begin(), nums.end()), nums.end());</span><br><span class="line">    int start = 0, index = 0;</span><br><span class="line">    int n = nums.size(), result = INT_MIN;</span><br><span class="line">    while (index &lt; n) &#123;</span><br><span class="line">        start = index;</span><br><span class="line">        while (index+1 &lt; n &amp;&amp; nums[index+1] == nums[index] + 1) ++index;</span><br><span class="line">        result = max(result, index-start+1);</span><br><span class="line">        ++index;</span><br><span class="line">    &#125;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>是否可以用O(n)的时间复杂度来做？这时候就要用额外的空间来存储当前数字能够到达的边界位置。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://codercareer.blogspot.com/2014/03/no-53-longest-arithmetic-sequence.html" target="_blank" rel="external">http://codercareer.blogspot.com/2014/03/no-53-longest-arithmetic-sequence.html</a><br><a href="https://leetcode.com/problems/longest-consecutive-sequence/" target="_blank" rel="external">https://leetcode.com/problems/longest-consecutive-sequence/</a></p>
 
@@ -441,7 +442,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

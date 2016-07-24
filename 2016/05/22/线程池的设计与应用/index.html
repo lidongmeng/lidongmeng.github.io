@@ -63,7 +63,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/05/22/线程池的设计与应用/index.html">
 <meta property="og:site_name" content="DongMengLi">
 <meta property="og:description" content="线程池线程池，就是拥有若干个线程，线程的个数并不是越多越好，太多了会增加系统的开销，太少了会降低并发量，呢么设置多少个线程合适呢？另外是不是所有的任务放到线程池里面都合适呢？这些都要根据任务的类型来进行判断：1、 计算密集型任务：这个任务是占用cpu的，很少被外界事件打断，这时要设置线程个数=CPU个数，如果线程个数大于CPU个数的话，由于CPU个数不足，并发的数目是一定的，所以需要有少量的CPU">
-<meta property="og:updated_time" content="2016-06-18T03:30:10.208Z">
+<meta property="og:updated_time" content="2016-07-24T04:36:03.473Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="线程池的设计与应用">
 <meta name="twitter:description" content="线程池线程池，就是拥有若干个线程，线程的个数并不是越多越好，太多了会增加系统的开销，太少了会降低并发量，呢么设置多少个线程合适呢？另外是不是所有的任务放到线程池里面都合适呢？这些都要根据任务的类型来进行判断：1、 计算密集型任务：这个任务是占用cpu的，很少被外界事件打断，这时要设置线程个数=CPU个数，如果线程个数大于CPU个数的话，由于CPU个数不足，并发的数目是一定的，所以需要有少量的CPU">
@@ -280,7 +280,7 @@
       
 
       
-        <h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>线程池，就是拥有若干个线程，线程的个数并不是越多越好，太多了会增加系统的开销，太少了会降低并发量，呢么设置多少个线程合适呢？另外是不是所有的任务放到线程池里面都合适呢？这些都要根据任务的类型来进行判断：<br>1、 计算密集型任务：这个任务是占用cpu的，很少被外界事件打断，这时要设置线程个数=CPU个数，如果线程个数大于CPU个数的话，由于CPU个数不足，并发的数目是一定的，所以需要有少量的CPU个数调度多个线程，这涉及线程与线程之间的切换开销，会降低效率。<br>2、 IO密集型任务：这个时候线程个数要大于CPU个数，因为任务运行时候可能需要等待IO，可能将这个任务挂起。<br>线程池本质实际也是生产者消费者模型的应用，生产者向任务队列中添加任务，一旦队列有任务到来，有闲置线程就让它执行任务，没有就等待直到新的空闲线程到来，用互斥锁和条件变量可以来控制。  </p>
+        <h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>线程池，就是拥有若干个线程，线程的个数并不是越多越好，太多了会增加系统的开销，太少了会降低并发量，呢么设置多少个线程合适呢？另外是不是所有的任务放到线程池里面都合适呢？这些都要根据任务的类型来进行判断：<br>1、 计算密集型任务：这个任务是占用cpu的，很少被外界事件打断，这时要设置线程个数=CPU个数，如果线程个数大于CPU个数的话，由于CPU个数不足，并发的数目是一定的，所以需要有少量的CPU个数调度多个线程，这涉及线程与线程之间的切换开销，会降低效率。<br>2、 IO密集型任务：这个时候线程个数要大于CPU个数，因为任务运行时候可能需要等待IO，可能将这个任务挂起。<br>线程池本质实际也是生产者消费者模型的应用，生产者向任务队列中添加任务，一旦队列有任务到来，有闲置线程就让它执行任务，没有就等待直到新的空闲线程到来，用互斥锁和条件变量可以来控制。<br><a id="more"></a> </p>
 <h2 id="线程池框架"><a href="#线程池框架" class="headerlink" title="线程池框架"></a>线程池框架</h2><p>下面介绍一个线程池框架，该线程池框架利用两个队列来管理闲置线程和繁忙线程，当任务到来并且有闲置线程时候分配它进行工作，并加入到繁忙线程队列中，当工作完成时候放回闲置线程。  </p>
 <h3 id="TThread"><a href="#TThread" class="headerlink" title="TThread"></a>TThread</h3><p>TThread是对线程的创建和销毁的基类，注意线程创建里面的thread_func必须是C语言中的函数命名编译规则，所以要么加上”extern C”，要么设置为静态函数。</p>
 <h3 id="TWorkThread"><a href="#TWorkThread" class="headerlink" title="TWorkThread"></a>TWorkThread</h3><p>TWorkThread继承与TThread，是工作线程，每个工作线程里面有TThreadPool的引用，是该工作线程从属于哪个线程池，另外有相应的工作TJob表示具体的工作，线程开启后不断的循环等待工作到来，如果工作不为空执行工作。  </p>
@@ -420,7 +420,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

@@ -83,7 +83,7 @@ Posix消息队列基本函数mq_open12#include &amp;lt;mqueue.h&amp;gt;  mqd_t m
 <meta property="og:image" content="http://yoursite.com/images/APUE/IPC_msgqueue_signal7.png">
 <meta property="og:image" content="http://yoursite.com/images/APUE/IPC_msgqueue_signal8.png">
 <meta property="og:image" content="http://yoursite.com/images/APUE/IPC_msgqueue_thread.png">
-<meta property="og:updated_time" content="2016-06-11T09:45:17.123Z">
+<meta property="og:updated_time" content="2016-07-24T04:29:28.562Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IPC之Posix消息队列">
 <meta name="twitter:description" content="Posix消息队列是Linux IPC的一种通信方式，通常用于在不同进程之间发送特定格式的消息数据。有足够写权限的线程可以往队列中放置消息，有足够读权限的线程可以从队列中读取消息。而且消息队列具有随内核的持续性，即使进程关闭了消息队列，只要引用计数大于0，此消息队列依然存在。  
@@ -325,7 +325,7 @@ Posix消息队列基本函数mq_open12#include &amp;lt;mqueue.h&amp;gt;  mqd_t m
 <h2 id="Posix消息队列基本函数"><a href="#Posix消息队列基本函数" class="headerlink" title="Posix消息队列基本函数"></a>Posix消息队列基本函数</h2><h3 id="mq-open"><a href="#mq-open" class="headerlink" title="mq_open"></a>mq_open</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;mqueue.h&gt;  </span><br><span class="line">mqd_t mq_open(const char *name, int oflag, /* mode_t mode, struct mq_attr *attr */);   //成功返回消息队列描述符，失败返回-1</span><br></pre></td></tr></table></figure>
 <p>创建一个消息队列，name为消息队列的名字，oflag和open函数类似，选项可以为O_RDONLY,O_WRONLY,O_RDWR,O_NONBLOCK,O_CREAT,O_EXCL等，mode是可选的，只有oflag中有O_CREAT并且消息队列不存在时候才需要，attr是属性设置，只能设置最大消息数目和消息的最大的size。返回消息队列的描述符。</p>
 <h3 id="mq-close"><a href="#mq-close" class="headerlink" title="mq_close"></a>mq_close</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mqd_t mq_close(mqd_t mqdes);</span><br></pre></td></tr></table></figure>
-<p>关闭一个打开的消息队列，但是并不从系统中删除，一个进程结束会自动关闭打开的消息队列。</p>
+<p>关闭一个打开的消息队列，但是并不从系统中删除，一个进程结束会自动关闭打开的消息队列。<br><a id="more"></a></p>
 <h3 id="mq-unlink"><a href="#mq-unlink" class="headerlink" title="mq_unlink"></a>mq_unlink</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mqd_t mq_unlink(const char *name);</span><br></pre></td></tr></table></figure>
 <p>删除一个消息队列，消息队列创建后只能通过该函数或者是内核自举才能进行删除，每个消息队列有一个引用计数，只有计数为0才真正从系统中删除。</p>
 <h3 id="mq-getattr-mq-setattr"><a href="#mq-getattr-mq-setattr" class="headerlink" title="mq_getattr/mq_setattr"></a>mq_getattr/mq_setattr</h3><p>消息队列中每个消息具有三个属性：一个优先级别的整数，消息部分长度，消息数据本身，消息队列的可能布局如下图所示：<br><img src="/images/APUE/IPC_msgqueue_1.png" alt="&quot;c3&quot;"><br>而消息队列的队列属性至少要有四个：消息队列标志(是否阻塞)，最大消息数目，最大消息的字节数，现有消息的数目。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;bits/mqueue.h&gt;  </span><br><span class="line">struct mq_attr  </span><br><span class="line">&#123;  </span><br><span class="line">      long int mq_flags;      /* Message queue flags.  */  </span><br><span class="line">      long int mq_maxmsg;   /* Maximum number of messages.  */  </span><br><span class="line">      long int mq_msgsize;   /* Maximum message size.  */  </span><br><span class="line">      long int mq_curmsgs;   /* Number of messages currently queued.  */  </span><br><span class="line">      long int __pad[4];  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
@@ -481,7 +481,7 @@ Posix消息队列基本函数mq_open12#include &amp;lt;mqueue.h&amp;gt;  mqd_t m
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

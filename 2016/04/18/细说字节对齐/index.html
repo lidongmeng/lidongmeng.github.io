@@ -65,7 +65,7 @@
 <meta property="og:description" content="字节对齐以及目的我们知道，内存空间按照字节划分，一般来说，一个变量的起始地址可以是任意的地址，但是合理的选择起始地址，可以提高访问效率，比方说32bit的Intel处理器通过总线访问内存数据，每个总线周期从偶数地址开始访问32bit的内存数据，内存数据按照字节单位存放，如果一个32bit的数据没有放在4字节整除的内存地址处，呢么就需要两个总线周期对其访问，所以为了CPU快速访问数据，数据的起始地址">
 <meta property="og:image" content="http://yoursite.com/images/other/bytepadding-1.png">
 <meta property="og:image" content="http://yoursite.com/images/other/bytepadding-2.png">
-<meta property="og:updated_time" content="2016-06-10T13:30:59.019Z">
+<meta property="og:updated_time" content="2016-07-24T04:33:38.335Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="细说字节对齐">
 <meta name="twitter:description" content="字节对齐以及目的我们知道，内存空间按照字节划分，一般来说，一个变量的起始地址可以是任意的地址，但是合理的选择起始地址，可以提高访问效率，比方说32bit的Intel处理器通过总线访问内存数据，每个总线周期从偶数地址开始访问32bit的内存数据，内存数据按照字节单位存放，如果一个32bit的数据没有放在4字节整除的内存地址处，呢么就需要两个总线周期对其访问，所以为了CPU快速访问数据，数据的起始地址">
@@ -305,7 +305,7 @@
         <h2 id="字节对齐以及目的"><a href="#字节对齐以及目的" class="headerlink" title="字节对齐以及目的"></a>字节对齐以及目的</h2><p>我们知道，内存空间按照字节划分，一般来说，一个变量的起始地址可以是任意的地址，但是合理的选择起始地址，可以提高访问效率，比方说32bit的Intel处理器通过总线访问内存数据，每个总线周期从偶数地址开始访问32bit的内存数据，内存数据按照字节单位存放，如果一个32bit的数据没有放在4字节整除的内存地址处，呢么就需要两个总线周期对其访问，所以为了CPU快速访问数据，数据的起始地址要有对齐特性。</p>
 <h2 id="字节对齐规则"><a href="#字节对齐规则" class="headerlink" title="字节对齐规则"></a>字节对齐规则</h2><p>字节对齐有四个准则：<br>1、 数据类型自身的对齐值。下图是32bit以及64bit下的基本类型的自身对齐值；<br><img src="/images/other/bytepadding-1.png" alt="&quot;padding&quot;"><br>2、 结构体或者类自身的对齐值：成员中自身对齐值最大的一个;<br>3、 指定的对齐值：#pragma pack (value)；<br>4、 数据成员、结构体和类的有效对齐值：自身对其值和指定对齐值中较小的。<br>所以，<b>首先要获取指定的对齐值，然后对于每个成员，对齐方式取指定对齐值和自身对齐值（如果是数组，只看数组的类型）两个的最小的那个，然后对每一个成员进行放置，即每个成员的起始位置必须是对齐系数与成员自身大小二者中较小者的整数倍。最后再对结构体进行对齐。</b>下面通过几个题目进行分析：</p>
 <h3 id="面试题目一"><a href="#面试题目一" class="headerlink" title="面试题目一"></a>面试题目一</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">typedef struct&#123;</span><br><span class="line">     char  a;</span><br><span class="line">     short b;</span><br><span class="line">     char  c;</span><br><span class="line">     int   d;</span><br><span class="line">     char  e[3];</span><br><span class="line">&#125;T_Test;</span><br></pre></td></tr></table></figure>
-<p>64位 linux下，指定4字节对齐，上述结构体占用多少个字节？<br>分析：指定对齐值是4字节，然后看a是char类型，有效对齐值是1字节，short是2字节，所以起始地址是2的倍数，a和b之间填充一个字节，然后是c又是char类型，占用一个字节，接下来是int的d，是4个字节，所以起始地址是4的倍数，c和d之间要填充三个字节，接下来是char数组，占用3个字节，然后结构体有效对齐数是4所以，最后要填充一个字节来进行结构体对齐，所以最后出来是16字节，地址分布如下图：<br><img src="/images/other/bytepadding-2.png" alt="&quot;padding&quot;"></p>
+<p>64位 linux下，指定4字节对齐，上述结构体占用多少个字节？<br>分析：指定对齐值是4字节，然后看a是char类型，有效对齐值是1字节，short是2字节，所以起始地址是2的倍数，a和b之间填充一个字节，然后是c又是char类型，占用一个字节，接下来是int的d，是4个字节，所以起始地址是4的倍数，c和d之间要填充三个字节，接下来是char数组，占用3个字节，然后结构体有效对齐数是4所以，最后要填充一个字节来进行结构体对齐，所以最后出来是16字节，地址分布如下图：<br><img src="/images/other/bytepadding-2.png" alt="&quot;padding&quot;"><br><a id="more"></a></p>
 <h3 id="面试题目二"><a href="#面试题目二" class="headerlink" title="面试题目二"></a>面试题目二</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct D&#123;</span><br><span class="line">    char a;</span><br><span class="line">    int b;</span><br><span class="line">    static long c;</span><br><span class="line">    char a[0]; // char a[];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <p>首先这个题目分析和上面的分析一样，但是多了一个static变量和一个char a[0]/char a[]数组，这个两个要分别对待，第二个叫做柔型数组。</p>
 <h4 id="柔性数组"><a href="#柔性数组" class="headerlink" title="柔性数组"></a>柔性数组</h4><p>结构体中最后一个元素允许是未知大小的数组，这个数组就是柔性数组。但结构体中的柔性数组前面必须至少一个其他成员,柔性数组成员允许结构中包含一个大小可变的数组。<b>sizeof返回的这种结构大小不包括柔性数组的内存</b>。包含柔数组成员的结构用malloc函数进行内存的动态分配,且分配的内存应该大于结构的大小以适应柔性数组的预期大小。<br>具体分配可以这样做：D <em> p = (D</em>)malloc(sizeof(D)) + 50 * sizeof(char);</p>
@@ -444,7 +444,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

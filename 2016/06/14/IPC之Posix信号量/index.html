@@ -69,7 +69,7 @@ Posix信号量POSIX信号量有两种：有名信号量和无名信号量，无�
 Posi">
 <meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_sem1.png">
 <meta property="og:image" content="http://yoursite.com/images/APUE/ipc_posix_sem2.png">
-<meta property="og:updated_time" content="2016-07-23T17:03:21.603Z">
+<meta property="og:updated_time" content="2016-07-24T04:33:13.755Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IPC之Posix信号量">
 <meta name="twitter:description" content="信号量的主要目的是提供进程间同步，互斥量和条件变量的意图是线程间同步，但是信号量也可以线程间同步，互斥量和条件变量也可以用于共享内存区进行进程间同步。
@@ -311,7 +311,7 @@ Posi">
         <p>信号量的主要目的是提供进程间同步，互斥量和条件变量的意图是线程间同步，但是信号量也可以线程间同步，互斥量和条件变量也可以用于共享内存区进行进程间同步。</p>
 <h2 id="Posix信号量"><a href="#Posix信号量" class="headerlink" title="Posix信号量"></a>Posix信号量</h2><p>POSIX信号量有两种：有名信号量和无名信号量，无名信号量也被称作基于内存的信号量。有名信号量通过IPC名字进行进程间的同步，而无名信号量如果不是放在进程间的共享内存区中，是不能用来进行进程间同步的，只能用来进行线程同步。</p>
 <h2 id="Posix信号量函数"><a href="#Posix信号量函数" class="headerlink" title="Posix信号量函数"></a>Posix信号量函数</h2><h3 id="有名信号量"><a href="#有名信号量" class="headerlink" title="有名信号量"></a>有名信号量</h3><h4 id="sem-open"><a href="#sem-open" class="headerlink" title="sem_open"></a>sem_open</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;semaphore.h&gt;  </span><br><span class="line">sem_t *sem_open(const char *name, int oflag);  </span><br><span class="line">sem_t *sem_open(const char *name, int oflag,  </span><br><span class="line">                  mode_t mode, unsigned int value);  </span><br><span class="line">                              //成功返回信号量指针，失败返回SEM_FAILED</span><br></pre></td></tr></table></figure>
-<p>sem_open用于创建或打开一个信号量，信号量是通过name参数即信号量的名字来进行标识的，oflag参数可以为：0，O_CREAT，O_EXCL；mode参数用于创建信号量时，表示信号量的权限位；value是创建信号量的初值。<br>信号量有二值信号量（和互斥量相似）和计数信号量（多资源可用）。</p>
+<p>sem_open用于创建或打开一个信号量，信号量是通过name参数即信号量的名字来进行标识的，oflag参数可以为：0，O_CREAT，O_EXCL；mode参数用于创建信号量时，表示信号量的权限位；value是创建信号量的初值。<br>信号量有二值信号量（和互斥量相似）和计数信号量（多资源可用）。<br><a id="more"></a></p>
 <h4 id="sem-close"><a href="#sem-close" class="headerlink" title="sem_close"></a>sem_close</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;semaphore.h&gt;  </span><br><span class="line">int sem_close(sem_t *sem);  </span><br><span class="line">int sem_unlink(const char *name);    //成功返回0，失败返回-1</span><br></pre></td></tr></table></figure>
 <p>close是关闭打开的信号量，unlink是删除，引用计数为0才真正从系统移除。</p>
 <h4 id="sem-wait–p操作"><a href="#sem-wait–p操作" class="headerlink" title="sem_wait–p操作"></a>sem_wait–p操作</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;semaphore.h&gt;  </span><br><span class="line">int sem_wait (sem_t *sem);  </span><br><span class="line">int sem_trywait (sem_t * sem);  //成功返回0，失败返回-1</span><br></pre></td></tr></table></figure>
@@ -450,7 +450,7 @@ Posi">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

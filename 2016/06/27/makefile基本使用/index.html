@@ -68,7 +68,7 @@ makefile文件规则1234target ... : prerequisties ...    command（前面必须
 makefile文件规则1234target ... : prerequisties ...    command（前面必须是一个Tab）    ...    ...
 其中，target是一个object file，也可以是执行文件或者标签，prerequisites是生成这个tar">
 <meta property="og:image" content="http://yoursite.com/images/makefile/makefile1.png">
-<meta property="og:updated_time" content="2016-07-18T16:03:17.520Z">
+<meta property="og:updated_time" content="2016-07-24T04:35:00.637Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="makefile基本使用">
 <meta name="twitter:description" content="makefiel是一个工程的编译规则，有了它，你只需要一个make指令就可以自动化编译，极大的提高了软件开发效率。
@@ -309,7 +309,7 @@ makefile文件规则1234target ... : prerequisties ...    command（前面必须
       
         <p>makefiel是一个工程的编译规则，有了它，你只需要一个make指令就可以自动化编译，极大的提高了软件开发效率。</p>
 <h2 id="makefile文件规则"><a href="#makefile文件规则" class="headerlink" title="makefile文件规则"></a>makefile文件规则</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">target ... : prerequisties ...</span><br><span class="line">    command（前面必须是一个Tab）</span><br><span class="line">    ...</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
-<p>其中，target是一个object file，也可以是执行文件或者标签，prerequisites是生成这个target所需要的文件或者目标，command是make需要执行的命令，可以为任意的shell命令。也就是说，target 这一个或多个的目标文件依赖于prerequisites中的文件，其生成规则定义在 command 中定义,所以你可以这样来写你的makefile文件：<br><img src="/images/makefile/makefile1.png" alt="&quot;c3&quot;"></p>
+<p>其中，target是一个object file，也可以是执行文件或者标签，prerequisites是生成这个target所需要的文件或者目标，command是make需要执行的命令，可以为任意的shell命令。也就是说，target 这一个或多个的目标文件依赖于prerequisites中的文件，其生成规则定义在 command 中定义,所以你可以这样来写你的makefile文件：<br><img src="/images/makefile/makefile1.png" alt="&quot;c3&quot;"><br><a id="more"></a></p>
 <h2 id="执行顺序"><a href="#执行顺序" class="headerlink" title="执行顺序"></a>执行顺序</h2><ol>
 <li>首先，make会在本目录下找名字为”Makefile”或者是”makefile”的文件；</li>
 <li>找到的话，他会找第一个目标文件，并把这个文件当作最终的目标文件；</li>
@@ -441,7 +441,7 @@ makefile文件规则1234target ... : prerequisties ...    command（前面必须
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

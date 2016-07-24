@@ -236,6 +236,253 @@
             
               
                 
+                <a class="post-title-link" href="/2016/07/24/miniftp之hash实现用户限制功能/" itemprop="url">
+                  miniftp之hash实现用户限制功能
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-24T09:24:32+08:00" content="2016-07-24">
+              2016-07-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/miniftp项目实战/" itemprop="url" rel="index">
+                    <span itemprop="name">miniftp项目实战</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/24/miniftp之hash实现用户限制功能/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/24/miniftp之hash实现用户限制功能/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="hash基础"><a href="#hash基础" class="headerlink" title="hash基础"></a>hash基础</h2><p>哈希表最大的优点，就是把数据的存储和查找消耗的时间大大降低，几乎可以看成是常数时间；而代价仅仅是消耗比较多的内存。然而在当前可利用内存越来越多的情况下，用空间换时间的做法是值得的。其基本原理是：使用一个下标范围比较大的数组来存储元素。可以设计一个函数（哈希函数，也叫做散列函数），使得每个元素的关键字都与一个函数值（即数组下标，hash值）相对应，于是用这个数组单元来存储这个元素；也可以简单的理解为，按照关键字为每一个元素“分类”，然后将这个元素存储在相应“类”所对应的地方，称为桶。但是，不能够保证每个元素的关键字与函数值是一一对应的，因此极有可能出现对于不同的元素，却计算出了相同的函数值，这样就产生了“冲突”，换句话说，就是把不同的元素分在了相同的“类”之中。<br>总的来说，“直接定址”与“解决冲突”是哈希表的两大特点。哈希表是一个在时间和空间上做出权衡的经典例子。如果没有内存限制，那么可以直接将键作为数组的索引。那么所有的查找时间复杂度为O(1)；如果没有时间限制，那么我们可以使用无序数组并进行顺序查找，这样只需要很少的内存。哈希表使用了适度的时间和空间来在这两个极端之间找到了平衡。只需要调整哈希函数算法即可在时间和空间上做出取舍。</p>
+<h2 id="hash函数"><a href="#hash函数" class="headerlink" title="hash函数"></a>hash函数</h2><p>散列函数满足以下的条件：1、对输入值运算，得到一个固定长度的摘要(Hash value)；<br>2、不同的输入值可能对应同样的输出值；<br>主要有直接定址法，平方取中，随机，除留余数，乘法=余取整等方法。</p>
+<h2 id="hash冲突解决"><a href="#hash冲突解决" class="headerlink" title="hash冲突解决"></a>hash冲突解决</h2><p>但是会产生冲突，一般可以通过拉链法，二次探测等方法去解决冲突。</p>
+<h3 id="拉链法"><a href="#拉链法" class="headerlink" title="拉链法"></a>拉链法</h3>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/07/24/miniftp之hash实现用户限制功能/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/24/ftp建立数据传输通道的两种方式实现/" itemprop="url">
+                  ftp建立数据传输通道的两种方式实现
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-24T08:48:02+08:00" content="2016-07-24">
+              2016-07-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/miniftp项目实战/" itemprop="url" rel="index">
+                    <span itemprop="name">miniftp项目实战</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/24/ftp建立数据传输通道的两种方式实现/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/24/ftp建立数据传输通道的两种方式实现/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>前面讲过了，ftp数据通道可以通过PORT模式或者PASV模式进行传输，本文就它们的具体实现进行解析。</p>
+<h2 id="PORT模式"><a href="#PORT模式" class="headerlink" title="PORT模式"></a>PORT模式</h2><h3 id="工作工程"><a href="#工作工程" class="headerlink" title="工作工程"></a>工作工程</h3><p>先回忆一下PORT模式工作方式，如下图所示：<br><img src="/images/miniftp/1-5.png" alt="&quot;c41&quot;"><br>在进行数据传输之前客户端发送PORT命令到服务器端，而且带有ip地址和端口号参数，服务器端根据ip地址和端口号，传送给Nobody进程，让Nobody进程绑定20端口然后建立与客户端的数据连接通道，然后将套接字描述符传递给服务进程，接下来就是数据的具体传输。  </p>
+<h3 id="解析命令"><a href="#解析命令" class="headerlink" title="解析命令"></a>解析命令</h3><p>当接收到相应命令时候，服务器拆分并解析命令参数，如果是do_port则调用相应的处理函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">// read command and args from the client</span><br><span class="line">readline(sess-&gt;ctrl_fd, sess-&gt;cmdline, MAX_COMMAND_LINE);</span><br><span class="line">// deal with the ftp cmd</span><br><span class="line">printf(&quot;%s\n&quot;, sess-&gt;cmdline);</span><br><span class="line">// delete \r\n</span><br><span class="line">str_trim_crlf(sess-&gt;cmdline);</span><br><span class="line">// split the string and get the cmd and arg</span><br><span class="line">str_split(sess-&gt;cmdline, sess-&gt;cmd, sess-&gt;arg, &apos; &apos;);</span><br><span class="line">printf(&quot;cmd:%s,arg:%s\n&quot;, sess-&gt;cmd, sess-&gt;arg);</span><br><span class="line">// change to UPPER case</span><br><span class="line">str_to_upper(sess-&gt;cmd);</span><br><span class="line">    </span><br><span class="line">// find the cmd handler</span><br><span class="line">int i = 0;</span><br><span class="line">int len = sizeof(ctrl_cmds) / sizeof(ctrl_cmds[0]);</span><br><span class="line">for (i = 0; i &lt; len; ++i) &#123;</span><br><span class="line">    if (strcmp(sess-&gt;cmd, ctrl_cmds[i].cmd) == 0) &#123;</span><br><span class="line">        if (ctrl_cmds[i].cmd_handler != NULL) &#123;</span><br><span class="line">            ctrl_cmds[i].cmd_handler(sess);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            ftp_reply(sess, FTP_COMMANDNOTIMPL, &quot;Unimplement command.&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (i == len) &#123;</span><br><span class="line">    ftp_reply(sess, FTP_BADCMD, &quot;Unknow command&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/07/24/ftp建立数据传输通道的两种方式实现/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/07/17/不要再说不会用ibatis了/" itemprop="url">
                   不要再说不会用ibatis了
                 </a>
@@ -776,19 +1023,14 @@
 
       
         
-          
-            <p>makefiel是一个工程的编译规则，有了它，你只需要一个make指令就可以自动化编译，极大的提高了软件开发效率。</p>
+          <p>makefiel是一个工程的编译规则，有了它，你只需要一个make指令就可以自动化编译，极大的提高了软件开发效率。</p>
 <h2 id="makefile文件规则"><a href="#makefile文件规则" class="headerlink" title="makefile文件规则"></a>makefile文件规则</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">target ... : prerequisties ...</span><br><span class="line">    command（前面必须是一个Tab）</span><br><span class="line">    ...</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
-<p>其中，target是一个object file，也可以是执行文件或者标签，prerequisites是生成这个target所需要的文件或者目标，command是make需要执行的命令，可以为任意的shell命令。也就是说，target 这一个或多个的目标文件依赖于prerequisites中的文件，其生成规则定义在 command 中定义,所以你可以这样来写你的makefile文件：<br><img src="/images/makefile/makefile1.png" alt="&quot;c3&quot;"></p>
-<h2 id="执行顺序"><a href="#执行顺序" class="headerlink" title="执行顺序"></a>执行顺序</h2><ol>
-<li>首先，make会在本目录下找名字为”Makefile”或者是”makefile”的文件；</li>
-<li>找到的话，他会找第一个目标文件，并把这个文件当作最终的目标文件；</li>
-<li>如果这个目标文件不存在，或者是这个目标文件所依赖的后面的.o文件修改时间比这个要新，呢么它就会执行后面所定义的命令重新生成目标文件；</li>
-<li>如果目标文件依赖的文件不存在，则make会在当前文件中找该目标文件的生成规则，一层依赖另一层；</li>
-<li>最后编译出最终的目标文件。  </li>
-</ol>
-
-          
+<p>其中，target是一个object file，也可以是执行文件或者标签，prerequisites是生成这个target所需要的文件或者目标，command是make需要执行的命令，可以为任意的shell命令。也就是说，target 这一个或多个的目标文件依赖于prerequisites中的文件，其生成规则定义在 command 中定义,所以你可以这样来写你的makefile文件：<br><img src="/images/makefile/makefile1.png" alt="&quot;c3&quot;"><br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/06/27/makefile基本使用/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -989,17 +1231,15 @@
 
       
         
-          
-            <h2 id="移动"><a href="#移动" class="headerlink" title="移动"></a>移动</h2><h3 id="word为单位移动"><a href="#word为单位移动" class="headerlink" title="word为单位移动"></a>word为单位移动</h3><p>(n)w命令是向后移动n个word，光标指向首字母，而e是指向尾字母；b是向前移动，ge是向前移动到尾字母。w/e如果行的最后一个单词，会移动到下一行的第一个。</p>
+          <h2 id="移动"><a href="#移动" class="headerlink" title="移动"></a>移动</h2><h3 id="word为单位移动"><a href="#word为单位移动" class="headerlink" title="word为单位移动"></a>word为单位移动</h3><p>(n)w命令是向后移动n个word，光标指向首字母，而e是指向尾字母；b是向前移动，ge是向前移动到尾字母。w/e如果行的最后一个单词，会移动到下一行的第一个。</p>
 <h3 id="行首或者行尾"><a href="#行首或者行尾" class="headerlink" title="行首或者行尾"></a>行首或者行尾</h3><p>“$”(end)是行尾，”^”（home)是行首。</p>
 <h3 id="移动到指定行"><a href="#移动到指定行" class="headerlink" title="移动到指定行"></a>移动到指定行</h3><p>直到行号，可以直接:linenum跳转到指定行。</p>
-<h2 id="复制粘贴"><a href="#复制粘贴" class="headerlink" title="复制粘贴"></a>复制粘贴</h2><ol>
-<li>将光标移动到要复制的文本开始的地方，按v进入可视模式。</li>
-<li>将光标移动到要复制的文本的结束的地方，按y复制(X剪切)。此时vim会自动将光标定位到选中文本的开始的地方，并退出可视模式。</li>
-<li>我移动光标到文本结束的地方，按p粘贴。<br>另外使用dd删除一行，在使用p也可以复制一行。或者v模式下yy复制一行。<h2 id="搜索字符串"><a href="#搜索字符串" class="headerlink" title="搜索字符串"></a>搜索字符串</h2><h3 id="普通搜索"><a href="#普通搜索" class="headerlink" title="普通搜索"></a>普通搜索</h3>命令模式下面，输入/(?)字符串,按enter即可；/ 表示从当前光标反向搜索，?表示从当前光标正向搜索。如果找到了光标定位在第一个字符串出现位置处，然后可以使用n或者N来进行下一个查找，n表示继续朝同一个方向查找，而N表示朝相反方向查找。<br>如果没有找到，底部出现字符串：未找到。<h2 id="撤销操作"><a href="#撤销操作" class="headerlink" title="撤销操作"></a>撤销操作</h2>u 撤销上一步的操作。<br>Ctrl+r恢复上一步被撤销的操作。<br>特殊版本的撤销命令：“U”（行撤销）。行撤销命令撤销所有在前一个编辑行上的操作。<br>在 vim 中使用 Ctrl-O 执行后退，使用 Ctrl-I 执行前进。<h2 id="打开多个文件"><a href="#打开多个文件" class="headerlink" title="打开多个文件"></a>打开多个文件</h2>vim a.cpp b.cpp c.cpp可以同时打开多个文件，然后利用:bn/:pn访问后一个或者前一个文件</li>
-</ol>
-
-          
+<h2 id="复制粘贴"><a href="#复制粘贴" class="headerlink" title="复制粘贴"></a>复制粘贴</h2>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/06/27/vim常用操作/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1149,235 +1389,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/23/编程珠玑之采样问题/" itemprop="url">
-                  编程珠玑之采样问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-23T16:59:26+08:00" content="2016-06-23">
-              2016-06-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程珠玑/" itemprop="url" rel="index">
-                    <span itemprop="name">编程珠玑</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/23/编程珠玑之采样问题/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/23/编程珠玑之采样问题/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="取样问题"><a href="#取样问题" class="headerlink" title="取样问题"></a>取样问题</h1><p>从n个元素中抽取m个元素。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>编程珠玑 11章<br>编程珠玑续 12章<br><a href="http://www.cnblogs.com/wuyuegb2312/p/3141292.html" target="_blank" rel="external">http://www.cnblogs.com/wuyuegb2312/p/3141292.html</a><br><a href="http://www.voidcn.com/blog/wdgxwzz008/article/p-3266588.html" target="_blank" rel="external">http://www.voidcn.com/blog/wdgxwzz008/article/p-3266588.html</a><br><a href="http://blog.csdn.net/huagong_adu/article/details/7619665" target="_blank" rel="external">http://blog.csdn.net/huagong_adu/article/details/7619665</a></p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/22/C-11初探/" itemprop="url">
-                  C++11初探
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-22T10:35:59+08:00" content="2016-06-22">
-              2016-06-22
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/22/C-11初探/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/22/C-11初探/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="自动推导"><a href="#自动推导" class="headerlink" title="自动推导"></a>自动推导</h2><h3 id="auto"><a href="#auto" class="headerlink" title="auto"></a>auto</h3><p>C++98中auto是具有自动存储期的局部变量，不过基本无人使用，因为一般函数内没有声明为static的变量总是具有自动存储期的局部变量。C++11中auto不再是一个存储类型指示符，而是一个新的<b>类型指示符</b>来指示编译器，auto声明的变量的类型必须在编译时期推导得到。此外，auto声明的变量<b>必须被初始化</b>，以使编译器能够从其初始化表达式中推导出它的类型，所以其实auto并不是一个类型声明，而是类型声明时的占位符，编译器在编译时期会将auto替代为变量实际的类型。</p>
-<h4 id="auto使用及优势"><a href="#auto使用及优势" class="headerlink" title="auto使用及优势"></a>auto使用及优势</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">std::vector&lt;std::string&gt;::iterator i=vs.begin();------auto i = vs.begin();</span><br></pre></td></tr></table></figure>
-<p>1、 可以简化代码；<br>2、 可以解决一些精度问题（隐式类型转换）；<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/06/22/C-11初探/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1418,7 +1434,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

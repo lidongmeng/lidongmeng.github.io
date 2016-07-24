@@ -1,0 +1,654 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="hash基础哈希表最大的优点，就是把数据的存储和查找消耗的时间大大降低，几乎可以看成是常数时间；而代价仅仅是消耗比较多的内存。然而在当前可利用内存越来越多的情况下，用空间换时间的做法是值得的。其基本原理是：使用一个下标范围比较大的数组来存储元素。可以设计一个函数（哈希函数，也叫做散列函数），使得每个元素的关键字都与一个函数值（即数组下标，hash值）相对应，于是用这个数组单元来存储这个元素；也可以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="miniftp之hash实现用户限制功能">
+<meta property="og:url" content="http://yoursite.com/2016/07/24/miniftp之hash实现用户限制功能/index.html">
+<meta property="og:site_name" content="DongMengLi">
+<meta property="og:description" content="hash基础哈希表最大的优点，就是把数据的存储和查找消耗的时间大大降低，几乎可以看成是常数时间；而代价仅仅是消耗比较多的内存。然而在当前可利用内存越来越多的情况下，用空间换时间的做法是值得的。其基本原理是：使用一个下标范围比较大的数组来存储元素。可以设计一个函数（哈希函数，也叫做散列函数），使得每个元素的关键字都与一个函数值（即数组下标，hash值）相对应，于是用这个数组单元来存储这个元素；也可以">
+<meta property="og:image" content="http://yoursite.com/images/minfiftp/5-1.png">
+<meta property="og:updated_time" content="2016-07-24T04:02:40.730Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="miniftp之hash实现用户限制功能">
+<meta name="twitter:description" content="hash基础哈希表最大的优点，就是把数据的存储和查找消耗的时间大大降低，几乎可以看成是常数时间；而代价仅仅是消耗比较多的内存。然而在当前可利用内存越来越多的情况下，用空间换时间的做法是值得的。其基本原理是：使用一个下标范围比较大的数组来存储元素。可以设计一个函数（哈希函数，也叫做散列函数），使得每个元素的关键字都与一个函数值（即数组下标，hash值）相对应，于是用这个数组单元来存储这个元素；也可以">
+<meta name="twitter:image" content="http://yoursite.com/images/minfiftp/5-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> miniftp之hash实现用户限制功能 | DongMengLi </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6f009f48d4db1f62d52bf98f41c107d4";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">DongMengLi</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                miniftp之hash实现用户限制功能
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-24T09:24:32+08:00" content="2016-07-24">
+              2016-07-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/miniftp项目实战/" itemprop="url" rel="index">
+                    <span itemprop="name">miniftp项目实战</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/24/miniftp之hash实现用户限制功能/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/24/miniftp之hash实现用户限制功能/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="hash基础"><a href="#hash基础" class="headerlink" title="hash基础"></a>hash基础</h2><p>哈希表最大的优点，就是把数据的存储和查找消耗的时间大大降低，几乎可以看成是常数时间；而代价仅仅是消耗比较多的内存。然而在当前可利用内存越来越多的情况下，用空间换时间的做法是值得的。其基本原理是：使用一个下标范围比较大的数组来存储元素。可以设计一个函数（哈希函数，也叫做散列函数），使得每个元素的关键字都与一个函数值（即数组下标，hash值）相对应，于是用这个数组单元来存储这个元素；也可以简单的理解为，按照关键字为每一个元素“分类”，然后将这个元素存储在相应“类”所对应的地方，称为桶。但是，不能够保证每个元素的关键字与函数值是一一对应的，因此极有可能出现对于不同的元素，却计算出了相同的函数值，这样就产生了“冲突”，换句话说，就是把不同的元素分在了相同的“类”之中。<br>总的来说，“直接定址”与“解决冲突”是哈希表的两大特点。哈希表是一个在时间和空间上做出权衡的经典例子。如果没有内存限制，那么可以直接将键作为数组的索引。那么所有的查找时间复杂度为O(1)；如果没有时间限制，那么我们可以使用无序数组并进行顺序查找，这样只需要很少的内存。哈希表使用了适度的时间和空间来在这两个极端之间找到了平衡。只需要调整哈希函数算法即可在时间和空间上做出取舍。</p>
+<h2 id="hash函数"><a href="#hash函数" class="headerlink" title="hash函数"></a>hash函数</h2><p>散列函数满足以下的条件：1、对输入值运算，得到一个固定长度的摘要(Hash value)；<br>2、不同的输入值可能对应同样的输出值；<br>主要有直接定址法，平方取中，随机，除留余数，乘法=余取整等方法。</p>
+<h2 id="hash冲突解决"><a href="#hash冲突解决" class="headerlink" title="hash冲突解决"></a>hash冲突解决</h2><p>但是会产生冲突，一般可以通过拉链法，二次探测等方法去解决冲突。</p>
+<h3 id="拉链法"><a href="#拉链法" class="headerlink" title="拉链法"></a>拉链法</h3><a id="more"></a>
+<p>拉链法是将冲突的元素放入到同一个链表中，并将链表的头指针存在hash表的第i个单元中。因而查找的最差负责度不是O(1),而是链表的长度。STL中的Hash_table就是这样实现的。如下图所示：<br><img src="/images/minfiftp/5-1.png" alt="&quot;c3&quot;"></p>
+<h3 id="开放地址法"><a href="#开放地址法" class="headerlink" title="开放地址法"></a>开放地址法</h3><p>思想是当关键码的哈希地址出现冲突时候，以当前哈希地址为基础再产生另外一个哈希地址，如果仍然冲突，再以第一个哈希地址为基础在产生一个哈希地址，直到找到一个不冲突的地址，将相应元素添加到其中，有先行探测再散列，二次探测再散列，伪随机探测再散列，双散列法等方案。</p>
+<h2 id="拉链法的解决冲突的方案的实现"><a href="#拉链法的解决冲突的方案的实现" class="headerlink" title="拉链法的解决冲突的方案的实现"></a>拉链法的解决冲突的方案的实现</h2><h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><p>首先是数据结构，首先要用一个hashNode，存储结点的key和value，由于是拉链法解决冲突，则肯定是一个链表，有前后指针：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct hash_node_t &#123;</span><br><span class="line">    void * key;</span><br><span class="line">    void * value;</span><br><span class="line">    hash_node_t * prev;</span><br><span class="line">    hash_node_t * next;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>然后是管理这个所有Hash的一个数据结构,有一个指向各个桶的指针，有一个桶的数目，还有一个hash函数，这个hash函数要用户自己定义：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">typedef unsigned int (*hash_func_t) (unsigned int , void *);</span><br><span class="line">struct hash_t &#123;</span><br><span class="line">    unsigned int bucketsNumber;</span><br><span class="line">    hash_func_t hashFunc;</span><br><span class="line">    hash_node_t ** nodes;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h3 id="增删查改操作"><a href="#增删查改操作" class="headerlink" title="增删查改操作"></a>增删查改操作</h3><h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><p>首先是初始化，要给定一个hash_function，以及桶的数目：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">hash_t * hash_alloc(unsigned int number, hash_func_t func) &#123;</span><br><span class="line">    hash_t * hash = (hash_t*)malloc(sizeof(hash_t));</span><br><span class="line">    hash-&gt;bucketsNumber = number;</span><br><span class="line">    hash-&gt;hashFunc = func;</span><br><span class="line"></span><br><span class="line">    int len = number * sizeof(hash_node_t*);</span><br><span class="line">    hash-&gt;nodes = (hash_node_t**)malloc(len);  // 创建多个桶</span><br><span class="line">    memset(hash-&gt;nodes, 0, len);</span><br><span class="line">    return hash;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="增加一个节点"><a href="#增加一个节点" class="headerlink" title="增加一个节点"></a>增加一个节点</h3><p>增加节点时候先要看这个节点是否已经存在了，key和value值都相同，如果存在了就返回，不然的话，建立一个新的节点，然后找到相应的桶，如果桶为空，则桶指向节点，不为空则要插入到桶的头部。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">void add_entry(hash_t * hash, void * key, </span><br><span class="line">    unsigned int key_size, void * value, unsigned int value_size) &#123;</span><br><span class="line">    if (lookup_entry(hash, key, key_size) != NULL) &#123;</span><br><span class="line">        printf(&quot;dulplicate hash key\n&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    hash_node_t * node = (hash_node_t*)malloc(sizeof(hash_node_t));</span><br><span class="line">    node-&gt;prev = NULL;</span><br><span class="line">    node-&gt;next = NULL;</span><br><span class="line"></span><br><span class="line">    node-&gt;key = malloc(sizeof(key_size));</span><br><span class="line">    memcpy(node-&gt;key, key, key_size);</span><br><span class="line">    node-&gt;value = malloc(sizeof(value_size));</span><br><span class="line">    memcpy(node-&gt;value, value,value_size);</span><br><span class="line"></span><br><span class="line">    hash_node_t ** buckets = get_entry_bucket(hash, key);</span><br><span class="line">    if (*buckets == NULL) &#123;</span><br><span class="line">        *buckets = node;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        node-&gt;next = *buckets;</span><br><span class="line">        (*buckets)-&gt;prev = node;</span><br><span class="line">        *buckets = node;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="删除一个节点"><a href="#删除一个节点" class="headerlink" title="删除一个节点"></a>删除一个节点</h3><p>删除节点要先查找到该节点，然后就是链表的节点删除，指针的会重新定位而已。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">void delete_entry(hash_t * hash, void * key, unsigned int key_size) &#123;</span><br><span class="line">    hash_node_t * node = get_entry_by_key(hash, key, key_size);</span><br><span class="line">    if (node == NULL) return ;</span><br><span class="line">    free(node-&gt;key);</span><br><span class="line">    free(node-&gt;value);</span><br><span class="line">    if (node-&gt;prev) &#123;</span><br><span class="line">        node-&gt;prev-&gt;next = node-&gt;next;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        hash_node_t **bucket = get_entry_bucket(hash, key);</span><br><span class="line">        *bucket = node-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    if (node-&gt;next) node-&gt;next-&gt;prev = node-&gt;prev;</span><br><span class="line">    free(node);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="查找一个节点"><a href="#查找一个节点" class="headerlink" title="查找一个节点"></a>查找一个节点</h3><p>通过key找到一个节点，先找到相应的桶，然后再桶的链表中查找key相同的节点返回。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">hash_node_t ** get_entry_bucket(hash_t * hash, void * key) &#123;</span><br><span class="line">    unsigned int bucketIndex = hash-&gt;hashFunc(hash-&gt;bucketsNumber, key);</span><br><span class="line">    if (bucketIndex &lt; 0 || bucketIndex &gt;= hash-&gt;bucketsNumber) return NULL;</span><br><span class="line">    return &amp;(hash-&gt;nodes[bucketIndex]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">hash_node_t * get_entry_by_key(hash_t * hash, void * key, int key_size) &#123;</span><br><span class="line">    hash_node_t * node = *get_entry_bucket(hash, key);</span><br><span class="line">    while (node &amp;&amp; memcmp(node-&gt;key, key, key_size) != 0) &#123;</span><br><span class="line">        node = node-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    return node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="miniftp中的限制"><a href="#miniftp中的限制" class="headerlink" title="miniftp中的限制"></a>miniftp中的限制</h2><p>miniftp限制包括两方面，一个是总的连接数目的限制，另外一个是同一ip地址的连接数目的限制。总的连接数目的限制只需要记录总的连接的客户端的数目即可，然后和最大的比较，而同一Ip地址的连接数目的限制则要使用hash，同一个Ip地址得到的hash地址相同，不同Ip地址得到的hash地址不一样，所以，最终同一ip地址中的链表的长度就是这个ip地址对应的连接数目，另外子进程退出时候父进程只能获取子进程的pid而不能得到ip地址，所以要有另外一个hash来维护pid和ip地址的对应关系。</p>
+<h3 id="增加一个连接"><a href="#增加一个连接" class="headerlink" title="增加一个连接"></a>增加一个连接</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">void check_limits(session_t * sess) &#123;</span><br><span class="line">    if (tunable_max_clients &gt; 0 &amp;&amp; sess-&gt;num_clients &gt; tunable_max_clients) &#123;</span><br><span class="line">        ftp_reply(sess, FTP_TOO_MANY_USERS, &quot;There are too many connected users, please try later.&quot;);</span><br><span class="line">        exit(EXIT_FAILURE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (tunable_max_per_ip &gt; 0 &amp;&amp; sess-&gt;num_this_ip &gt; tunable_max_per_ip) &#123;</span><br><span class="line">        ftp_reply(sess, FTP_IP_LIMIT, &quot;There are too many connections from your internet address.&quot;);</span><br><span class="line">        exit(EXIT_FAILURE);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>总的连接数目的计算：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">++s_children;</span><br><span class="line">sess.num_clients = s_children;</span><br></pre></td></tr></table></figure></p>
+<p>单个ip的连接数目的计算,hash节点中的key记录的是地址，value记录的是数目：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">sess.num_this_ip = handle_ip_count(&amp;ip);</span><br><span class="line"></span><br><span class="line">unsigned int handle_ip_count(void *ip) &#123;</span><br><span class="line">    unsigned int count;</span><br><span class="line">    unsigned int * p_count = (unsigned int *)lookup_entry(s_ip_count_hash, ip, sizeof(unsigned int));</span><br><span class="line">    if (p_count == NULL) &#123;</span><br><span class="line">        count = 1;</span><br><span class="line">        add_entry(s_ip_count_hash, ip, sizeof(unsigned int), &amp;count, sizeof(unsigned int));</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        count = *p_count;</span><br><span class="line">        ++count;</span><br><span class="line">        *p_count = count;</span><br><span class="line">    &#125;</span><br><span class="line">    return count;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void * lookup_entry(hash_t * hash, void * key,</span><br><span class="line">    unsigned int key_size) &#123;</span><br><span class="line">    hash_node_t * node = get_entry_by_key(hash, key, key_size);</span><br><span class="line">    if (node == NULL) return NULL;</span><br><span class="line">    else return node-&gt;value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>另外pid维护的Ip地址的映射关系：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add_entry(s_pid_ip_hash, &amp;pid, sizeof(pid), &amp;ip, sizeof(unsigned int));</span><br></pre></td></tr></table></figure></p>
+<h3 id="断开一个连接"><a href="#断开一个连接" class="headerlink" title="断开一个连接"></a>断开一个连接</h3><p>断开连接，父进程要监控子进程的退出状况，sigchild信号：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">signal(SIGCHLD, handle_sigchld);</span><br><span class="line">void handle_sigchld(int signo) &#123;</span><br><span class="line">    pid_t pid;</span><br><span class="line">    while ((pid = waitpid(-1, NULL, WNOHANG)) &gt; 0) &#123;</span><br><span class="line">        --s_children;</span><br><span class="line">        unsigned int * ip = (unsigned int *)</span><br><span class="line">            lookup_entry(s_pid_ip_hash, &amp;pid, sizeof(pid));</span><br><span class="line"></span><br><span class="line">        if (ip == NULL) &#123;</span><br><span class="line">            continue;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        drop_ip_count(ip);</span><br><span class="line">        delete_entry(s_pid_ip_hash, &amp;pid, sizeof(pid));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void drop_ip_count(void *ip) &#123;</span><br><span class="line">   unsigned int count;</span><br><span class="line">   unsigned int * p_count = (unsigned int *)lookup_entry(s_ip_count_hash, ip, sizeof(unsigned int));</span><br><span class="line">   if (p_count == NULL) return ;</span><br><span class="line">   count = *p_count;</span><br><span class="line">   --count;</span><br><span class="line">   *p_count = count;</span><br><span class="line">   if (count == 0) delete_entry(s_ip_count_hash, ip, sizeof(unsigned int));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样就实现了限制。</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/24/ftp建立数据传输通道的两种方式实现/" rel="next" title="ftp建立数据传输通道的两种方式实现">
+                <i class="fa fa-chevron-left"></i> ftp建立数据传输通道的两种方式实现
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/07/24/miniftp之hash实现用户限制功能/"
+     data-title="miniftp之hash实现用户限制功能"
+     data-content=""
+     data-url="http://yoursite.com/2016/07/24/miniftp之hash实现用户限制功能/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/07/24/miniftp之hash实现用户限制功能/"
+           data-title="miniftp之hash实现用户限制功能" data-url="http://yoursite.com/2016/07/24/miniftp之hash实现用户限制功能/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/logo.png"
+               alt="Dongmeng Li" />
+          <p class="site-author-name" itemprop="name">Dongmeng Li</p>
+          <p class="site-description motion-element" itemprop="description">你若盛开，蝴蝶自来。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">71</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lidongmeng" target="_blank">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/" target="_blank">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#hash基础"><span class="nav-number">1.</span> <span class="nav-text">hash基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hash函数"><span class="nav-number">2.</span> <span class="nav-text">hash函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hash冲突解决"><span class="nav-number">3.</span> <span class="nav-text">hash冲突解决</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#拉链法"><span class="nav-number">3.1.</span> <span class="nav-text">拉链法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开放地址法"><span class="nav-number">3.2.</span> <span class="nav-text">开放地址法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拉链法的解决冲突的方案的实现"><span class="nav-number">4.</span> <span class="nav-text">拉链法的解决冲突的方案的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据结构"><span class="nav-number">4.1.</span> <span class="nav-text">数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增删查改操作"><span class="nav-number">4.2.</span> <span class="nav-text">增删查改操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化"><span class="nav-number">4.2.1.</span> <span class="nav-text">初始化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#增加一个节点"><span class="nav-number">4.3.</span> <span class="nav-text">增加一个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除一个节点"><span class="nav-number">4.4.</span> <span class="nav-text">删除一个节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找一个节点"><span class="nav-number">4.5.</span> <span class="nav-text">查找一个节点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#miniftp中的限制"><span class="nav-number">5.</span> <span class="nav-text">miniftp中的限制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#增加一个连接"><span class="nav-number">5.1.</span> <span class="nav-text">增加一个连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#断开一个连接"><span class="nav-number">5.2.</span> <span class="nav-text">断开一个连接</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Dongmeng Li</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lidongmeng0213"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

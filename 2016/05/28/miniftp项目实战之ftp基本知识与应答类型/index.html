@@ -57,16 +57,14 @@
 
 
 
-<meta name="description" content="ftpFTP(File Transfer Protocol)，工作在TCP/IP协议族的应用层，其传输层使用的协议是TCP协议，基于客户/服务器模式工作。
-ftp文件类型FTP一般支持ASCII文件(默认文件格式)，EBCDIC文件格式(用8bit代码代表一个字符)，图像文件或者是二进制文件，发送的是连续的比特流，用于传输二进制文件。
-ftp工作原理FTP是CS的工作模式，客户端TCP协议层根据用">
+<meta name="description" content="ftpFTP(File Transfer Protocol)，工作在TCP/IP协议族的应用层，其传输层使用的协议是TCP协议，基于客户/服务器模式工作，设计的目标是屏蔽不同主机不同文件系统的文件差异，以实现不同系统的文件的高效传输。
+ftp文件类型FTP一般支持ASCII文件(默认文件格式，8bit表示一个字符，最高位为0)，EBCDIC文件格式(用8bit代码代表一个字符)，图像文件或者是二进">
 <meta property="og:type" content="article">
 <meta property="og:title" content="miniftp项目实战之ftp基本知识与应答类型">
 <meta property="og:url" content="http://yoursite.com/2016/05/28/miniftp项目实战之ftp基本知识与应答类型/index.html">
 <meta property="og:site_name" content="DongMengLi">
-<meta property="og:description" content="ftpFTP(File Transfer Protocol)，工作在TCP/IP协议族的应用层，其传输层使用的协议是TCP协议，基于客户/服务器模式工作。
-ftp文件类型FTP一般支持ASCII文件(默认文件格式)，EBCDIC文件格式(用8bit代码代表一个字符)，图像文件或者是二进制文件，发送的是连续的比特流，用于传输二进制文件。
-ftp工作原理FTP是CS的工作模式，客户端TCP协议层根据用">
+<meta property="og:description" content="ftpFTP(File Transfer Protocol)，工作在TCP/IP协议族的应用层，其传输层使用的协议是TCP协议，基于客户/服务器模式工作，设计的目标是屏蔽不同主机不同文件系统的文件差异，以实现不同系统的文件的高效传输。
+ftp文件类型FTP一般支持ASCII文件(默认文件格式，8bit表示一个字符，最高位为0)，EBCDIC文件格式(用8bit代码代表一个字符)，图像文件或者是二进">
 <meta property="og:image" content="http://yoursite.com/images/miniftp/1-1.png">
 <meta property="og:image" content="http://yoursite.com/images/miniftp/1-2.png">
 <meta property="og:image" content="http://yoursite.com/images/miniftp/1-3.png">
@@ -83,12 +81,11 @@ ftp工作原理FTP是CS的工作模式，客户端TCP协议层根据用">
 <meta property="og:image" content="http://yoursite.com/images/miniftp/1-14.png">
 <meta property="og:image" content="http://yoursite.com/images/miniftp/1-15.png">
 <meta property="og:image" content="http://yoursite.com/images/miniftp/1-16.png">
-<meta property="og:updated_time" content="2016-07-23T16:20:29.928Z">
+<meta property="og:updated_time" content="2016-07-24T04:28:41.896Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="miniftp项目实战之ftp基本知识与应答类型">
-<meta name="twitter:description" content="ftpFTP(File Transfer Protocol)，工作在TCP/IP协议族的应用层，其传输层使用的协议是TCP协议，基于客户/服务器模式工作。
-ftp文件类型FTP一般支持ASCII文件(默认文件格式)，EBCDIC文件格式(用8bit代码代表一个字符)，图像文件或者是二进制文件，发送的是连续的比特流，用于传输二进制文件。
-ftp工作原理FTP是CS的工作模式，客户端TCP协议层根据用">
+<meta name="twitter:description" content="ftpFTP(File Transfer Protocol)，工作在TCP/IP协议族的应用层，其传输层使用的协议是TCP协议，基于客户/服务器模式工作，设计的目标是屏蔽不同主机不同文件系统的文件差异，以实现不同系统的文件的高效传输。
+ftp文件类型FTP一般支持ASCII文件(默认文件格式，8bit表示一个字符，最高位为0)，EBCDIC文件格式(用8bit代码代表一个字符)，图像文件或者是二进">
 <meta name="twitter:image" content="http://yoursite.com/images/miniftp/1-1.png">
 
 
@@ -322,9 +319,9 @@ ftp工作原理FTP是CS的工作模式，客户端TCP协议层根据用">
       
 
       
-        <h2 id="ftp"><a href="#ftp" class="headerlink" title="ftp"></a>ftp</h2><p>FTP(File Transfer Protocol)，工作在TCP/IP协议族的应用层，其传输层使用的协议是TCP协议，基于客户/服务器模式工作。</p>
-<h2 id="ftp文件类型"><a href="#ftp文件类型" class="headerlink" title="ftp文件类型"></a>ftp文件类型</h2><p>FTP一般支持ASCII文件(默认文件格式)，EBCDIC文件格式(用8bit代码代表一个字符)，图像文件或者是二进制文件，发送的是连续的比特流，用于传输二进制文件。</p>
-<h2 id="ftp工作原理"><a href="#ftp工作原理" class="headerlink" title="ftp工作原理"></a>ftp工作原理</h2><p><img src="/images/miniftp/1-1.png" alt="&quot;c41&quot;"><br>FTP是CS的工作模式，客户端TCP协议层根据用户命令给出的服务器IP地址，向服务器提供FTP服务的21端口（该端口是TCP协议层用来传输FTP命令的端口）发出主动建立连接的请求。服务器收到请求后，通过3次握手，就在进行FTP命令处理的用户协议解释器进程和服务器协议解释器进程之间建立了一条TCP连接。以后所有用户输入的FTP命令和服务器的应答都由该连接进行传输，因此把它叫做控制连接。当客户通过交互式的用户界面，向FTP服务器发出要下载服务器上某一文件的命令时，该命令被送到用户协议解释器。服务器解释命令然后与客户端建立一条数据通道进行数据传输，数据通道建立有两种方式，PORT和PASV方式，数据传输完毕后关闭数据通道，如此反复进行。</p>
+        <h2 id="ftp"><a href="#ftp" class="headerlink" title="ftp"></a>ftp</h2><p>FTP(File Transfer Protocol)，工作在TCP/IP协议族的应用层，其传输层使用的协议是TCP协议，基于客户/服务器模式工作，设计的目标是屏蔽不同主机不同文件系统的文件差异，以实现不同系统的文件的高效传输。</p>
+<h2 id="ftp文件类型"><a href="#ftp文件类型" class="headerlink" title="ftp文件类型"></a>ftp文件类型</h2><p>FTP一般支持ASCII文件(默认文件格式，8bit表示一个字符，最高位为0)，EBCDIC文件格式(用8bit代码代表一个字符)，图像文件或者是二进制文件，发送的是连续的比特流，用于传输二进制文件。</p>
+<h2 id="ftp工作原理"><a href="#ftp工作原理" class="headerlink" title="ftp工作原理"></a>ftp工作原理</h2><p><img src="/images/miniftp/1-1.png" alt="&quot;c41&quot;"><br>FTP是CS的工作模式，客户端TCP协议层根据用户命令给出的服务器IP地址，向服务器提供FTP服务的21端口（该端口是TCP协议层用来传输FTP命令的端口）发出主动建立连接的请求。服务器收到请求后，通过3次握手，就在进行FTP命令处理的用户协议解释器进程和服务器协议解释器进程之间建立了一条TCP连接。以后所有用户输入的FTP命令和服务器的应答都由该连接进行传输，因此把它叫做控制连接。当客户通过交互式的用户界面，向FTP服务器发出要下载服务器上某一文件的命令时，该命令被送到用户协议解释器。服务器解释命令然后与客户端建立一条数据通道进行数据传输，数据通道建立有两种方式，PORT和PASV方式，数据传输完毕后关闭数据通道，如此反复进行。<br><a id="more"></a></p>
 <h2 id="ftp命令"><a href="#ftp命令" class="headerlink" title="ftp命令"></a>ftp命令</h2><p>FTP命令主要访问控制命令（USER, PASS, CWD, CDUP, QUIT), 传输参数命令（PORT, PASV, TYPE，MODE，STRU），服务命令（RETR,STOR,APPE,LIST,NLIST,REST,ABOR,PWD,MKD,RMD,SYST,FEAT,SIZE,STAT,NOOP）等命令。</p>
 <h2 id="ftp响应"><a href="#ftp响应" class="headerlink" title="ftp响应"></a>ftp响应</h2><p>服务器通过控制连接发送给客户的FTP应答，由ASCII码形式的3位数字和一行文本提示信息<br>组成，它们之间用一个空格分割。应答信息的每行文本以回车CR和换行LF对结尾。如果需要产生一条多行的应答，第一行在3位数字应答代码之后包含一个连字符“－”，而不是空格符；最后一行包含相同的 3 位数字应答代码，后跟一个空格符。<br>ftp应答的数字的意义：如下：<br>第一位表示：<br><img src="/images/miniftp/1-2.png" alt="&quot;c41&quot;"><br>第二位表示：<br><img src="/images/miniftp/1-3.png" alt="&quot;c41&quot;"><br>第三位为第二位数字更详细的说明。</p>
 <h2 id="数据传输方式"><a href="#数据传输方式" class="headerlink" title="数据传输方式"></a>数据传输方式</h2><p>工作原理中提到数据通道的建立有两种方式，一种是PORT模式，一种是PASV模式，两种模式究竟有什么区别，为什么要有两种工作模式呢？  </p>
@@ -461,7 +458,7 @@ ftp工作原理FTP是CS的工作模式，客户端TCP协议层根据用">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

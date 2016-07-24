@@ -57,16 +57,19 @@
 
 
 
-<meta name="description" content="你若盛开，蝴蝶自来。">
+<meta name="description" content="命令RETR是进行文件下载的命令，在RETR后面如果有REST，则可以决定是否为断点续载;STOR是文件上传的命令，在STOR命令后面如果有REST，则可以决定是否为断点续传，另外APPE方式也可以进行文件的断点续传;
+上传下载上传下载命令是ftp的一个重大特性，那么如何实现呢？实际很简单，因为要有数据传输，所以要先建立数据连接通道，你可以PORT也可以PASV方式，然后就是数据传输，和列表传输大">
 <meta property="og:type" content="article">
 <meta property="og:title" content="minifftp项目实战之文件上传下载与限速">
 <meta property="og:url" content="http://yoursite.com/2016/06/03/minifftp项目实战之文件上传下载与限速/index.html">
 <meta property="og:site_name" content="DongMengLi">
-<meta property="og:description" content="你若盛开，蝴蝶自来。">
-<meta property="og:updated_time" content="2016-06-03T01:00:24.529Z">
+<meta property="og:description" content="命令RETR是进行文件下载的命令，在RETR后面如果有REST，则可以决定是否为断点续载;STOR是文件上传的命令，在STOR命令后面如果有REST，则可以决定是否为断点续传，另外APPE方式也可以进行文件的断点续传;
+上传下载上传下载命令是ftp的一个重大特性，那么如何实现呢？实际很简单，因为要有数据传输，所以要先建立数据连接通道，你可以PORT也可以PASV方式，然后就是数据传输，和列表传输大">
+<meta property="og:updated_time" content="2016-07-24T04:32:14.363Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="minifftp项目实战之文件上传下载与限速">
-<meta name="twitter:description" content="你若盛开，蝴蝶自来。">
+<meta name="twitter:description" content="命令RETR是进行文件下载的命令，在RETR后面如果有REST，则可以决定是否为断点续载;STOR是文件上传的命令，在STOR命令后面如果有REST，则可以决定是否为断点续传，另外APPE方式也可以进行文件的断点续传;
+上传下载上传下载命令是ftp的一个重大特性，那么如何实现呢？实际很简单，因为要有数据传输，所以要先建立数据连接通道，你可以PORT也可以PASV方式，然后就是数据传输，和列表传输大">
 
 
 
@@ -252,6 +255,25 @@
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/miniftp项目实战/" itemprop="url" rel="index">
+                    <span itemprop="name">miniftp项目实战</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -280,7 +302,18 @@
       
 
       
-        
+        <h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><p>RETR是进行文件下载的命令，在RETR后面如果有REST，则可以决定是否为断点续载;STOR是文件上传的命令，在STOR命令后面如果有REST，则可以决定是否为断点续传，另外APPE方式也可以进行文件的断点续传;</p>
+<h2 id="上传下载"><a href="#上传下载" class="headerlink" title="上传下载"></a>上传下载</h2><p>上传下载命令是ftp的一个重大特性，那么如何实现呢？实际很简单，因为要有数据传输，所以要先建立数据连接通道，你可以PORT也可以PASV方式，然后就是数据传输，和列表传输大同小异，只不过列表传输的是列表的内容，而上传下载的是文件的内容，不过要主要文件进行加锁操作。</p>
+<h3 id="文件下载的加读锁"><a href="#文件下载的加读锁" class="headerlink" title="文件下载的加读锁"></a>文件下载的加读锁</h3><p>当要进行文件下载时候，要对文件进行加锁，我们希望的是在读取文件的过程中不希望别的进程写该文件，只需要加一个读锁，别的进程只能在其期间读取而不能写入。<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">static int lock_internal(int fd, int lock_type) &#123;</span><br><span class="line">    int ret;</span><br><span class="line">    struct flock the_lock;</span><br><span class="line">    memset(&amp;the_lock, 0, sizeof(the_lock));</span><br><span class="line">    the_lock.l_type = lock_type;</span><br><span class="line">    the_lock.l_whence = SEEK_SET;</span><br><span class="line">    the_lock.l_start = 0;</span><br><span class="line">    the_lock.l_len = 0;</span><br><span class="line"></span><br><span class="line">    do &#123; // 由于可能会遇到信号中断所以，要判断操作</span><br><span class="line">        ret = fcntl(fd, F_SETLKW, &amp;the_lock); </span><br><span class="line">    &#125; while (ret &lt; 0 &amp;&amp; errno == EINTR);</span><br><span class="line"></span><br><span class="line">    return ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int lock_file_read(int fd) &#123;</span><br><span class="line">    return lock_internal(fd, F_RDLCK);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="文件上传的写锁"><a href="#文件上传的写锁" class="headerlink" title="文件上传的写锁"></a>文件上传的写锁</h3><p>同理，当上传时候要加写锁：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int lock_file_write(int fd) &#123;</span><br><span class="line">    return lock_internal(fd, F_WRLCK);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="锁的释放"><a href="#锁的释放" class="headerlink" title="锁的释放"></a>锁的释放</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">int unlock_file(int fd) &#123;</span><br><span class="line">    int ret;</span><br><span class="line">    struct flock the_lock;</span><br><span class="line">    memset(&amp;the_lock, 0, sizeof(the_lock));</span><br><span class="line">    the_lock.l_type = F_UNLCK;</span><br><span class="line">    the_lock.l_whence = SEEK_SET;</span><br><span class="line">    the_lock.l_start = 0;</span><br><span class="line">    the_lock.l_len = 0;</span><br><span class="line">    ret = fcntl(fd, F_SETLK, &amp;the_lock); </span><br><span class="line">    return ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另外下载时候还要商定传输的文件类型，是二进制传输还是ascii传输，是通过type命令进行指定的。</p>
+<h2 id="断点续载"><a href="#断点续载" class="headerlink" title="断点续载"></a>断点续载</h2><p>断点续载是在RETR命令之后会有一个REST命令断点续载的请求，指出上次传输的停止位置，在下载时候先定位到这个位置，然后传输后面的数据即可。这个位置可以通过session里面一个Offset的变量来实现。<br>断点续传也是同样道理，使用APPE来商定位置，然后传输。</p>
+<h3 id="sendfile的使用"><a href="#sendfile的使用" class="headerlink" title="sendfile的使用"></a>sendfile的使用</h3><p>在传输过程中，如果是先read再write的方式势必要进行多次考培，耗费量大，而且在处理过程中还必须考虑信号中断的情况，这里可以通过sendfile来进行传输文件，它不需要来回的用户内核空间的考培，而且是在内核中完成的，不会返回信号中断错误。</p>
+<h2 id="速度限制"><a href="#速度限制" class="headerlink" title="速度限制"></a>速度限制</h2><p>限速是通过睡眠来实现的，如果当前速度超过最大传输速度就睡眠，睡眠多少时间呢？  </p>
+<h3 id="传输速度的计算"><a href="#传输速度的计算" class="headerlink" title="传输速度的计算"></a>传输速度的计算</h3><p><b><center>传输速度 = 传输字节数 / 传输时间</center></b></p>
+<h3 id="睡眠时间计算"><a href="#睡眠时间计算" class="headerlink" title="睡眠时间计算"></a>睡眠时间计算</h3><p><b><center>睡眠时间 = （当前传输速度 / 最大速度 - 1 ） * 当前传输时间</center></b><br>虽然简单但是要注意精度，睡眠时间可以通过select来进行控制。</p>
+
       
     </div>
     
@@ -404,7 +437,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -412,7 +445,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -472,7 +505,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#命令"><span class="nav-number">1.</span> <span class="nav-text">命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上传下载"><span class="nav-number">2.</span> <span class="nav-text">上传下载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文件下载的加读锁"><span class="nav-number">2.1.</span> <span class="nav-text">文件下载的加读锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件上传的写锁"><span class="nav-number">2.2.</span> <span class="nav-text">文件上传的写锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#锁的释放"><span class="nav-number">2.3.</span> <span class="nav-text">锁的释放</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#断点续载"><span class="nav-number">3.</span> <span class="nav-text">断点续载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sendfile的使用"><span class="nav-number">3.1.</span> <span class="nav-text">sendfile的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#速度限制"><span class="nav-number">4.</span> <span class="nav-text">速度限制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#传输速度的计算"><span class="nav-number">4.1.</span> <span class="nav-text">传输速度的计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#睡眠时间计算"><span class="nav-number">4.2.</span> <span class="nav-text">睡眠时间计算</span></a></li></ol></li></ol></div>
             
           </div>
         </section>

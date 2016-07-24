@@ -236,6 +236,248 @@
             
               
                 
+                <a class="post-title-link" href="/2016/06/14/IPC之SystemV消息队列/" itemprop="url">
+                  IPC之SystemV消息队列
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-14T10:06:49+08:00" content="2016-06-14">
+              2016-06-14
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/IPC/" itemprop="url" rel="index">
+                    <span itemprop="name">IPC</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/14/IPC之SystemV消息队列/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/14/IPC之SystemV消息队列/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/14/IPC之Posix信号量/" itemprop="url">
+                  IPC之Posix信号量
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-14T10:06:36+08:00" content="2016-06-14">
+              2016-06-14
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/IPC/" itemprop="url" rel="index">
+                    <span itemprop="name">IPC</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/14/IPC之Posix信号量/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/14/IPC之Posix信号量/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>信号量的主要目的是提供进程间同步，互斥量和条件变量的意图是线程间同步，但是信号量也可以线程间同步，互斥量和条件变量也可以用于共享内存区进行进程间同步。</p>
+<h2 id="Posix信号量"><a href="#Posix信号量" class="headerlink" title="Posix信号量"></a>Posix信号量</h2><p>POSIX信号量有两种：有名信号量和无名信号量，无名信号量也被称作基于内存的信号量。有名信号量通过IPC名字进行进程间的同步，而无名信号量如果不是放在进程间的共享内存区中，是不能用来进行进程间同步的，只能用来进行线程同步。</p>
+<h2 id="Posix信号量函数"><a href="#Posix信号量函数" class="headerlink" title="Posix信号量函数"></a>Posix信号量函数</h2><h3 id="有名信号量"><a href="#有名信号量" class="headerlink" title="有名信号量"></a>有名信号量</h3><h4 id="sem-open"><a href="#sem-open" class="headerlink" title="sem_open"></a>sem_open</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;semaphore.h&gt;  </span><br><span class="line">sem_t *sem_open(const char *name, int oflag);  </span><br><span class="line">sem_t *sem_open(const char *name, int oflag,  </span><br><span class="line">                  mode_t mode, unsigned int value);  </span><br><span class="line">                              //成功返回信号量指针，失败返回SEM_FAILED</span><br></pre></td></tr></table></figure>
+<p>sem_open用于创建或打开一个信号量，信号量是通过name参数即信号量的名字来进行标识的，oflag参数可以为：0，O_CREAT，O_EXCL；mode参数用于创建信号量时，表示信号量的权限位；value是创建信号量的初值。<br>信号量有二值信号量（和互斥量相似）和计数信号量（多资源可用）。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/06/14/IPC之Posix信号量/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/06/13/IPC之SystemV信号量/" itemprop="url">
                   IPC之SystemV信号量
                 </a>
@@ -427,39 +669,16 @@
 
       
         
-          
-            <p>Posix消息队列是Linux IPC的一种通信方式，通常用于在不同进程之间发送特定格式的消息数据。有足够写权限的线程可以往队列中放置消息，有足够读权限的线程可以从队列中读取消息。而且消息队列具有随内核的持续性，即使进程关闭了消息队列，只要引用计数大于0，此消息队列依然存在。  </p>
+          <p>Posix消息队列是Linux IPC的一种通信方式，通常用于在不同进程之间发送特定格式的消息数据。有足够写权限的线程可以往队列中放置消息，有足够读权限的线程可以从队列中读取消息。而且消息队列具有随内核的持续性，即使进程关闭了消息队列，只要引用计数大于0，此消息队列依然存在。  </p>
 <h2 id="Posix消息队列基本函数"><a href="#Posix消息队列基本函数" class="headerlink" title="Posix消息队列基本函数"></a>Posix消息队列基本函数</h2><h3 id="mq-open"><a href="#mq-open" class="headerlink" title="mq_open"></a>mq_open</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;mqueue.h&gt;  </span><br><span class="line">mqd_t mq_open(const char *name, int oflag, /* mode_t mode, struct mq_attr *attr */);   //成功返回消息队列描述符，失败返回-1</span><br></pre></td></tr></table></figure>
 <p>创建一个消息队列，name为消息队列的名字，oflag和open函数类似，选项可以为O_RDONLY,O_WRONLY,O_RDWR,O_NONBLOCK,O_CREAT,O_EXCL等，mode是可选的，只有oflag中有O_CREAT并且消息队列不存在时候才需要，attr是属性设置，只能设置最大消息数目和消息的最大的size。返回消息队列的描述符。</p>
 <h3 id="mq-close"><a href="#mq-close" class="headerlink" title="mq_close"></a>mq_close</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mqd_t mq_close(mqd_t mqdes);</span><br></pre></td></tr></table></figure>
-<p>关闭一个打开的消息队列，但是并不从系统中删除，一个进程结束会自动关闭打开的消息队列。</p>
-<h3 id="mq-unlink"><a href="#mq-unlink" class="headerlink" title="mq_unlink"></a>mq_unlink</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mqd_t mq_unlink(const char *name);</span><br></pre></td></tr></table></figure>
-<p>删除一个消息队列，消息队列创建后只能通过该函数或者是内核自举才能进行删除，每个消息队列有一个引用计数，只有计数为0才真正从系统中删除。</p>
-<h3 id="mq-getattr-mq-setattr"><a href="#mq-getattr-mq-setattr" class="headerlink" title="mq_getattr/mq_setattr"></a>mq_getattr/mq_setattr</h3><p>消息队列中每个消息具有三个属性：一个优先级别的整数，消息部分长度，消息数据本身，消息队列的可能布局如下图所示：<br><img src="/images/APUE/IPC_msgqueue_1.png" alt="&quot;c3&quot;"><br>而消息队列的队列属性至少要有四个：消息队列标志(是否阻塞)，最大消息数目，最大消息的字节数，现有消息的数目。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;bits/mqueue.h&gt;  </span><br><span class="line">struct mq_attr  </span><br><span class="line">&#123;  </span><br><span class="line">      long int mq_flags;      /* Message queue flags.  */  </span><br><span class="line">      long int mq_maxmsg;   /* Maximum number of messages.  */  </span><br><span class="line">      long int mq_msgsize;   /* Maximum message size.  */  </span><br><span class="line">      long int mq_curmsgs;   /* Number of messages currently queued.  */  </span><br><span class="line">      long int __pad[4];  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>消息队列属性设置和获取可以通过：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;mqueue.h&gt;  </span><br><span class="line">mqd_t mq_getattr(mqd_t mqdes, struct mq_attr *attr);  </span><br><span class="line">mqd_t mq_setattr(mqd_t mqdes, struct mq_attr *newattr, struct mq_attr *oldattr);  //成功返回0，失败返回-1</span><br></pre></td></tr></table></figure></p>
-<p><b>注意</b>：mq_setattr可以设置的属性只有mq_flags，用来设置或者清除消息队列的非阻塞标志，其他属性忽略，mq_maxmsg和mq_msgsize只能在mq_open时候设置，并且mq_open只设置这两个属性，其余的忽略。</p>
-<h3 id="mq-send"><a href="#mq-send" class="headerlink" title="mq_send"></a>mq_send</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mqd_t mq_send(mqd_t mqdes, const char *msg_ptr,  </span><br><span class="line">                  size_t msg_len, unsigned msg_prio);</span><br></pre></td></tr></table></figure>
-<p>向消息队列中写入一条消息，第二个参数是一个指向消息体缓冲区的指针，消息长度，以及消息的优先级别，数值越大，级别越高。</p>
-<h3 id="mq-receive"><a href="#mq-receive" class="headerlink" title="mq_receive"></a>mq_receive</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mqd_t mq_receive(mqd_t mqdes, char *msg_ptr,  </span><br><span class="line">                  size_t msg_len, unsigned *msg_prio);  </span><br><span class="line">                 //成功返回接收到消息的字节数，出错返回-1</span><br></pre></td></tr></table></figure>
-<p>取走一条消息，msg_len不能小于消息队列中消息的最大大小，而且返回的是消息队列中优先级别最高的消息。一般发送和接受是阻塞的，但是可以设置非阻塞。</p>
-<h3 id="程序实例"><a href="#程序实例" class="headerlink" title="程序实例"></a>程序实例</h3><h4 id="发送"><a href="#发送" class="headerlink" title="发送"></a>发送</h4><p>本程序演示了上述函数的使用，首先建立一个消息队列，循环向队列中写入数据(msg和prio)，然后遇到end结束写入退出程序：<br><img src="/images/APUE/IPC_msgqueue_2.png" alt="&quot;c3&quot;"><br>运行程序，注意要加上-lrt编译选项，是依赖库：<br><img src="/images/APUE/IPC_msgqueue_3.png" alt="&quot;c3&quot;"><br>查看系统中的消息队列，一般可以通过IPCs查看，但是如下图所示，msgqueue里面什么都没有，<b>这是因为IPCs显示的是SystemV IPC(有待考证)</b>，而Posix msgqueue要通过mount到dev下面才能查看，具体操作如下：<br><img src="/images/APUE/IPC_msgqueue_4.png" alt="&quot;c3&quot;"><br>然后如果没有写入数据时候看到size为0，但是如果写入两条数据可以看到size有所变化：<br><img src="/images/APUE/IPC_msgqueue_5.png" alt="&quot;c3&quot;"></p>
-<h4 id="接受"><a href="#接受" class="headerlink" title="接受"></a>接受</h4><p>下面程序演示了从队列中取消息，如果不设置O_NONBLOCK标志，程序会阻塞：<br><img src="/images/APUE/IPC_msgqueue_6.png" alt="&quot;c3&quot;"><br>发送，接受一起运行，但是要先运行发送，因为还没有创建队列，接受放没有设置创建选项。<br><img src="/images/APUE/IPC_msgqueue_7.png" alt="&quot;c3&quot;"><br>这个程序接收方只能够阻塞在等待消息队列里面有消息，不能做别的事情，Posix消息队列有一个notify函数，可以通过线程或者是信号来异步通知消息到来。</p>
-<h4 id="分析队列限制"><a href="#分析队列限制" class="headerlink" title="分析队列限制"></a>分析队列限制</h4><p>POSIX消息队列本身的限制就是mq_attr中的mq_maxmsg和mq_msgsize，分别用于限定消息队列中的最大消息数和每个消息的最大字节数。进程中对POSIX消息队列的队列大小限制为：<img src="/images/APUE/IPC_msgqueue_limit.png" alt="&quot;c3&quot;"><br>可以看到是800kb,改大小是整个消息队列的大小，不仅仅是最大消息数目乘以消息最大大小，还有消息队列的额外开销；可以通过修改此限制参数来改变消息队列所能容纳的消息数量：<br><img src="/images/APUE/IPC_msgqueue_limit2.png" alt="&quot;c3&quot;"><br>但是这个只是修改当前shell进程的大小。队列还有另外两个限制：MQ_OPEN_MAX：一个进程能同时打开的消息队列的最大数目，POSIX要求至少为8；MQ_PRIO_MAX：消息的最大优先级，POSIX要求至少为32；</p>
-<h3 id="mq-notify"><a href="#mq-notify" class="headerlink" title="mq_notify"></a>mq_notify</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int mq_notify(mqd_t mqdes, const struct sigevent *notification);</span><br></pre></td></tr></table></figure>
-<p>Posix消息队列可以通过异步通知方式通知消息到来，通知方式可以有两种，SIGEV_SIGNAL以信号方式通知，SIGEV_THREAD以线程方式通知。<br>信号方式通知，要设置：sigev_signo和sigev_value；<br>线程方式通知，要设置：sigev_notify_function和sigev_notify_attributes<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">union sigval  </span><br><span class="line">&#123;  </span><br><span class="line">    int sival_int;      /* Integer value */  </span><br><span class="line">    void *sival_ptr;    /* pointer value */  </span><br><span class="line">&#125;;  </span><br><span class="line">  </span><br><span class="line">struct sigevent  </span><br><span class="line">&#123;  </span><br><span class="line">    int     sigev_notify;   /* SIGEV_&#123; NONE, ISGNAL, THREAD&#125; */  </span><br><span class="line">    int     sigev_signo;    /* signal number if SIGEV_SIGNAL */  </span><br><span class="line">    union sigval sigev_value;   /* passed to signal handler or thread */  </span><br><span class="line">    void    (*sigev_notify_function)(union sigval);  </span><br><span class="line">    pthread_attr_t *sigev_notify_attribute;  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p><b>注意：只是在消息队列从空到非空时才产生消息通知事件, 而且这种注册方式是一次性的</b></p>
-<h4 id="信号通知方式"><a href="#信号通知方式" class="headerlink" title="信号通知方式"></a>信号通知方式</h4><p>信号方式通知，要设置：sigev_signo和sigev_value；而且这种通知只有在一个消息到达所指定的先前为空的队列时候才会得到通知。</p>
-<h5 id="信号处理函数中读取消息"><a href="#信号处理函数中读取消息" class="headerlink" title="信号处理函数中读取消息"></a>信号处理函数中读取消息</h5><p><img src="/images/APUE/IPC_msgqueue_signal1.png" alt="&quot;c3&quot;"><br>首先运行send程序，然后写入几条消息，然后运行signalNotify程序，发现无法得到通知，但是先运行send程序，unlink掉队列使队列为空，然后运行signalNotify程序，在写入消息，发现可以正常得到通知，所以验证了消息到达的通知只能是在从队列空到非空这一事件才会得到相应：<br><img src="/images/APUE/IPC_msgqueue_signal2.png" alt="&quot;c3&quot;"><br><img src="/images/APUE/IPC_msgqueue_signal3.png" alt="&quot;c3&quot;"><br>另外需要注意同一时刻只有一个进程可以被注册到接受某个给定队列的通知：<br><img src="/images/APUE/IPC_msgqueue_signal4.png" alt="&quot;c3&quot;"></p>
-<h5 id="全局变量代替信号处理函数中读取消息"><a href="#全局变量代替信号处理函数中读取消息" class="headerlink" title="全局变量代替信号处理函数中读取消息"></a>全局变量代替信号处理函数中读取消息</h5><p>想不断接受消息，则必须在接受消息之前(mq_receive之前)再次注册信号notify，不能在之后因为mq_notify和mq_receive都不是异步安全函数，可能出现安全性问题，比方在处理时候被重入新的消息就尴尬了。可以通过设置全局变量，不在信号处理函数中读取消息，而在主线程中处理消息。<br><img src="/images/APUE/IPC_msgqueue_signal5.png" alt="&quot;c3&quot;"></p>
-<h5 id="非阻塞方式读取队列"><a href="#非阻塞方式读取队列" class="headerlink" title="非阻塞方式读取队列"></a>非阻塞方式读取队列</h5><p>但是上述程序如果在能够读取第一个消息前有两个消息到达，呢么只有一个通知发出，读取第一个消息后，sigsuspend等待另一个消息，对应它的通知永远不会到来。所以当使用mq_notify产生信号时候，要以非阻塞模式读取消息队列。<br><img src="/images/APUE/IPC_msgqueue_signal6.png" alt="&quot;c3&quot;"></p>
-<h5 id="使用sigwait函数处理特定的信号"><a href="#使用sigwait函数处理特定的信号" class="headerlink" title="使用sigwait函数处理特定的信号"></a>使用sigwait函数处理特定的信号</h5><p>这种非阻塞模式处理不会再有任何问题，但是效率可能不是太高，调用sigsuspend阻塞等待消息到达，有一个消息到来时候，信号产生，主线程被阻止转去执行信号处理函数，然后执行并设置mqflag标志，主线程再次运行，读出消息，但是更为高效的方法是阻塞在某个函数上面，仅仅等待该信号的提交，而不是让内核执行一个只为设置一个标志的信号处理程序，使用sigwait可以达到此种目的，有点类似select的作用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int sigwait(const sigset_t * set, int * sig);</span><br></pre></td></tr></table></figure></p>
-<p>使用方法：调用sigwait前先阻塞某个信号集，然后将这个信号集指定为set参数，一直阻塞等到一个或者多个信号待处理，然后返回一个信号，该信号值通过sig返回，这个过程可以称作为同步地等待一个异步事件。<br><img src="/images/APUE/IPC_msgqueue_signal7.png" alt="&quot;c3&quot;"></p>
-<h5 id="select方式"><a href="#select方式" class="headerlink" title="select方式"></a>select方式</h5><p>消息队列描述符和普通描述符不同，不能使用在io多路复用函数中，但是可以使用管道和mq_notify函数配合来处理，因为write函数是异步信号安全的，所以可以在信号处理函数中调用write向管道写入一个字节来触发select。<br><img src="/images/APUE/IPC_msgqueue_signal8.png" alt="&quot;c3&quot;"><br>遇到Interrupted system call错误，错误原因是收到signal信号select会返回错误并且errno为EINTR，这个时候不应该退出。</p>
-<h4 id="线程通知方式"><a href="#线程通知方式" class="headerlink" title="线程通知方式"></a>线程通知方式</h4><p>线程方式通知，要设置：sigev_notify_function和sigev_notify_attributes<br><img src="/images/APUE/IPC_msgqueue_thread.png" alt="&quot;c3&quot;"><br>程序中出现了message too long错误，原因是mq_receive函数的第三个参数的值设置错误，要大于等于mq_msgsize。</p>
-<h2 id="Posix-消息队列和System-V消息队列"><a href="#Posix-消息队列和System-V消息队列" class="headerlink" title="Posix 消息队列和System V消息队列"></a>Posix 消息队列和System V消息队列</h2><p>posix消息队列与system v消息队列的差别：<br>1、对posix消息队列的读总是返回最高优先级的最早消息，对system v消息队列的读则可以返回任意指定优先级的消息；<br>2、 当往一个空队列放置一个消息时，posix消息队列允许产生一个信号或启动一个线程，system v消息队列则不提供类似机制。<br>3、 System V提供了从队列中取出特定优先级的消息。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://blog.csdn.net/anonymalias/article/details/9799645" target="_blank" rel="external">http://blog.csdn.net/anonymalias/article/details/9799645</a><br><a href="http://blog.csdn.net/NK_test/article/details/50286309" target="_blank" rel="external">http://blog.csdn.net/NK_test/article/details/50286309</a><br>APUE 第15章<br>UNP2 第5章</p>
-
-          
+<p>关闭一个打开的消息队列，但是并不从系统中删除，一个进程结束会自动关闭打开的消息队列。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/06/11/IPC之Posix消息队列/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -804,16 +1023,15 @@
 
       
         
-          
-            <p>今天刷leetcode时候遇到题目Top K Frequent Elements，第一想法是使用map来记录每个元素的出现的次数，然后按照次数进行排序，这样取前k个即可，但是这就遇到一个问题，由于map默认是按照key排序的，呢么如何按照value排序呢，查了半天，终于找到解决之法，所以记录此文以备后用。首先介绍了map的按照key排序以及自定义排序准则的方法，然后介绍按照value排序的技巧。</p>
+          <p>今天刷leetcode时候遇到题目Top K Frequent Elements，第一想法是使用map来记录每个元素的出现的次数，然后按照次数进行排序，这样取前k个即可，但是这就遇到一个问题，由于map默认是按照key排序的，呢么如何按照value排序呢，查了半天，终于找到解决之法，所以记录此文以备后用。首先介绍了map的按照key排序以及自定义排序准则的方法，然后介绍按照value排序的技巧。</p>
 <h2 id="按照key排序"><a href="#按照key排序" class="headerlink" title="按照key排序"></a>按照key排序</h2><p>map是默认按照key进行排序的，所以如果你这个key是自定义数据类型要规定排序准则，默认的为小于:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">template &lt; class Key, class T, class Compare = less&lt;Key&gt;,  </span><br><span class="line">       class Allocator = allocator&lt;pair&lt;const Key,T&gt; &gt; &gt; class map;</span><br></pre></td></tr></table></figure></p>
-<p>它有四个参数，其中我们比较熟悉的有两个: Key 和 Value。第四个是 Allocator，用来定义存储分配模型的。第三个参数： class Compare = less<key><br>这也是一个class类型的，而且提供了默认值 less<key>。<br>less是stl里面的一个函数对象，那么什么是函数对象呢？所谓的函数对象：即调用操作符的类，其对象常称为函数对象（function object），它们是行为类似函数的对象。表现出一个函数的特征，就是通过“对象名+(参数列表)”的方式使用一个 类，其实质是对operator()操作符的重载。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">template &lt;class T&gt; struct less : binary_function &lt;T,T,bool&gt; &#123;  </span><br><span class="line">  bool operator() (const T&amp; x, const T&amp; y) const  </span><br><span class="line">    &#123;return x &lt; y;&#125;  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></key></key></p>
+<p>它有四个参数，其中我们比较熟悉的有两个: Key 和 Value。第四个是 Allocator，用来定义存储分配模型的。第三个参数： class Compare = less<Key><br>这也是一个class类型的，而且提供了默认值 less<Key>。<br>less是stl里面的一个函数对象，那么什么是函数对象呢？所谓的函数对象：即调用操作符的类，其对象常称为函数对象（function object），它们是行为类似函数的对象。表现出一个函数的特征，就是通过“对象名+(参数列表)”的方式使用一个 类，其实质是对operator()操作符的重载。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">template &lt;class T&gt; struct less : binary_function &lt;T,T,bool&gt; &#123;  </span><br><span class="line">  bool operator() (const T&amp; x, const T&amp; y) const  </span><br><span class="line">    &#123;return x &lt; y;&#125;  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
 <p>当我们想要自己指定排序准则时候，只需要写一个函数对象,定义map的时候把Compare指定为我们自己编写的这个就ok啦。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct CmpByKeyLength &#123;  </span><br><span class="line">  bool operator()(const string&amp; k1, const string&amp; k2) &#123;  </span><br><span class="line">    return k1.length() &lt; k2.length();  </span><br><span class="line">  &#125;  </span><br><span class="line">map&lt;string, int, CmpByKeyLength&gt; name_score_map;</span><br></pre></td></tr></table></figure></p>
-<h2 id="按照value排序"><a href="#按照value排序" class="headerlink" title="按照value排序"></a>按照value排序</h2><p>排序最先想到的是用sort函数，但是sort函数对序列容器进行排序。但是我们可以采用迂回策略，先把map中数据放入到vector中，以pair组织map中数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">unordered_map&lt;string, int&gt; mmap;</span><br><span class="line">for (int i = 0; i &lt; nums.size(); ++i) &#123;</span><br><span class="line">    mmap[nums[i]]++;</span><br><span class="line">&#125;</span><br><span class="line">vector&lt;pair&lt;string, int&gt; &gt; vec(mmap.begin(), mmap.end());</span><br></pre></td></tr></table></figure></p>
-<p>然后在调用sort函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">   typedef pair&lt;string, int&gt; PAIR;  </span><br><span class="line"> </span><br><span class="line">   bool cmp_by_value(const PAIR&amp; lhs, const PAIR&amp; rhs) &#123;  </span><br><span class="line">     return lhs.second &lt; rhs.second;  </span><br><span class="line">   &#125;  </span><br><span class="line">     </span><br><span class="line">   struct CmpByValue &#123;  </span><br><span class="line">     bool operator()(const PAIR&amp; lhs, const PAIR&amp; rhs) &#123;  </span><br><span class="line">       return lhs.second &lt; rhs.second;  </span><br><span class="line">     &#125;  </span><br><span class="line">   &#125;;  </span><br><span class="line"></span><br><span class="line">   sort(name_score_vec.begin(), name_score_vec.end(), CmpByValue());  </span><br><span class="line">// sort(name_score_vec.begin(), name_score_vec.end(), cmp_by_value);</span><br></pre></td></tr></table></figure></p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://blog.csdn.net/iicy266/article/details/11906189" target="_blank" rel="external">http://blog.csdn.net/iicy266/article/details/11906189</a></p>
-
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/06/07/STL之map按照key以及value排序/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -929,9 +1147,14 @@
 
       
         
-          
-            
-          
+          <p>空闲断开分为控制连接的空闲断开和数据连接通道的空闲断开两方面。</p>
+<h2 id="控制连接空闲断开"><a href="#控制连接空闲断开" class="headerlink" title="控制连接空闲断开"></a>控制连接空闲断开</h2><p>空闲断开是说一段时间内没有任何命令，可以关闭连接，可以通过SIGALARM安装信号，并启动闹钟，在闹钟到来之前如果没有任何命令，在信号处理函数中关闭控制连接并给客户421 Timeout的响应，并退出会话。具体的是服务器端服务进程阻塞在readline中，在前面加上超时的alarm设置即可。</p>
+<h2 id="数据连接通道空闲断开"><a href="#数据连接通道空闲断开" class="headerlink" title="数据连接通道空闲断开"></a>数据连接通道空闲断开</h2><p>但是有一种情况，在数据传输过程中，服务进程不应该超时关闭，只需要将之前的闹钟关闭即可（重新安装闹钟即可）。另外数据传输之中有一定时间没有传输数据，则关闭。数据传输之前安装信号，并启动闹钟，数据传输过程中，收到SIGALARM信号，如果在传输过程中就设置传输标志为不传输，然后重新安装信号，否则回应Timeout响应并终止，当然这个时间在配置文件中有提到过，在数据传输前先设置超时时间，如果没有，也要设定闹钟为0，即关闭控制连接中的闹钟。<br>何时设置传输标志位，在限速函数中设定。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/06/04/miniftp项目实战之空闲断开，断点续传实现/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1097,8 +1320,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/06/02/Linux网络编程之fcntl/" itemprop="url">
-                  Linux网络编程之fcntl
+                <a class="post-title-link" href="/2016/06/03/minifftp项目实战之文件上传下载与限速/" itemprop="url">
+                  minifftp项目实战之文件上传下载与限速
                 </a>
               
             
@@ -1111,8 +1334,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-02T15:39:54+08:00" content="2016-06-02">
-              2016-06-02
+            <time itemprop="dateCreated" datetime="2016-06-03T09:00:24+08:00" content="2016-06-03">
+              2016-06-03
             </time>
           </span>
 
@@ -1125,8 +1348,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/网络编程/" itemprop="url" rel="index">
-                    <span itemprop="name">网络编程</span>
+                  <a href="/categories/miniftp项目实战/" itemprop="url" rel="index">
+                    <span itemprop="name">miniftp项目实战</span>
                   </a>
                 </span>
 
@@ -1141,8 +1364,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/06/02/Linux网络编程之fcntl/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/02/Linux网络编程之fcntl/" itemprop="commentsCount"></span>
+                <a href="/2016/06/03/minifftp项目实战之文件上传下载与限速/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/03/minifftp项目实战之文件上传下载与限速/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -1165,257 +1388,11 @@
 
       
         
-          
-            <p>Linux下总是看到这个fcntl函数，似乎用法还是蛮多的，可以在网络编程中设置非阻塞模式，信号驱动I/O以及SIGURG时候设置属主等，在文件中可以复制文件描述符，改变<br><a href="http://blog.csdn.net/ctthuangcheng/article/details/9289277" target="_blank" rel="external">http://blog.csdn.net/ctthuangcheng/article/details/9289277</a><br><a href="http://blog.csdn.net/anonymalias/article/details/9197641" target="_blank" rel="external">http://blog.csdn.net/anonymalias/article/details/9197641</a><br><a href="http://blog.csdn.net/bailyzheng/article/details/7489656" target="_blank" rel="external">http://blog.csdn.net/bailyzheng/article/details/7489656</a><br><a href="http://blog.sina.com.cn/s/blog_4b226b9201011974.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_4b226b9201011974.html</a></p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/02/网络编程中的读写函数/" itemprop="url">
-                  网络编程中的读写函数
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-02T10:55:12+08:00" content="2016-06-02">
-              2016-06-02
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/网络编程/" itemprop="url" rel="index">
-                    <span itemprop="name">网络编程</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/02/网络编程中的读写函数/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/02/网络编程中的读写函数/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>网络编程中当连接建立好之后就是数据的传输了，系统提供了很多种读写的方式，本文对这些函数做一个大概的总结。</p>
-<h2 id="普通读写的流程"><a href="#普通读写的流程" class="headerlink" title="普通读写的流程"></a>普通读写的流程</h2><p>网络应用发送数据到对端接受到数据一般会经历下面的步骤：</p>
-<ol>
-<li>系统调用read()函数产生一个上下文切换，从user mode切换到kernel mode，然后DMA执行拷培，把文件从硬盘拷培到kernel buffer里面；</li>
-<li>数据从kernel buffer拷培到user buffer，然后系统调用read()返回，这时产生从kernal mode到user mode的切换；</li>
-<li>然后要发送数据了，通过调用write系统调用，从user mode切换到kernel mode，然后把步骤2中user mode的数据读到kernel buffer中，这个kernel buffer是和socket相关联的；</li>
-<li>系统调用write返回，产生一个切换，从kernel mode切换到user mode，然后DMA从kernel buffer拷培数据到协议栈。<br>所以从上面可以看到，从硬盘读取数据到最终发送到网络上面总共需要四次上下文切换，然后有4次拷培操作。  </li>
-</ol>
+          <h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><p>RETR是进行文件下载的命令，在RETR后面如果有REST，则可以决定是否为断点续载;STOR是文件上传的命令，在STOR命令后面如果有REST，则可以决定是否为断点续传，另外APPE方式也可以进行文件的断点续传;</p>
+<h2 id="上传下载"><a href="#上传下载" class="headerlink" title="上传下载"></a>上传下载</h2><p>上传下载命令是ftp的一个重大特性，那么如何实现呢？实际很简单，因为要有数据传输，所以要先建立数据连接通道，你可以PORT也可以PASV方式，然后就是数据传输，和列表传输大同小异，只不过列表传输的是列表的内容，而上传下载的是文件的内容，不过要主要文件进行加锁操作。</p>
+<h3 id="文件下载的加读锁"><a href="#文件下载的加读锁" class="headerlink" title="文件下载的加读锁"></a>文件下载的加读锁</h3><p>当要进行文件下载时候，要对文件进行加锁，我们希望的是在读取文件的过程中不希望别的进程写该文件，只需要加一个读锁，别的进程只能在其期间读取而不能写入。<br>
           <div class="post-more-link text-center">
-            <a class="btn" href="/2016/06/02/网络编程中的读写函数/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/01/TCP带外数据/" itemprop="url">
-                  TCP带外数据
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-01T13:30:52+08:00" content="2016-06-01">
-              2016-06-01
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/网络编程/" itemprop="url" rel="index">
-                    <span itemprop="name">网络编程</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/01/TCP带外数据/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/01/TCP带外数据/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>带外数据，也成为经加速的数据，是一个连接的某一端发生了重要的事情，而且希望迅速通知对端，迅速是指虽然传过去很多数据，但是需要先处理这个紧急数据，可以看做它的优先级别比较高。ftp中的ABOR命令使用带外数据来中断文件传输，telnet和rlogin会将中止字符作为紧急数据传到对端，允许对端丢弃未处理的输入，并且丢弃未发送的输出。  </p>
-<h2 id="TCP带外数据"><a href="#TCP带外数据" class="headerlink" title="TCP带外数据"></a>TCP带外数据</h2><p>TCP协议并没有真正的带外数据，不过提供了紧急模式，TCP首部的URG标志位以及紧急指针偏移量两个变量。但是OOB字节的发送与否取决于发送缓冲区中先于它的字节数，window窗口大小以及TCP准备发送给对端的分节大小。下面举一个例子：<br>1、 发送方：发送进程已经在一个TCP套接字写入N字节数据，这些数据在套接字的发送缓冲区中，等待发送到对端，这时候，以MSG_OOB标志写入一个字节的带外数据，则该数据放在N字节的后面，并把TCP紧急指针设置为再下一个可用为值，并且将带外字节标记为OOB，下一次发送时候TCP首部会设置URG和偏移量，但是OOB呢个字节不一定发送出去（阻塞等情况，所以即使流量控制使数据无法发送，但是紧急通知照样可以发送到对端）。<br>2、 接收方：有新的紧急指针到达时候，接受进程的内核给套接字的属主进程发送SIGURG信号（所以接受进程要通过fcntl函数设置属主关系，而且设置信号处理函数），然后如果接受进程阻塞在select调用中，等待这个套接字的异常条件，select调用返回。一旦紧急通知到达，不论实际数据是否到达，都要通知，如果没到达，recv函数会返回EWOULDBLOCK，如果有多个OOB字节同时到达，则舍弃前面的，只保存最后一个，因为<b>OOB字节不是放在套接字的缓冲区，而是放在该连接的一个独立的单字节的带外缓冲区，而且接收字节从这个缓冲区读取该字节的唯一方法是通过指定MSG_OOB标志调用recv,recvfrom或者recvmsg函数</b>,当然了如果开启了SO_OOBINLINE套接字选项，这个实际数据就会在普通缓冲区中，需要检查带外标记以获得合适处理这个数据字节。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/06/01/TCP带外数据/#more" rel="contents">
+            <a class="btn" href="/2016/06/03/minifftp项目实战之文件上传下载与限速/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1449,7 +1426,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1490,7 +1467,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

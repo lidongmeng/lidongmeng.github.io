@@ -236,6 +236,230 @@
             
               
                 
+                <a class="post-title-link" href="/2016/06/23/编程珠玑之采样问题/" itemprop="url">
+                  编程珠玑之采样问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-23T16:59:26+08:00" content="2016-06-23">
+              2016-06-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程珠玑/" itemprop="url" rel="index">
+                    <span itemprop="name">编程珠玑</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/23/编程珠玑之采样问题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/23/编程珠玑之采样问题/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="取样问题"><a href="#取样问题" class="headerlink" title="取样问题"></a>取样问题</h1><p>从n个元素中抽取m个元素。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>编程珠玑 11章<br>编程珠玑续 12章<br><a href="http://www.cnblogs.com/wuyuegb2312/p/3141292.html" target="_blank" rel="external">http://www.cnblogs.com/wuyuegb2312/p/3141292.html</a><br><a href="http://www.voidcn.com/blog/wdgxwzz008/article/p-3266588.html" target="_blank" rel="external">http://www.voidcn.com/blog/wdgxwzz008/article/p-3266588.html</a><br><a href="http://blog.csdn.net/huagong_adu/article/details/7619665" target="_blank" rel="external">http://blog.csdn.net/huagong_adu/article/details/7619665</a></p>
+
+          
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/06/22/C-11初探/" itemprop="url">
+                  C++11初探
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-22T10:35:59+08:00" content="2016-06-22">
+              2016-06-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/06/22/C-11初探/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/22/C-11初探/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="自动推导"><a href="#自动推导" class="headerlink" title="自动推导"></a>自动推导</h2><h3 id="auto"><a href="#auto" class="headerlink" title="auto"></a>auto</h3><p>C++98中auto是具有自动存储期的局部变量，不过基本无人使用，因为一般函数内没有声明为static的变量总是具有自动存储期的局部变量。C++11中auto不再是一个存储类型指示符，而是一个新的<b>类型指示符</b>来指示编译器，auto声明的变量的类型必须在编译时期推导得到。此外，auto声明的变量<b>必须被初始化</b>，以使编译器能够从其初始化表达式中推导出它的类型，所以其实auto并不是一个类型声明，而是类型声明时的占位符，编译器在编译时期会将auto替代为变量实际的类型。</p>
+<h4 id="auto使用及优势"><a href="#auto使用及优势" class="headerlink" title="auto使用及优势"></a>auto使用及优势</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">std::vector&lt;std::string&gt;::iterator i=vs.begin();------auto i = vs.begin();</span><br></pre></td></tr></table></figure>
+<p>1、 可以简化代码；<br>2、 可以解决一些精度问题（隐式类型转换）；<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/06/22/C-11初探/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+    
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/06/18/进程地址空间/" itemprop="url">
                   进程地址空间
                 </a>
@@ -304,16 +528,17 @@
 
       
         
-          
-            <h2 id="进程地址空间"><a href="#进程地址空间" class="headerlink" title="进程地址空间"></a>进程地址空间</h2><p>多任务操作系统中每一个进程都在自己的内存地址空间中运行，这个地址空间就是虚拟地址空间，32bit模式下是4GB大小，虚拟内存用页表方式映射到物理内存，页表有操作系统内核维护，由CPU访问，每个进程都会有自己的页表集合，4GB虚拟地址空间中高端地址的1GB分配给内核，其余的是用户空间，如下图所示：<br>![进程地址空间][“/images/APUE/process.png”]</p>
+          <h2 id="进程地址空间"><a href="#进程地址空间" class="headerlink" title="进程地址空间"></a>进程地址空间</h2><p>多任务操作系统中每一个进程都在自己的内存地址空间中运行，这个地址空间就是虚拟地址空间，32bit模式下是4GB大小，虚拟内存用页表方式映射到物理内存，页表有操作系统内核维护，由CPU访问，每个进程都会有自己的页表集合，4GB虚拟地址空间中高端地址的1GB分配给内核，其余的是用户空间，如下图所示：<br>![进程地址空间][“/images/APUE/process.png”]</p>
 <ol>
 <li>进程地址空间中最上面的段为栈，栈用于存储本地变量和函数参数。调用一个方法或函数时压入栈一个新的栈帧。当函数返回时，这个压入的栈帧被释放。  </li>
 <li>在栈下面是内存映射段。这里内核直接映射内存到文件内容。任何应用程序都可以通过mmap()系统调用(LINUX下)获得这个映射。内存映射是文件I/O中一个方便高效的方法，所以他用于加载动态库。创建一个和任何文件不想干的匿名内存映射用于替代程序中的数据也是有可能的。在LINUX中，如果你通过malloc()申请一块很大的内存块，C标准库将创建一个匿名映射而不是用内存堆。  </li>
 <li>接下来一块是堆，堆提供运行时内存分配，就像栈，而和栈不一样的是数据必须持久于分配函数。  </li>
-<li>最后，我们到达了内存中最下面的段：BSS段、数据段和代码段。BSS段和数据段在C语言中存储静态和全局变量。不同的是BSS段存放的是没有被初始化的静态变量，也就是所这些静态变量在源代码中没有被程序员设置初值。BSS内存区是匿名的：他不映射任何特定的文件。例如，static int cntActiveUsers,变量cntActiveUsers的内容存放在BSS段。另一方面，数据段持有在源代码中已经初始化的静态变量。他的内存区域不是匿名的。他映射程序二进制镜像的一部分，这部分包含在源代码中已初始化的静态变量。例如，static int cntWorkerBees = 10, 那么cntWorkerBees存放在数据段中且初始数据为10。虽然数据段映射一个文件，但是他是一个私有内存映射，这意味着内存更新不会反映到底层文件。这一定是这样的，否则分配分配到的全局变量将改变你磁盘上的二进制镜像。<h2 id="c-C-编译的程序占用的内存区域"><a href="#c-C-编译的程序占用的内存区域" class="headerlink" title="c/C++编译的程序占用的内存区域"></a>c/C++编译的程序占用的内存区域</h2>1、栈区（stack）— 由编译器自动分配释放，存放函数的参数值，局部变量的值等。其操作方式类似于数据结构中的栈。<br>2、堆区（heap） — 一般由程序员分配释放（malloc/free, new/delete），若程序员不释放，程序结束后可能由操作系统回收。注意它与数据结构中的堆石两回事，分配方式倒是类似与链表。其中有malloc/free分配释放的也可以叫自由存储区。<br>3、全局区（静态存储区）（static）—全局变量和静态变量的存储是放在一块的，初始化的全局变量和静态变量在一块区域，未初始化的全局变量和未初始化的静态变量在相邻的另一块区域。 - 程序结束后有系统释放（在C++中他们初始化和未初始化的共同占用一块内存区）。<br>4、文字常量区 —常量字符串就是放在这里的。程序结束后由系统释放;<br>5、程序代码区—存放函数体的二进制代码。<br>![内存区域][“/images/APUE/processAddr.png”]<h2 id="堆栈区别"><a href="#堆栈区别" class="headerlink" title="堆栈区别"></a>堆栈区别</h2>1、  内存分配方面：堆：一般由程序员分配释放， 若程序员不释放，程序结束时可能由OS回收 。注意它与数据结构中的堆是两回事，分配方式是类似于链表。可能用到的关键字如下：new、malloc、delete、free等等。栈：由编译器(Compiler)自动分配释放，存放函数的参数值，局部变量的值等。其操作方式类似于数据结构中的栈。<br>2、申请方式方面：堆：需要程序员自己申请，并指明大小。在c中malloc函数如p1 = (char <em>)malloc(10)；在C++中用new运算符，但是注意p1、p2本身是在栈中的。因为他们还是可以认为是局部变量。栈：由系统自动分配。 例如，声明在函数中一个局部变量 int b；系统自动在栈中为b开辟空间。<br>3、系统响应方面：堆：操作系统有一个记录空闲内存地址的链表，当系统收到程序的申请时，会遍历该链表，寻找第一个空间大于所申请空间的堆结点，然后将该结点从空闲结点链表中删除，并将该结点的空间分配给程序，另外，对于大多数系统，会在这块内存空间中的首地址处记录本次分配的大小，这样代码中的delete语句才能正确的释放本内存空间。另外由于找到的堆结点的大小不一定正好等于申请的大小，系统会自动的将多余的那部分重新放入空闲链表中。栈：只要栈的剩余空间大于所申请空间，系统将为程序提供内存，否则将报异常提示栈溢出。<br>4、大小限制方面：堆：是向高地址扩展的数据结构，是不连续的内存区域。这是由于系统是用链表来存储的空闲内存地址的，自然是不连续的，而链表的遍历方向是由低地址向高地址。堆的大小受限于计算机系统中有效的虚拟内存。由此可见，堆获得的空间比较灵活，也比较大。<br>栈：在Windows下, 栈是向低地址扩展的数据结构，是一块连续的内存的区域。这句话的意思是栈顶的地址和栈的最大容量是系统预先规定好的，在WINDOWS下，栈的大小是固定的（是一个编译时就确定的常数），如果申请的空间超过栈的剩余空间时，将提示overflow。因此，能从栈获得的空间较小。<br>5、效率方面：堆：是由new分配的内存，一般速度比较慢，而且容易产生内存碎片，不过用起来最方便，另外，在WINDOWS下，最好的方式是用VirtualAlloc分配内存，他不是在堆，也不是在栈是直接在进程的地址空间中保留一快内存，虽然用起来最不方便。但是速度快，也最灵活。栈：由系统自动分配，速度较快。但程序员是无法控制的。<br>6、存放内容方面：堆：一般是在堆的头部用一个字节存放堆的大小。堆中的具体内容有程序员安排。栈：在函数调用时第一个进栈的是主函数中后的下一条指令（函数调用语句的下一条可执行语句）的地址然后是函数的各个参数，在大多数的C编译器中，参数是由右往左入栈，然后是函数中的局部变量。 注意: 静态变量是不入栈的。当本次函数调用结束后，局部变量先出栈，然后是参数，最后栈顶指针指向最开始存的地址，也就是主函数中的下一条指令，程序由该点继续运行。<br>7、存取效率方面：堆：char </em>s1 = “Hellow Word”；是在编译时就确定的；栈：char s1[] = “Hellow Word”； 是在运行时赋值的；用数组比用指针速度要快一些，因为指针在底层汇编中需要用edx寄存器中转一下，而数组在栈上直接读取。<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><a href="http://blog.csdn.net/bullbat/article/details/7304404" target="_blank" rel="external">http://blog.csdn.net/bullbat/article/details/7304404</a></li>
-</ol>
-
-          
+<li>最后，我们到达了内存中最下面的段：BSS段、数据段和代码段。BSS段和数据段在C语言中存储静态和全局变量。不同的是BSS段存放的是没有被初始化的静态变量，也就是所这些静态变量在源代码中没有被程序员设置初值。BSS内存区是匿名的：他不映射任何特定的文件。例如，static int cntActiveUsers,变量cntActiveUsers的内容存放在BSS段。另一方面，数据段持有在源代码中已经初始化的静态变量。他的内存区域不是匿名的。他映射程序二进制镜像的一部分，这部分包含在源代码中已初始化的静态变量。例如，static int cntWorkerBees = 10, 那么cntWorkerBees存放在数据段中且初始数据为10。虽然数据段映射一个文件，但是他是一个私有内存映射，这意味着内存更新不会反映到底层文件。这一定是这样的，否则分配分配到的全局变量将改变你磁盘上的二进制镜像。<h2 id="c-C-编译的程序占用的内存区域"><a href="#c-C-编译的程序占用的内存区域" class="headerlink" title="c/C++编译的程序占用的内存区域"></a>c/C++编译的程序占用的内存区域</h2>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/06/18/进程地址空间/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -772,15 +997,14 @@
 
       
         
-          
-            <p>一般的排了序的数组从中间某一个位置截断两节，然后将后段放置前面，在这个翻转的数组中查找特定值。如下图所示：<br><img src="/images/leetcode/binarysearch1.png" alt="&quot;c3&quot;"><br>虽然截断了，但是可以看出两段分别是有序的，如果能够判断mid在哪一半就好做了，如果在第一段，呢么在[l, mid]之间是有序的，如果target在他们之间就变成了普通的有序数组问题，同理在第二段，并且target在[mid,r]之间时候原理是一样的。呢么在中间呢，在中间移动l,r即可，变为原问题一样的问题。  </p>
+          <p>一般的排了序的数组从中间某一个位置截断两节，然后将后段放置前面，在这个翻转的数组中查找特定值。如下图所示：<br><img src="/images/leetcode/binarysearch1.png" alt="&quot;c3&quot;"><br>虽然截断了，但是可以看出两段分别是有序的，如果能够判断mid在哪一半就好做了，如果在第一段，呢么在[l, mid]之间是有序的，如果target在他们之间就变成了普通的有序数组问题，同理在第二段，并且target在[mid,r]之间时候原理是一样的。呢么在中间呢，在中间移动l,r即可，变为原问题一样的问题。  </p>
 <h2 id="Find-Minimum-in-Rotated-Sorted-Array"><a href="#Find-Minimum-in-Rotated-Sorted-Array" class="headerlink" title="Find Minimum in Rotated Sorted Array"></a>Find Minimum in Rotated Sorted Array</h2><p>找最小值，如果在区间中已经有序了即左边值小于右边值，则可以停止了，否则找到终点，如果在左半段，就将左指针向后移动mid+1,右半段只能移动到mid,因为可能mid位置就是最小的位置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">int findMin(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    int l = 0, r = nums.size() - 1;</span><br><span class="line">    while (l &lt;= r) &#123;</span><br><span class="line">        if (nums[l] &lt;= nums[r]) return nums[l];  // 已经有序了</span><br><span class="line">        int mid = l + (r - l) / 2;</span><br><span class="line">        if (nums[mid] &gt;= nums[l]) l = mid + 1;</span><br><span class="line">        else r = mid;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="Find-Minimum-in-Rotated-Sorted-ArrayII"><a href="#Find-Minimum-in-Rotated-Sorted-ArrayII" class="headerlink" title="Find Minimum in Rotated Sorted ArrayII"></a>Find Minimum in Rotated Sorted ArrayII</h2><p>找最小值，但是有相等的，我们只需考虑两端相等的情况，并且在开始时候不断移动左指针直到右指针位置或者不相等，如下图所示：<br><img src="/images/leetcode/binarysearch2.png" alt="&quot;c3&quot;"><br>然后就可以转换为上述问题。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">int findMin(vector&lt;int&gt;&amp; nums) &#123;</span><br><span class="line">    int l = 0, r = nums.size() - 1;</span><br><span class="line">    while (l &lt;= r) &#123;</span><br><span class="line">        while (l &lt; r &amp;&amp; nums[l] == nums[r]) ++l; // 移动左指针一直到不想等</span><br><span class="line">        if (nums[l] &lt;= nums[r]) return nums[l];</span><br><span class="line">        int mid = l + (r - l) / 2;</span><br><span class="line">        if (nums[mid] &gt;= nums[l]) l = mid + 1;</span><br><span class="line">        else    r = mid;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>极端情况下是O(N).</p>
-<h2 id="Search-in-Rotated-Sorted-Array"><a href="#Search-in-Rotated-Sorted-Array" class="headerlink" title="Search in Rotated Sorted Array"></a>Search in Rotated Sorted Array</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">int search(vector&lt;int&gt;&amp; nums, int target) &#123;</span><br><span class="line">    int l = 0, r = nums.size() - 1;</span><br><span class="line">    while (l &lt;= r) &#123;</span><br><span class="line">        int mid = l + (r - l) / 2;</span><br><span class="line">        if (nums[mid] == target) &#123;</span><br><span class="line">            return mid;</span><br><span class="line">        &#125; else if (nums[mid] &gt;= nums[l]) &#123; // mid在左半有序段</span><br><span class="line">            if (nums[l] &lt;= target &amp;&amp; target &lt; nums[mid]) &#123; // target在l,mid之间装换为有序数组问题</span><br><span class="line">                r = mid - 1;</span><br><span class="line">            &#125; else &#123; // 不在之间，则还是原问题，不过规模缩小了一半</span><br><span class="line">                l = mid + 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            if (nums[mid] &lt; target &amp;&amp; target &lt;= nums[r]) &#123;</span><br><span class="line">                l = mid + 1; // target在mid,r之间</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                r = mid - 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Search-in-Rotated-Sorted-Array-II"><a href="#Search-in-Rotated-Sorted-Array-II" class="headerlink" title="Search in Rotated Sorted Array II"></a>Search in Rotated Sorted Array II</h2><p>同样的，我们可以在循环的开始处，让左指针去除掉所有和右指针相等的数，然后就转换为和没有重复元素的问题一样了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">bool search(vector&lt;int&gt;&amp; nums, int target) &#123;</span><br><span class="line">    int l = 0, r = nums.size() - 1;</span><br><span class="line">    while (l &lt;= r) &#123;</span><br><span class="line">        while (l &lt; r &amp;&amp; nums[l] == nums[r]) ++l; // 不断移动左指针</span><br><span class="line">        int mid = l + (r - l) / 2;</span><br><span class="line">        if (nums[mid] == target) &#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125; else if (nums[mid] &gt;= nums[l]) &#123;</span><br><span class="line">            if (nums[l] &lt;= target &amp;&amp; target &lt; nums[mid]) &#123;</span><br><span class="line">                r = mid - 1;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                l = mid + 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            if (nums[mid] &lt; target &amp;&amp; target &lt;= nums[r]) &#123;</span><br><span class="line">                l = mid + 1;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                r = mid - 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-          
+<h2 id="Find-Minimum-in-Rotated-Sorted-ArrayII"><a href="#Find-Minimum-in-Rotated-Sorted-ArrayII" class="headerlink" title="Find Minimum in Rotated Sorted ArrayII"></a>Find Minimum in Rotated Sorted ArrayII</h2><p>找最小值，但是有相等的，我们只需考虑两端相等的情况，并且在开始时候不断移动左指针直到右指针位置或者不相等，如下图所示：<br><img src="/images/leetcode/binarysearch2.png" alt="&quot;c3&quot;"><br>然后就可以转换为上述问题。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/06/15/二分搜索之翻转排序数组/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -896,16 +1120,17 @@
 
       
         
-          
-            <p>管道无法用于非亲缘关系的进程间通信，FIFO可以用于不相关进程之间交换数据，命名管道实质是一种特殊类型的文件，可以通过mkfifo来创建，创建一个管道文件并查看信息：<br><img src="/images/APUE/ipc_fifo1.png" alt="&quot;c3&quot;"></p>
+          <p>管道无法用于非亲缘关系的进程间通信，FIFO可以用于不相关进程之间交换数据，命名管道实质是一种特殊类型的文件，可以通过mkfifo来创建，创建一个管道文件并查看信息：<br><img src="/images/APUE/ipc_fifo1.png" alt="&quot;c3&quot;"></p>
 <h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="创建命名管道"><a href="#创建命名管道" class="headerlink" title="创建命名管道"></a>创建命名管道</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int mkfifo(const char * filename, mode_t mode);</span><br></pre></td></tr></table></figure>
 <p>成功返回0，失败返回-1，命名管道文件是一种特殊文件，无法用vim查看。</p>
 <h3 id="打开管道操作函数"><a href="#打开管道操作函数" class="headerlink" title="打开管道操作函数"></a>打开管道操作函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int open(const char * filename, int flags)</span><br></pre></td></tr></table></figure>
 <p>成功时候返回文件描述符，如果是只读打开，并且设置flag选项为非阻塞的，会立即返回成功，否则会阻塞等到有进程写时候才打开。如果是只写打开方式，设置了阻塞就会等到有相应的进程为读而打开fifo时候才返回，未设置阻塞就会立即返回。<br><img src="/images/APUE/ipc_fifo2.png" alt="&quot;c3&quot;"><br>运行两个程序：<br><img src="/images/APUE/ipc_fifo3.png" alt="&quot;c3&quot;"><br><img src="/images/APUE/ipc_fifo4.png" alt="&quot;c3&quot;"></p>
-<h2 id="fifo通信实例"><a href="#fifo通信实例" class="headerlink" title="fifo通信实例"></a>fifo通信实例</h2><p>实现一个程序类似拷培文件的功能，进程1打开管道向里面写入src文件的信息，进程2读取信息并写入dest文件中。<br><img src="/images/APUE/ipc_fifo5.png" alt="&quot;c3&quot;"><br><img src="/images/APUE/ipc_fifo6.png" alt="&quot;c3&quot;"><br>运行如下：<br><img src="/images/APUE/ipc_fifo7.png" alt="&quot;c3&quot;"><br>生成文件与源文件对比：<br><img src="/images/APUE/ipc_fifo8.png" alt="&quot;c3&quot;"></p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>APUE 第15章<br>UNP2 第四章<br><a href="http://www.cnblogs.com/webor2006/p/3789195.html" target="_blank" rel="external">http://www.cnblogs.com/webor2006/p/3789195.html</a></p>
-
-          
+<h2 id="fifo通信实例"><a href="#fifo通信实例" class="headerlink" title="fifo通信实例"></a>fifo通信实例</h2>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/06/15/IPC之具名管道fifo/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -1176,265 +1401,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/14/IPC之SystemV消息队列/" itemprop="url">
-                  IPC之SystemV消息队列
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-14T10:06:49+08:00" content="2016-06-14">
-              2016-06-14
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/IPC/" itemprop="url" rel="index">
-                    <span itemprop="name">IPC</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/14/IPC之SystemV消息队列/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/14/IPC之SystemV消息队列/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/14/IPC之Posix信号量/" itemprop="url">
-                  IPC之Posix信号量
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-14T10:06:36+08:00" content="2016-06-14">
-              2016-06-14
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/IPC/" itemprop="url" rel="index">
-                    <span itemprop="name">IPC</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/06/14/IPC之Posix信号量/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/06/14/IPC之Posix信号量/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>信号量的主要目的是提供进程间同步，互斥量和条件变量的意图是线程间同步，但是信号量也可以线程间同步，互斥量和条件变量也可以用于共享内存区进行进程间同步。</p>
-<h2 id="Posix信号量"><a href="#Posix信号量" class="headerlink" title="Posix信号量"></a>Posix信号量</h2><p>POSIX信号量有两种：有名信号量和无名信号量，无名信号量也被称作基于内存的信号量。有名信号量通过IPC名字进行进程间的同步，而无名信号量如果不是放在进程间的共享内存区中，是不能用来进行进程间同步的，只能用来进行线程同步。</p>
-<h2 id="Posix信号量函数"><a href="#Posix信号量函数" class="headerlink" title="Posix信号量函数"></a>Posix信号量函数</h2><h3 id="有名信号量"><a href="#有名信号量" class="headerlink" title="有名信号量"></a>有名信号量</h3><h4 id="sem-open"><a href="#sem-open" class="headerlink" title="sem_open"></a>sem_open</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;semaphore.h&gt;  </span><br><span class="line">sem_t *sem_open(const char *name, int oflag);  </span><br><span class="line">sem_t *sem_open(const char *name, int oflag,  </span><br><span class="line">                  mode_t mode, unsigned int value);  </span><br><span class="line">                              //成功返回信号量指针，失败返回SEM_FAILED</span><br></pre></td></tr></table></figure>
-<p>sem_open用于创建或打开一个信号量，信号量是通过name参数即信号量的名字来进行标识的，oflag参数可以为：0，O_CREAT，O_EXCL；mode参数用于创建信号量时，表示信号量的权限位；value是创建信号量的初值。<br>信号量有二值信号量（和互斥量相似）和计数信号量（多资源可用）。</p>
-<h4 id="sem-close"><a href="#sem-close" class="headerlink" title="sem_close"></a>sem_close</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;semaphore.h&gt;  </span><br><span class="line">int sem_close(sem_t *sem);  </span><br><span class="line">int sem_unlink(const char *name);    //成功返回0，失败返回-1</span><br></pre></td></tr></table></figure>
-<p>close是关闭打开的信号量，unlink是删除，引用计数为0才真正从系统移除。</p>
-<h4 id="sem-wait–p操作"><a href="#sem-wait–p操作" class="headerlink" title="sem_wait–p操作"></a>sem_wait–p操作</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;semaphore.h&gt;  </span><br><span class="line">int sem_wait (sem_t *sem);  </span><br><span class="line">int sem_trywait (sem_t * sem);  //成功返回0，失败返回-1</span><br></pre></td></tr></table></figure>
-<p>请求资源是原子操作，就是PV操作中的P操作，如果有可用资源都立即返回并将信号量的值减1，这是原子操作；当没有可用资源时候，sem_wait会阻塞，而sem_trywait立即返回-1，并且errno是EAGAIN。</p>
-<h4 id="sem-post–v操作"><a href="#sem-post–v操作" class="headerlink" title="sem_post–v操作"></a>sem_post–v操作</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;semaphore.h&gt;  </span><br><span class="line">int sem_post(sem_t *sem);  //成功返回0，失败返回-1</span><br></pre></td></tr></table></figure>
-<p>sem_post就是V操作，释放资源，会将资源数目加1.</p>
-<h4 id="sem-getvalue"><a href="#sem-getvalue" class="headerlink" title="sem_getvalue"></a>sem_getvalue</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;semaphore.h&gt;  </span><br><span class="line">int sem_getvalue(sem_t *sem,  int *sval);   //成功返回0，失败返回-1</span><br></pre></td></tr></table></figure>
-<p>存储信号量的值到sval中。</p>
-<h3 id="无名信号量"><a href="#无名信号量" class="headerlink" title="无名信号量"></a>无名信号量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;semaphore.h&gt;  </span><br><span class="line">int sem_init(sem_t *sem, int pshared, unsigned int value);                            //若出错则返回-1  </span><br><span class="line">int sem_destroy(sem_t *sem);  //成功返回0，失败返回-1</span><br></pre></td></tr></table></figure>
-<p>用于无名信号量的创建和销毁。无名信号量不使用任何类似O_CREAT的标志，这表示sem_init()总是会初始化信号量的值，所以对于特定的一个信号量，我们必须保证只调用sem_init()进行初始化一次，对于一个已初始化过的信号量调用sem_init()的行为是未定义的。如果信号量还没有被某个线程调用还好，否则基本上会出现问题。</p>
-<h2 id="Posix信号量解决生产者消费者问题"><a href="#Posix信号量解决生产者消费者问题" class="headerlink" title="Posix信号量解决生产者消费者问题"></a>Posix信号量解决生产者消费者问题</h2><p>生产者消费者问题是说有一个公共的环形缓冲区，生产者向缓冲区里面放置消息，消费者从缓冲区里面拿走消息，这个缓冲区的大小人为设置。当有消息时候，才可以从中取消息，有剩余的空间时候，生产者才可以向其中写入消息。</p>
-<h3 id="单生产者单消费者"><a href="#单生产者单消费者" class="headerlink" title="单生产者单消费者"></a>单生产者单消费者</h3><p>单生产者单消费者不用考虑生产者之间的同步以及消费者之间的同步，所以只用三个信号量即可，一个信号量控制对缓冲区的操作，两个信号量控制缓冲区剩余的空间数目和填充的空间数目。程序如下：<br><img src="/images/APUE/ipc_posix_sem1.png" alt="&quot;c3&quot;"><br>运行结果：<br><img src="/images/APUE/ipc_posix_sem2.png" alt="&quot;c3&quot;"></p>
-<h3 id="多生产者单消费者"><a href="#多生产者单消费者" class="headerlink" title="多生产者单消费者"></a>多生产者单消费者</h3><p>多生产者需要考虑生产者之间的互斥关系，</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://blog.csdn.net/anonymalias/article/details/9219945" target="_blank" rel="external">http://blog.csdn.net/anonymalias/article/details/9219945</a></p>
-
-          
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1475,7 +1446,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
