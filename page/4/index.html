@@ -264,8 +264,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/mififtp项目实战/" itemprop="url" rel="index">
-                    <span itemprop="name">mififtp项目实战</span>
+                  <a href="/categories/miniftp项目实战/" itemprop="url" rel="index">
+                    <span itemprop="name">miniftp项目实战</span>
                   </a>
                 </span>
 
@@ -397,8 +397,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/miniftp实战/" itemprop="url" rel="index">
-                    <span itemprop="name">miniftp实战</span>
+                  <a href="/categories/miniftp项目实战/" itemprop="url" rel="index">
+                    <span itemprop="name">miniftp项目实战</span>
                   </a>
                 </span>
 
@@ -930,7 +930,22 @@
       
         
           
-            <h2 id="ftp"><a href="#ftp" class="headerlink" title="ftp"></a>ftp</h2><h2 id="ftp文件类型"><a href="#ftp文件类型" class="headerlink" title="ftp文件类型"></a>ftp文件类型</h2><h2 id="应答类型"><a href="#应答类型" class="headerlink" title="应答类型"></a>应答类型</h2><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2>
+            <h2 id="ftp"><a href="#ftp" class="headerlink" title="ftp"></a>ftp</h2><p>FTP(File Transfer Protocol)，工作在TCP/IP协议族的应用层，其传输层使用的协议是TCP协议，基于客户/服务器模式工作。</p>
+<h2 id="ftp文件类型"><a href="#ftp文件类型" class="headerlink" title="ftp文件类型"></a>ftp文件类型</h2><p>FTP一般支持ASCII文件(默认文件格式)，EBCDIC文件格式(用8bit代码代表一个字符)，图像文件或者是二进制文件，发送的是连续的比特流，用于传输二进制文件。</p>
+<h2 id="ftp工作原理"><a href="#ftp工作原理" class="headerlink" title="ftp工作原理"></a>ftp工作原理</h2><p><img src="/images/miniftp/1-1.png" alt="&quot;c41&quot;"><br>FTP是CS的工作模式，客户端TCP协议层根据用户命令给出的服务器IP地址，向服务器提供FTP服务的21端口（该端口是TCP协议层用来传输FTP命令的端口）发出主动建立连接的请求。服务器收到请求后，通过3次握手，就在进行FTP命令处理的用户协议解释器进程和服务器协议解释器进程之间建立了一条TCP连接。以后所有用户输入的FTP命令和服务器的应答都由该连接进行传输，因此把它叫做控制连接。当客户通过交互式的用户界面，向FTP服务器发出要下载服务器上某一文件的命令时，该命令被送到用户协议解释器。服务器解释命令然后与客户端建立一条数据通道进行数据传输，数据通道建立有两种方式，PORT和PASV方式，数据传输完毕后关闭数据通道，如此反复进行。</p>
+<h2 id="ftp命令"><a href="#ftp命令" class="headerlink" title="ftp命令"></a>ftp命令</h2><p>FTP命令主要访问控制命令（USER, PASS, CWD, CDUP, QUIT), 传输参数命令（PORT, PASV, TYPE，MODE，STRU），服务命令（RETR,STOR,APPE,LIST,NLIST,REST,ABOR,PWD,MKD,RMD,SYST,FEAT,SIZE,STAT,NOOP）等命令。</p>
+<h2 id="ftp响应"><a href="#ftp响应" class="headerlink" title="ftp响应"></a>ftp响应</h2><p>服务器通过控制连接发送给客户的FTP应答，由ASCII码形式的3位数字和一行文本提示信息<br>组成，它们之间用一个空格分割。应答信息的每行文本以回车CR和换行LF对结尾。如果需要产生一条多行的应答，第一行在3位数字应答代码之后包含一个连字符“－”，而不是空格符；最后一行包含相同的 3 位数字应答代码，后跟一个空格符。<br>ftp应答的数字的意义：如下：<br>第一位表示：<br><img src="/images/miniftp/1-2.png" alt="&quot;c41&quot;"><br>第二位表示：<br><img src="/images/miniftp/1-3.png" alt="&quot;c41&quot;"><br>第三位为第二位数字更详细的说明。</p>
+<h2 id="数据传输方式"><a href="#数据传输方式" class="headerlink" title="数据传输方式"></a>数据传输方式</h2><p>工作原理中提到数据通道的建立有两种方式，一种是PORT模式，一种是PASV模式，两种模式究竟有什么区别，为什么要有两种工作模式呢？  </p>
+<h3 id="PORT主动模式"><a href="#PORT主动模式" class="headerlink" title="PORT主动模式"></a>PORT主动模式</h3><p>PORT主动模式是由服务器向客户端发起连接而建立数据连接通道，如下图所示：<br><img src="/images/miniftp/1-4.png" alt="&quot;c41&quot;"><br>创建数据连接之前，要商定工作模式，如果是PORT模式，客户端会上服务器端发送PORT命令，这是通过控制连接通道完成的，向服务器的21端口传送一个PORT命令，并且告知客户端的一个端口号BB，因为这个信息服务器端才知道要连接客户端的哪个端口号，服务器端得到了这个信息，最后就向BB端口号发起了一个请求，建立了一个数据连接通道，数据连接通道一旦建立完毕，就可以进行数据的传输了，包含目录列表、文件的传输，一旦数据传输完毕，数据连接通道就会关闭掉，它是临时的。<br>具体的流程如下：<br><img src="/images/miniftp/1-5.png" alt="&quot;c41&quot;"><br>具体的描述如下：<br><img src="/images/miniftp/1-6.png" alt="&quot;c41&quot;"></p>
+<h3 id="PASV被动模式"><a href="#PASV被动模式" class="headerlink" title="PASV被动模式"></a>PASV被动模式</h3><p>PASV被动模式是由客户端向服务器发起连接而建立数据连接通道，和PORT一样，传输之前先商定传输模式，如果是PASV模式，服务器要向客户端回传端口号和地址供客户端建立数据连接通道：<br><img src="/images/miniftp/1-7.png" alt="&quot;c41&quot;"><br>具体的流程如下：<br><img src="/images/miniftp/1-8.png" alt="&quot;c41&quot;"><br>具体的描述如下：<br><img src="/images/miniftp/1-9.png" alt="&quot;c41&quot;"></p>
+<h3 id="两种工作模式的原因"><a href="#两种工作模式的原因" class="headerlink" title="两种工作模式的原因"></a>两种工作模式的原因</h3><h4 id="NAT"><a href="#NAT" class="headerlink" title="NAT"></a>NAT</h4><p>NAT之前学过，但是一直没能知道使用地方，这里碰到了算是个复习回顾，NAT全称是Network Address Translation，通过NAT可以将内网的私有IP地址转换为公网的IP地址，从而解决公网地址不足的问题，具体操作如下图所示：<br><img src="/images/miniftp/1-10.png" alt="&quot;c41&quot;"><br>其地址映射关系可以如下：192.168.1.100:5678【内网IP】 -&gt; 120.35.3.193:5678【NAT转换IP】 -&gt; 50.118.99.200:80【外网IP】<br>从而就建立了一个连接，而连接的建立是通过NAT服务器进行地址转换完成的。  </p>
+<h4 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h4><p>使用了NAT后就会产生问题，因为PORT和PASV都会发送ip地址和端口号给对方，如果发送ip地址给对端的一方是在NAT后端的话，呢么这个地址经过NAT转换就无法被对端连接了，这就产生了数据通道无法建立的问题了。<br>比方如果服务器在NAT的后端，如果使用PASV模式，服务器向客户端回传地址和端口号，客户端通过ip地址和端口号连接服务器，但是NATNAT并没有这个端口导致客户端无法正常连接了，则如下图所示：<br><img src="/images/miniftp/1-11.png" alt="&quot;c41&quot;"><br>但是如果这时候使用PORT传输模式就可以正常建立连接：<br><img src="/images/miniftp/1-12.png" alt="&quot;c41&quot;"></p>
+<h2 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h2><p>Linux下的vsftpd是一个经典的对照模型，可以参考它的实现，安装后，链接一个客户端，看到回生成两个进程：<br><img src="/images/miniftp/1-13.png" alt="&quot;c41&quot;"></p>
+<h3 id="多进程还是多线程"><a href="#多进程还是多线程" class="headerlink" title="多进程还是多线程"></a>多进程还是多线程</h3><p>当成功连接一个客户端时，可以看到创建了两个进程： nobody进程和普通用户进程；可见该FTP服务器是采用多进程的方式来实现的，为什么不用多线程的方式呢？对于FTP服务器来讲，多线程的方式是绝对不可取的，因为如果是多线程的，多线程共享同一个目录空间，如果C用户将目录更改到C，B用户的工作目录也会改变到C，是不可取的，而多进程是相互独立的，之间不会有影响。<br><img src="/images/miniftp/1-14.png" alt="&quot;c41&quot;"></p>
+<h3 id="为什么是两个进程"><a href="#为什么是两个进程" class="headerlink" title="为什么是两个进程"></a>为什么是两个进程</h3><p>为什么要产生两个进程，nobody进程是干什么用的呢？首先看下图：<br><img src="/images/miniftp/1-15.png" alt="&quot;c41&quot;"><br>从中可以发现，服务进程是直接跟客户端进行通讯，而nobody进程并没有，它仅仅是跟服务进程通信，来协助服务进程来建立数据连接通道，以及需要一些特珠权限的控制，比如服务进程建立了连接之后，假设是PORT模式，由于是服务器端主动连接客户端，服务器端需要绑定20端口来连接客户端，而服务进程是没有权限来绑定20端口的，也就意味着没办法正常建立数据连接通道，所以需要加入nobody进程。而nobody和服务进程是采用内部通信的协议，这个协议对外是不可见的，完全可以由我们自己来定义，所以可以用UNIX域协议来进行通讯，而不用TCP/IP协议了。<br><img src="/images/miniftp/1-16.png" alt="&quot;c41&quot;"></p>
+<h3 id="技术方案"><a href="#技术方案" class="headerlink" title="技术方案"></a>技术方案</h3><p>理清了这些基本知识后，就可以明确技术方案了，miniftp采用多进程的方式，主进程以root权限启动，监听着21端口，等待客户端连接，客户端连接到来，建立两个进程，一个是nobody进程，一个是服务进程。nobody进程具有root的部分权限，主要是建立数据连接时候使用，建立数据连接的套接字，然后传递描述符给服务进程（通过Unix域套接字通信方式），服务进程负责控制连接和数据传输的具体任务。<br>另外服务器还得是可配置的，要能控制同一ip地址的最大连接数目，并且能够实现文件操作的基本功能（增删查改等），还要支持上传下载，断点续传等功能。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>TCPIP详解<br><a href="http://www.cnblogs.com/webor2006/p/4312539.html" target="_blank" rel="external">http://www.cnblogs.com/webor2006/p/4312539.html</a></p>
+
           
         
       
@@ -1048,7 +1063,14 @@
       
         
           
-            <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><h2 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h2><h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><h2 id="java-Qt中配置读取相关的类"><a href="#java-Qt中配置读取相关的类" class="headerlink" title="java,Qt中配置读取相关的类"></a>java,Qt中配置读取相关的类</h2><h3 id="properties"><a href="#properties" class="headerlink" title="properties"></a>properties</h3><h3 id="Configure"><a href="#Configure" class="headerlink" title="Configure"></a>Configure</h3><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2>
+            <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>配置文件模块是说要能够配置Miniftp中的比方说端口号，地址，传输模式，最大连接数目，超时时间，上传下载速率等，以便可以灵活改变。</p>
+<h2 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h2><p>有三种类型的配置选项，一个是开关型的（PORT还是PASVMoshi )，一个是数值型的（端口号，连接数目，上传下载速率等），另外一个是字符串型的（ip地址),可以通过结构体来从存储然后遍历文件最后进行填充。</p>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p><img src="/images/miniftp/2-1.png" alt="&quot;c41&quot;"></p>
+<h3 id="文件读取"><a href="#文件读取" class="headerlink" title="文件读取"></a>文件读取</h3><p>设计了两个函数，一个函数用来文件load一个用来parse:<br><img src="/images/miniftp/2-2.png" alt="&quot;c41&quot;"><br>以只读方式打开文件，然后每次读取一行数据进行解析：<br><img src="/images/miniftp/2-3.png" alt="&quot;c41&quot;"></p>
+<h3 id="解析参数"><a href="#解析参数" class="headerlink" title="解析参数"></a>解析参数</h3><h4 id="数据类型设计"><a href="#数据类型设计" class="headerlink" title="数据类型设计"></a>数据类型设计</h4><p>上面说过分为三种类型的数据，可以用一个结构体进行统一管理。<br>开关型的：<br><img src="/images/miniftp/2-4.png" alt="&quot;c41&quot;"><br>整数型的：<br><img src="/images/miniftp/2-5.png" alt="&quot;c41&quot;"><br>字符串型的：<br><img src="/images/miniftp/2-6.png" alt="&quot;c41&quot;"></p>
+<h4 id="具体解析过程"><a href="#具体解析过程" class="headerlink" title="具体解析过程"></a>具体解析过程</h4><p>读取一行后去掉行首行尾的空格后，并拆解为名字和数值两部分，然后根据名字进行上面三种类型的依次遍历匹配，如果找到相应的字符串，设置值，退出：<br><img src="/images/miniftp/2-7.png" alt="&quot;c41&quot;"><br><img src="/images/miniftp/2-8.png" alt="&quot;c41&quot;"><br><img src="/images/miniftp/2-9.png" alt="&quot;c41&quot;"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://www.cnblogs.com/webor2006/p/4509729.html" target="_blank" rel="external">http://www.cnblogs.com/webor2006/p/4509729.html</a></p>
+
           
         
       
@@ -1484,7 +1506,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
